@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "deps:graph": "depcruise --include-only '^src' --output-type dot src | dot -T svg > docs/dependency-graph.svg",
+    "deps:check": "depcruise --validate .dependency-cruiser.cjs src",
+    "generate:api-types": "openapi-typescript ./openapi.json -o src/types/api.generated.ts",
+    "validate:api": "npm run generate:api-types && npm run typecheck",
+    "precommit": "npm run typecheck && npm run lint && npm test -- --changedSince=HEAD~1"
+  },
+  "devDependencies_hinzufuegen": {
+    "dependency-cruiser": "^16.0.0",
+    "openapi-typescript": "^7.0.0"
+  }
+}

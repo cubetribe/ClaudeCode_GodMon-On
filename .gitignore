@@ -1,0 +1,31 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Generated Reports (project-specific)
+Agents/*.md
+!Agents/.gitkeep
+
+# Node
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary
+*.tmp
+*.temp
+
+# Secrets (should never be here anyway)
+.env
+.env.*
+*.pem
+*.key
+credentials.json

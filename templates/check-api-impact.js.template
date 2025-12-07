@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+
+/**
+ * check-api-impact.js - PROJEKT-SPEZIFISCHE VERSION
+ *
+ * Kopiere diese Datei nach: scripts/check-api-impact.js
+ * Mache ausführbar: chmod +x scripts/check-api-impact.js
+ *
+ * PASSE DIE PFADE UNTEN AN DEIN PROJEKT AN!
+ */
+
+const { execSync } = require('child_process');
+const path = require('path');
+
+const changedFile = process.argv[2];
+if (!changedFile) process.exit(0);
+
+// ============================================
+// HIER ANPASSEN: Pfade zu deinen API/Type-Dateien
+// ============================================
+const apiPaths = [
+  'src/api/',           // Frontend API Services
+  'backend/routes/',    // Backend Routes
+  'shared/types/',      // Shared TypeScript Types
+  'types/',             // Type Definitions
+  // Füge hier weitere projekt-spezifische Pfade hinzu:
+  // 'lib/api/',
+  // 'packages/shared/',
+];
+
+// ============================================
+// HIER ANPASSEN: Verzeichnisse zum Durchsuchen
+// ============================================
+const searchDirs = [
+  'src/',               // Frontend Source
+  'backend/',           // Backend Source
+  // Füge hier weitere Verzeichnisse hinzu:
+  // 'packages/',
+  // 'apps/',
+];
+
+// ============================================
+// AB HIER NICHTS ÄNDERN
+// ============================================
+
+const isApiFile = apiPaths.some(p => changedFile.includes(p)) || changedFile.endsWith('.d.ts');
+
+if (isApiFile) {
+  console.log('\n⚠️  API/TYPE-DATEI GEÄNDERT!');
+  console.log('━'.repeat(50));
+  console.log(`📁 Datei: ${changedFile}`);
+  console.log('━'.repeat(50));
+
+  const fileName = path.basename(changedFile, path.extname(changedFile));
+  let foundConsumers = false;
+
+  for (const dir of searchDirs) {
+    try {
+      const result = execSync(
+        `grep -rn "${fileName}" ${dir} --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | head -15`,
+        { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }
+      );
+
+      if (result.trim()) {
+        if (!foundConsumers) {
+          console.log('📋 Potenzielle Consumer gefunden:\n');
+          foundConsumers = true;
+        }
+        console.log(`In ${dir}:`);
+        console.log(result);
+      }
+    } catch (e) {
+      // Directory existiert nicht oder keine Matches
+    }
+  }
+
+  if (foundConsumers) {
+    console.log('━'.repeat(50));
+    console.log('🔴 AKTION ERFORDERLICH:');
+    console.log('   1. Prüfe und aktualisiere alle Consumer!');
+    console.log('   2. Führe aus: npm run typecheck');
+    console.log('   3. Rufe @validator auf für Cross-File-Check');
+  } else {
+    console.log('✅ Keine Consumer gefunden.');
+  }
+
+  console.log('━'.repeat(50));
+}

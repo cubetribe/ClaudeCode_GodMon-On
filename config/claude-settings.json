@@ -1,0 +1,24 @@
+{
+  "model": "claude-sonnet-4-20250514",
+  "permissions": {
+    "allowedTools": ["Read", "Write", "Edit", "Bash", "Glob", "Grep"],
+    "deny": [
+      "Write(.env*)",
+      "Write(*.pem)",
+      "Write(*.key)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/check-api-impact.js \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  }
+}

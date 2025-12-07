@@ -1,0 +1,27 @@
+{
+  "// ANLEITUNG": "Kopiere diese Datei nach .claude/settings.local.json in deinem Projekt",
+  "// HINWEIS": "Passe die Pfade in check-api-impact.js an dein Projekt an",
+
+  "permissions": {
+    "allowedTools": ["Read", "Write", "Edit", "Bash", "Glob", "Grep"],
+    "deny": [
+      "Write(.env*)",
+      "Write(*.pem)",
+      "Write(*.key)",
+      "Write(*credentials*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/check-api-impact.js \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  }
+}

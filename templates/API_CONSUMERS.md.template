@@ -1,0 +1,91 @@
+# API Consumer Registry
+
+> ⚠️ Diese Datei MUSS aktuell gehalten werden bei jeder API-Änderung!
+> Letzte Aktualisierung: [DATUM]
+> Verantwortlich: @scribe Agent
+
+## Schnell-Referenz: Consumer finden
+
+```bash
+# Nach Type-Name suchen
+grep -rn "TypeName" src/ --include="*.ts*"
+
+# Nach Endpoint suchen
+grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
+
+# Alle API-Calls finden
+grep -rn "fetch\|axios" src/ --include="*.ts*"
+```
+
+---
+
+## Template für neue Endpoints
+
+Kopiere dieses Template für jeden neuen API-Endpoint:
+
+```markdown
+## /api/v1/[endpoint-name]
+
+**Backend:** `backend/routes/[file].ts`
+**Types:** `shared/types/[Type].ts`
+**Auth:** [public/protected/admin]
+
+| Consumer | Pfad | Zeile | Verwendung |
+|----------|------|-------|------------|
+| [HookName] | `src/hooks/useXxx.ts` | 15 | Data Fetching |
+| [ComponentName] | `src/components/Xxx.tsx` | 23 | Display |
+| [ServiceName] | `src/services/xxx.ts` | 8 | Business Logic |
+
+### Bei Änderungen prüfen
+
+- [ ] Response-Schema → alle Consumer-Destructurings
+- [ ] URL-Änderung → alle fetch/axios-Calls
+- [ ] Auth-Änderung → alle Header-Configs
+- [ ] Parameter-Änderung → alle Aufrufe
+
+### Breaking Changes History
+
+| Datum | Änderung | Migration |
+|-------|----------|-----------|
+| [DATUM] | [Beschreibung] | [Anleitung] |
+```
+
+---
+
+## Beispiel: /api/v1/users
+
+**Backend:** `backend/routes/users.ts`
+**Types:** `shared/types/User.ts`
+**Auth:** protected
+
+| Consumer | Pfad | Zeile | Verwendung |
+|----------|------|-------|------------|
+| useUsers | `src/hooks/useUsers.ts` | 15 | Data Fetching |
+| UserList | `src/components/UserList.tsx` | 23 | Display |
+| UserService | `src/api/userService.ts` | 8 | API Client |
+
+### Bei Änderungen prüfen
+
+- [ ] Response-Schema → `useUsers` Destructuring
+- [ ] URL-Änderung → `UserService.getAll()` und `UserService.getById()`
+- [ ] Auth-Änderung → Header in `UserService`
+
+---
+
+## Workflow: Neuen Endpoint dokumentieren
+
+1. **@architect** designt den Endpoint
+2. **@builder** implementiert
+3. **@validator** prüft Cross-File-Konsistenz
+4. **@scribe** fügt hier einen neuen Eintrag hinzu
+
+---
+
+## Statistiken
+
+| Metrik | Wert |
+|--------|------|
+| Gesamte Endpoints | 0 |
+| Geschützte Endpoints | 0 |
+| Öffentliche Endpoints | 0 |
+| Letzte Aktualisierung | [DATUM] |
