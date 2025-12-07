@@ -8,72 +8,191 @@
 
 ---
 
-## Was ist das hier? 🤔
+## What is CC_GodMode? 🤔
 
-Du kennst das: Du sitzt vor deinem AI-Coding-Assistant, tippst wild drauf los, und nach 3 Stunden merkst du, dass du vergessen hast die API-Consumer zu updaten. Dein TypeScript schreit. Deine Tests weinen. Dein Tech Lead schaut dich komisch an.
+**CC_GodMode** transforms your AI coding setup into a self-orchestrating machine.
 
-**CC_GodMode** ist das Ergebnis von Jahren des Leidens, Experimentierens und "ach scheiße, das hab ich vergessen"-Momenten. Es ist ein **Subagent-Orchestrierungs-System** für AI-gestütztes Coding, das dich vor dir selbst beschützt.
+### The Problem
 
-### Die Philosophie
+You tell your AI assistant "Build feature X" and then... chaos:
+- You have to trigger every step manually
+- You forget to update API consumers
+- Documentation falls behind
+- TypeScript screams, tests cry, tech lead gives you the look
+
+### The Solution
+
+With CC_GodMode you give **one single prompt** - and everything else runs automatically:
 
 ```
-                    👑 DU (der Orchestrator)
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-        ▼                ▼                ▼
-   @architect       @builder        @validator
-   "Denk nach"      "Bau das"       "Check das"
-        │                │                │
-        └────────────────┼────────────────┘
-                         │
-                         ▼
-                    @scribe
-                 "Schreib's auf"
+You: "I need user authentication with JWT"
+
+AI (now Orchestrator):
+  → Calls @architect for design & impact analysis
+  → Calls @builder for implementation
+  → Calls @validator for cross-file checks
+  → Calls @scribe for documentation
+  → Hooks automatically warn about API changes
+
+You: *drinks coffee*
 ```
 
-**Du schreibst weniger Code.** Du delegierst wie ein Boss.
+**You say WHAT. The AI decides HOW and delegates autonomously.**
 
 ---
 
-## Features 🎯
+## How does it work? 🧠
 
-### 🤖 4 Spezialisierte Subagenten
-
-| Agent | Superkraft | Wann aufrufen? |
-|-------|------------|----------------|
-| `@architect` | Denkt nach bevor Code geschrieben wird | Vor jedem Feature |
-| `@builder` | Implementiert nach Spec | Wenn's ans Coden geht |
-| `@validator` | Findet alle Stellen die du vergessen hast | **IMMER** nach API-Änderungen |
-| `@scribe` | Dokumentiert damit du's nicht vergisst | Nach jedem Feature |
-
-### 🪝 Automatische Hooks
-
-Der `check-api-impact.js` Hook läuft **automatisch** bei jedem Write/Edit und schreit dich an wenn du API-Dateien änderst:
+### The Orchestrator Loop
 
 ```
-⚠️  API/TYPE-DATEI GEÄNDERT!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 Datei: src/api/userService.ts
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 Potenzielle Consumer gefunden:
-
-src/hooks/useUsers.ts:15: import { UserService }
-src/components/UserList.tsx:23: const users = await UserService.getAll()
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔴 AKTION ERFORDERLICH:
-   1. Prüfe und aktualisiere alle Consumer!
-   2. Führe aus: npm run typecheck
-   3. Rufe @validator auf für Cross-File-Check
+┌─────────────────────────────────────────────────────────────┐
+│                        YOU                                   │
+│                   "Build Feature X"                          │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│              🤖 AI BECOMES THE ORCHESTRATOR                  │
+│                                                              │
+│   "Ok, for this feature I need..."                          │
+│                                                              │
+│   1. @architect for architecture design                     │
+│   2. @builder for implementation                            │
+│   3. @validator for quality checks                          │
+│   4. @scribe for documentation                              │
+│                                                              │
+│   "Starting the workflow now..."                            │
+└─────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+   @architect          @builder           @validator
+   (Subagent)          (Subagent)         (Subagent)
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            │
+                            ▼
+                       @scribe
+                      (Subagent)
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 🪝 HOOKS RUN AUTOMATICALLY                   │
+│                                                              │
+│   On every file change:                                     │
+│   → check-api-impact.js checks for API changes              │
+│   → Warns if consumers need updating                        │
+│   → Orchestrator reacts and adapts                          │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                        YOU                                   │
+│               "Feature is done. Nice."                       │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 📋 API Consumer Registry
+### The Difference to Normal Prompting
 
-Eine zentrale Datei die ALLE Consumer deiner APIs trackt. Nie wieder "wo wird das eigentlich benutzt?".
+| Without CC_GodMode | With CC_GodMode |
+|--------------------|-----------------|
+| You: "Design the feature" | You: "Build Feature X" |
+| You: "Now implement it" | ☕ |
+| You: "Check the types" | ☕ |
+| You: "Update the consumers" | ☕ |
+| You: "Write the docs" | ☕ |
+| You: "Did I forget something?" | AI: "Done. Here's the report." |
 
-### 🎭 Orchestrator-Modus
+---
 
-Du wirst zum Dirigenten. Claude wird zum Orchester. Du sagst "Feature X", Claude's Subagenten machen den Rest.
+## The Subagents 🤖
+
+The Orchestrator has 4 specialized subagents at its disposal:
+
+| Agent | Role | Called for |
+|-------|------|------------|
+| `@architect` | Senior Software Architect | Design, planning, impact analysis, API contracts |
+| `@builder` | Senior Full-Stack Developer | Code implementation, tests, consumer updates |
+| `@validator` | Code Quality Engineer | Cross-file consistency, TypeScript checks, security |
+| `@scribe` | Technical Writer | Documentation, changelog, API registry |
+
+Each agent has:
+- **Own personality** and expertise
+- **Specific tools** it's allowed to use
+- **Clear responsibilities**
+- **Output formats** for structured reports
+
+---
+
+## The Hooks 🪝
+
+The secret why nothing gets forgotten:
+
+```
+You (or @builder) changes: src/api/userService.ts
+
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │  check-api-impact.js  │  ← Runs AUTOMATICALLY
+        │                       │
+        │  "Hey, this is an     │
+        │   API file!"          │
+        └───────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────────────────────────┐
+│ ⚠️  API/TYPE FILE CHANGED!                                   │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ 📁 File: src/api/userService.ts                             │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ 📋 Potential consumers found:                               │
+│                                                              │
+│ src/hooks/useUsers.ts:15: import { UserService }            │
+│ src/components/UserList.tsx:23: UserService.getAll()        │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│ 🔴 ACTION REQUIRED: Update consumers!                        │
+└─────────────────────────────────────────────────────────────┘
+                    │
+                    ▼
+        Orchestrator sees this and
+        calls @validator for
+        cross-file consistency check
+```
+
+**This happens on EVERY Write/Edit.** Automatically. Without you having to remember.
+
+---
+
+## Workflows 🔄
+
+The Orchestrator knows these standard workflows:
+
+### New Feature
+```
+@architect → @builder → @validator → @scribe
+```
+Design → Implementation → Quality check → Documentation
+
+### Bug Fix
+```
+@builder → @validator
+```
+Implement fix → Make sure nothing breaks
+
+### API Change (Critical!)
+```
+@architect → @builder → @validator (MANDATORY!) → @scribe
+```
+Impact analysis → Change + all consumers → Cross-file check → Docs
+
+### Refactoring
+```
+@architect → @builder → @validator
+```
+Plan → Rebuild → Verify
 
 ---
 
@@ -81,250 +200,170 @@ Du wirst zum Dirigenten. Claude wird zum Orchester. Du sagst "Feature X", Claude
 
 ### Option A: YOLO Mode 🚀💀
 
-> *"Ich vertraue Claude mit meinem ganzen System. Was soll schon schiefgehen?"*
+> *For the brave: One prompt, everything automatic*
 
 ```bash
-# 1. Repo klonen
-git clone https://github.com/DEIN-USERNAME/CC_GodMode.git
-cd CC_GodMode
-
-# 2. Claude Code im YOLO Mode starten
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 claude --dangerously-skip-permissions
-
-# 3. Diesen Prompt eingeben:
 ```
 
+Then enter:
 ```
-Führe die Installation aus INSTALLATION.md durch.
-Du hast vollen Zugriff. Installiere alles global in ~/.claude/
-Ich vertraue dir. YOLO.
+Run the complete CC_GodMode installation.
+You have full access. Install everything globally. YOLO.
 ```
 
-**Was passiert:**
-- Claude liest INSTALLATION.md
-- Kopiert alle Agenten nach `~/.claude/agents/`
-- Richtet Hooks ein in `~/.claude/settings.json`
-- Erstellt Templates
-- Du lehnst dich zurück und genießt
-
-**Warnung:** Claude hat vollen Zugriff auf dein System. Nur für Leute die wissen was sie tun. Oder für Leute die gerne leben.
-
----
+Lean back. Done.
 
 ### Option B: Safe Mode 🛡️
 
-> *"Ich möchte jeden Schritt einzeln bestätigen wie ein normaler Mensch."*
+> *For the cautious: Step by step with confirmation*
 
 ```bash
-# 1. Repo klonen
-git clone https://github.com/DEIN-USERNAME/CC_GodMode.git
-cd CC_GodMode
-
-# 2. Claude Code normal starten
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 claude
-
-# 3. Diesen Prompt eingeben:
 ```
 
+Then enter:
 ```
-Ich möchte CC_GodMode installieren.
-Zeige mir jeden Schritt und frage vor jeder Dateiänderung um Erlaubnis.
-Lies INSTALLATION.md und führe mich durch.
+I want to install CC_GodMode step by step.
+Read INSTALLATION.md and guide me through.
+Ask before every file change.
 ```
 
-**Was passiert:**
-- Claude erklärt jeden Schritt
-- Du bestätigst jede Datei einzeln
-- Du behältst die volle Kontrolle
-- Dauert länger, aber du weißt was passiert
+### Option C: Manual 📝
 
----
-
-### Option C: Manuell 📝
-
-> *"Ich vertraue niemandem, nicht mal mir selbst."*
-
-Siehe [INSTALLATION.md](./INSTALLATION.md) für die manuelle Schritt-für-Schritt Anleitung.
+See [INSTALLATION.md](./INSTALLATION.md) for the complete guide.
 
 ---
 
 ## Quick Start 🏃‍♂️
 
-Nach der Installation:
+After installation:
 
-### 1. Neues Projekt starten
-
+### 1. Open your project
 ```bash
-cd dein-projekt
+cd your-project
 claude
 ```
 
-### 2. Orchestrator-Prompt eingeben
+### 2. Activate Orchestrator mode
+
+Copy this prompt:
+```
+You are the Orchestrator for this project.
+
+Your subagents: @architect @builder @validator @scribe
+
+Workflow rules:
+- New feature: @architect → @builder → @validator → @scribe
+- Bug fix: @builder → @validator
+- API change: @architect → @builder → @validator (MANDATORY!) → @scribe
+
+You delegate and coordinate. You don't write code yourself.
+For API changes @validator MUST be called.
+Reports go in the Agents/ folder.
+
+Wait for my task.
+```
+
+### 3. Give your task
 
 ```
-Du bist der Orchestrator. Delegiere an: @architect @builder @validator @scribe
-Kein eigener Code. API-Änderungen → Validator Pflicht. Reports in Agents/. Los.
+I need a REST API for user management with CRUD operations.
 ```
 
-### 3. Feature bauen
+### 4. Drink coffee ☕
 
-```
-User: Ich brauche eine User-Authentifizierung
-
-Claude: *ruft @architect auf*
-        → Gibt Design-Spec zurück
-
-        *ruft @builder auf*
-        → Implementiert Code
-
-        *ruft @validator auf*
-        → Prüft Cross-File-Konsistenz
-
-        *ruft @scribe auf*
-        → Aktualisiert Docs
-
-User: *trinkt Kaffee*
-```
+The Orchestrator:
+1. Calls `@architect` for API design
+2. Calls `@builder` for implementation
+3. Hooks automatically warn about issues
+4. Calls `@validator` for quality checks
+5. Calls `@scribe` for documentation
+6. Gives you a final report
 
 ---
 
-## Workflows 🔄
-
-### Neues Feature
-```
-@architect → @builder → @validator → @scribe
-```
-
-### Bug Fix
-```
-@builder → @validator
-```
-
-### API-Änderung (KRITISCH!)
-```
-@architect → @builder → @validator (PFLICHT!) → @scribe
-```
-
-### Refactoring
-```
-@architect → @builder → @validator
-```
-
----
-
-## Projektstruktur 📁
+## Project Structure 📁
 
 ```
 CC_GodMode/
-├── README.md                 # Du bist hier 👋
-├── INSTALLATION.md           # Setup-Anleitung
-├── ORCHESTRATOR-PROMPT.md    # Copy-Paste Prompts
+├── README.md                 # You are here 👋
+├── INSTALLATION.md           # Setup guide
+├── ORCHESTRATOR-PROMPT.md    # Copy-paste prompts
 │
-├── agents/                   # Die Subagenten
-│   ├── architect.md          # Der Denker
-│   ├── builder.md            # Der Macher
-│   ├── validator.md          # Der Checker
-│   └── scribe.md             # Der Schreiber
-│
-├── templates/                # Projekt-Templates
-│   ├── API_CONSUMERS.md      # API-Registry Vorlage
-│   ├── settings.local.json   # Projekt-Settings Vorlage
-│   └── check-api-impact.js   # Hook-Script Vorlage
+├── agents/                   # The subagents
+│   ├── architect.md          # 🏗️ The Architect
+│   ├── builder.md            # 👷 The Developer
+│   ├── validator.md          # ✅ The Checker
+│   └── scribe.md             # 📝 The Writer
 │
 ├── scripts/
-│   └── check-api-impact.js   # Automatischer Consumer-Finder
+│   └── check-api-impact.js   # 🪝 The automatic hook
 │
-└── config/
-    ├── CLAUDE-system.md      # Globale Config
-    ├── CLAUDE-projekt.md     # Projekt Config
-    └── claude-settings.json  # Hook-Konfiguration
+├── config/                   # Configuration files
+└── templates/                # Project templates
 ```
 
 ---
 
-## Warum? 🤷‍♂️
+## Why does this work? 🎯
 
-### Das Problem
+### 1. Specialization over generalism
+Each subagent is an expert for ONE thing. No "do everything".
 
-Claude Code ist mächtig. Aber mit großer Macht kommt große Verantwortung - und große Möglichkeiten, Mist zu bauen:
+### 2. Automation over memory
+Hooks run automatically. You don't have to remember.
 
-- ❌ API geändert aber Consumer vergessen
-- ❌ TypeScript Types nicht synchron
-- ❌ Dokumentation veraltet
-- ❌ "Das hat doch gestern noch funktioniert"
-- ❌ *weint in Production*
+### 3. Orchestration over micromanagement
+You say WHAT, not HOW. The Orchestrator decides the flow.
 
-### Die Lösung
+### 4. Cross-file awareness
+@validator knows ALL dependencies. Nothing gets forgotten.
 
-**Spezialisierung + Automatisierung + Paranoia**
-
-- ✅ Jeder Agent hat EINE Aufgabe
-- ✅ Hooks warnen automatisch bei Gefahren
-- ✅ Cross-File-Checks sind PFLICHT
-- ✅ Dokumentation wird automatisch aktualisiert
-- ✅ *lacht in CI/CD*
+### 5. Documentation by default
+@scribe documents automatically. No more outdated READMEs.
 
 ---
 
 ## FAQ ❓
 
-### Q: Brauche ich das wirklich?
+**Q: Do I really need this?**
+A: Have you ever forgotten to update API consumers? Then yes.
 
-**A:** Hast du schon mal vergessen, einen API-Consumer zu updaten? Dann ja.
+**Q: Does this work with my project?**
+A: If it's TypeScript/JavaScript with a reasonably normal structure, yes.
 
-### Q: Ist das sicher?
+**Q: Can I customize the subagents?**
+A: Sure! The `.md` files in `agents/` are simple Markdown with frontmatter.
 
-**A:** Der YOLO Mode gibt Claude vollen Zugriff. Der Safe Mode nicht. Wähle weise.
-
-### Q: Funktioniert das mit meinem Projekt?
-
-**A:** Wenn dein Projekt TypeScript/JavaScript nutzt und eine halbwegs normale Struktur hat, ja. Die Pfade im Hook-Script sind anpassbar.
-
-### Q: Was wenn ich einen Agenten nicht brauche?
-
-**A:** Dann ruf ihn nicht auf. Die sind optional (außer @validator nach API-Änderungen - der ist Pflicht. Seriously.)
-
-### Q: Kann ich eigene Agenten hinzufügen?
-
-**A:** Klar! Erstelle eine `.md` Datei in `~/.claude/agents/` mit dem gleichen Format.
-
----
-
-## Beitragen 🤝
-
-Found a bug? Feature-Idee?
-
-1. Fork it
-2. Branch it (`git checkout -b feature/amazing-feature`)
-3. Commit it (`git commit -m 'feat: Add amazing feature'`)
-4. Push it (`git push origin feature/amazing-feature`)
-5. PR it
-
-Oder öffne einfach ein Issue. Ich beiße nicht.
+**Q: What if a workflow doesn't fit?**
+A: Just tell the Orchestrator what should be different. It's flexible.
 
 ---
 
 ## Credits 🙏
 
-- **Dennis Westermann** ([www.dennis-westermann.de](https://www.dennis-westermann.de)) - Für Jahre des Leidens und Lernens
-- **Kaffee** - Für die Motivation
-- **Stackoverflow** - Für... naja, du weißt schon
-- **Die 3 AM Debugging Sessions** - Für die Erkenntnisse die zu diesem Projekt führten
+**Dennis Westermann** ([www.dennis-westermann.de](https://www.dennis-westermann.de))
+*Years of suffering, distilled into this repo*
 
 ---
 
-## Lizenz 📄
+## License 📄
 
-MIT - Mach damit was du willst. Aber wenn's explodiert, war ich's nicht.
+MIT - Do whatever you want.
 
 ---
 
 <div align="center">
 
-**Made with 🧠 and mass sleep deprivation**
+**Made with mass sleep deprivation**
 
-*"It's not a bug, it's a feature we haven't documented yet."*
+*"You say what. The AI does how."*
 
-⭐ Star this repo if it saved your sanity ⭐
+⭐ Star if it helps ⭐
 
 </div>
