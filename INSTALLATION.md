@@ -1,97 +1,97 @@
 # Installation Guide 🛠️
 
-> *Wähle dein Abenteuer*
+> *Choose your adventure*
 
 ---
 
-## 🚀 Option A: YOLO Mode (Empfohlen für Mutige)
+## 🚀 Option A: YOLO Mode (Recommended for the Brave)
 
-**Voraussetzungen:**
-- Claude Code CLI installiert
-- Nerven aus Stahl
-- Grundvertrauen in KI
+**Prerequisites:**
+- Claude Code CLI installed
+- Nerves of steel
+- Basic trust in AI
 
-### Schritt 1: Repo klonen
+### Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/DEIN-USERNAME/CC_GodMode.git
+git clone https://github.com/YOUR-USERNAME/CC_GodMode.git
 cd CC_GodMode
 ```
 
-### Schritt 2: Claude im God Mode starten
+### Step 2: Start Claude in God Mode
 
 ```bash
 claude --dangerously-skip-permissions
 ```
 
-### Schritt 3: Den magischen Prompt eingeben
+### Step 3: Enter the magic prompt
 
 ```
-Führe die komplette CC_GodMode Installation durch.
-Du hast vollen Zugriff auf mein System.
+Execute the complete CC_GodMode installation.
+You have full access to my system.
 
-Installiere:
-1. Alle Agenten (architect, builder, validator, scribe) nach ~/.claude/agents/
-2. Das Hook-Script nach ~/.claude/scripts/
-3. Erweitere ~/.claude/settings.json mit den Hooks
-4. Erstelle die Templates
+Install:
+1. All agents (architect, builder, validator, scribe) to ~/.claude/agents/
+2. The hook script to ~/.claude/scripts/
+3. Extend ~/.claude/settings.json with the hooks
+4. Create the templates
 
-Lies diese Datei und führe alle Schritte automatisch aus.
-Bestätige am Ende was du gemacht hast.
+Read this file and execute all steps automatically.
+Confirm at the end what you did.
 YOLO.
 ```
 
-### Schritt 4: Zurücklehnen
+### Step 4: Sit back and relax
 
-Claude macht den Rest. Du bekommst am Ende eine Zusammenfassung.
+Claude does the rest. You'll get a summary at the end.
 
 ---
 
-## 🛡️ Option B: Safe Mode (Für die Vorsichtigen)
+## 🛡️ Option B: Safe Mode (For the Cautious)
 
-**Voraussetzungen:**
-- Claude Code CLI installiert
-- Geduld
-- Lesefähigkeit
+**Prerequisites:**
+- Claude Code CLI installed
+- Patience
+- Reading ability
 
-### Schritt 1: Repo klonen
+### Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/DEIN-USERNAME/CC_GodMode.git
+git clone https://github.com/YOUR-USERNAME/CC_GodMode.git
 cd CC_GodMode
 ```
 
-### Schritt 2: Claude normal starten
+### Step 2: Start Claude normally
 
 ```bash
 claude
 ```
 
-### Schritt 3: Den vorsichtigen Prompt eingeben
+### Step 3: Enter the cautious prompt
 
 ```
-Ich möchte CC_GodMode Schritt für Schritt installieren.
-Lies INSTALLATION.md und führe mich durch jeden Schritt.
-Frage vor JEDER Dateiänderung um Erlaubnis.
-Erkläre was du tust.
+I want to install CC_GodMode step by step.
+Read INSTALLATION.md and guide me through each step.
+Ask for permission before EVERY file change.
+Explain what you're doing.
 ```
 
-### Schritt 4: Jeden Schritt bestätigen
+### Step 4: Confirm each step
 
-Claude zeigt dir jeden Befehl und fragt nach Erlaubnis.
+Claude will show you each command and ask for permission.
 
 ---
 
-## 📝 Option C: Manuelle Installation (Für die Kontrollfreaks)
+## 📝 Option C: Manual Installation (For Control Freaks)
 
-### Verzeichnisse erstellen
+### Create directories
 
 ```bash
 mkdir -p ~/.claude/agents
 mkdir -p ~/.claude/scripts
 ```
 
-### Agenten kopieren
+### Copy agents
 
 ```bash
 cp agents/architect.md ~/.claude/agents/
@@ -100,16 +100,16 @@ cp agents/validator.md ~/.claude/agents/
 cp agents/scribe.md ~/.claude/agents/
 ```
 
-### Hook-Script installieren
+### Install hook script
 
 ```bash
 cp scripts/check-api-impact.js ~/.claude/scripts/
 chmod +x ~/.claude/scripts/check-api-impact.js
 ```
 
-### Settings.json erweitern
+### Extend settings.json
 
-Füge zu `~/.claude/settings.json` hinzu:
+Add to `~/.claude/settings.json`:
 
 ```json
 {
@@ -129,158 +129,158 @@ Füge zu `~/.claude/settings.json` hinzu:
 }
 ```
 
-### CLAUDE.md erweitern (optional)
+### Extend CLAUDE.md (optional)
 
-Kopiere relevante Abschnitte aus `config/CLAUDE-system.md` in deine `~/.claude/CLAUDE.md`.
-
----
-
-## 📁 Was wird wohin installiert?
-
-| Datei | Zielort | Zweck |
-|-------|---------|-------|
-| `agents/architect.md` | `~/.claude/agents/` | Architektur-Agent |
-| `agents/builder.md` | `~/.claude/agents/` | Implementierungs-Agent |
-| `agents/validator.md` | `~/.claude/agents/` | Validierungs-Agent |
-| `agents/scribe.md` | `~/.claude/agents/` | Dokumentations-Agent |
-| `scripts/check-api-impact.js` | `~/.claude/scripts/` | Auto-Hook für API-Änderungen |
-| Hook-Config | `~/.claude/settings.json` | Aktiviert den Hook |
+Copy relevant sections from `config/CLAUDE-system.md` to your `~/.claude/CLAUDE.md`.
 
 ---
 
-## 🧪 Installation verifizieren
+## 📁 What gets installed where?
 
-Nach der Installation:
+| File | Destination | Purpose |
+|------|-------------|---------|
+| `agents/architect.md` | `~/.claude/agents/` | Architecture agent |
+| `agents/builder.md` | `~/.claude/agents/` | Implementation agent |
+| `agents/validator.md` | `~/.claude/agents/` | Validation agent |
+| `agents/scribe.md` | `~/.claude/agents/` | Documentation agent |
+| `scripts/check-api-impact.js` | `~/.claude/scripts/` | Auto-hook for API changes |
+| Hook Config | `~/.claude/settings.json` | Activates the hook |
+
+---
+
+## 🧪 Verify installation
+
+After installation:
 
 ```bash
-# Agenten prüfen
+# Check agents
 ls -la ~/.claude/agents/
 
-# Sollte zeigen:
+# Should show:
 # architect.md
 # builder.md
 # validator.md
 # scribe.md
 
-# Hook prüfen
+# Check hook
 ls -la ~/.claude/scripts/
 
-# Sollte zeigen:
+# Should show:
 # check-api-impact.js
 
-# Settings prüfen
+# Check settings
 cat ~/.claude/settings.json
 
-# Sollte hooks.PostToolUse enthalten
+# Should contain hooks.PostToolUse
 ```
 
 ---
 
 ## 🆘 Troubleshooting
 
-### "Die Agenten werden nicht erkannt"
+### "Agents are not recognized"
 
-Prüfe ob die Dateien im richtigen Verzeichnis sind:
+Check if the files are in the correct directory:
 ```bash
 ls ~/.claude/agents/
 ```
 
-### "Der Hook läuft nicht"
+### "Hook is not running"
 
-Prüfe `~/.claude/settings.json`:
+Check `~/.claude/settings.json`:
 ```bash
 cat ~/.claude/settings.json | grep -A 10 "hooks"
 ```
 
-### "Permission denied beim Hook-Script"
+### "Permission denied for hook script"
 
 ```bash
 chmod +x ~/.claude/scripts/check-api-impact.js
 ```
 
-### "Node nicht gefunden"
+### "Node not found"
 
-Der Hook braucht Node.js. Installiere es:
+The hook needs Node.js. Install it:
 ```bash
 # macOS
 brew install node
 
-# oder
+# or
 nvm install --lts
 ```
 
 ---
 
-## 🎯 Nach der Installation
+## 🎯 After installation
 
-### Teste die Agenten
+### Test the agents
 
-Starte Claude Code in einem Projekt und probiere:
-
-```
-@architect Analysiere die Struktur dieses Projekts
-```
-
-### Teste den Hook
-
-Editiere eine Datei in `src/api/` oder `shared/types/`:
+Start Claude Code in a project and try:
 
 ```
-Erstelle eine Datei src/api/test.ts mit dem Inhalt "export {}"
+@architect Analyze the structure of this project
 ```
 
-Du solltest eine Warnung sehen.
+### Test the hook
 
-### Orchestrator-Modus starten
+Edit a file in `src/api/` or `shared/types/`:
 
 ```
-Du bist der Orchestrator. Delegiere an: @architect @builder @validator @scribe
+Create a file src/api/test.ts with the content "export {}"
+```
+
+You should see a warning.
+
+### Start Orchestrator mode
+
+```
+You are the Orchestrator. Delegate to: @architect @builder @validator @scribe
 ```
 
 ---
 
 ## 🔄 Updates
 
-Um CC_GodMode zu aktualisieren:
+To update CC_GodMode:
 
 ```bash
 cd CC_GodMode
 git pull
 
-# Dann Installation wiederholen (YOLO oder Safe Mode)
+# Then repeat installation (YOLO or Safe Mode)
 ```
 
 ---
 
-## 🗑️ Deinstallation
+## 🗑️ Uninstallation
 
-Falls du genug hast:
+If you've had enough:
 
 ```bash
-# Agenten entfernen
+# Remove agents
 rm ~/.claude/agents/architect.md
 rm ~/.claude/agents/builder.md
 rm ~/.claude/agents/validator.md
 rm ~/.claude/agents/scribe.md
 
-# Hook entfernen
+# Remove hook
 rm ~/.claude/scripts/check-api-impact.js
 
-# Hook-Config aus settings.json manuell entfernen
+# Manually remove hook config from settings.json
 ```
 
 ---
 
-## 🎉 Fertig!
+## 🎉 Done!
 
-Du bist jetzt im **God Mode**.
+You are now in **God Mode**.
 
-Nächster Schritt: Lies [ORCHESTRATOR-PROMPT.md](./ORCHESTRATOR-PROMPT.md) für die Prompts die du brauchst.
+Next step: Read [ORCHESTRATOR-PROMPT.md](./ORCHESTRATOR-PROMPT.md) for the prompts you need.
 
 ---
 
 <div align="center">
 
-*"Mit großer Macht kommt großer Spaß am Delegieren."*
+*"With great power comes great joy in delegating."*
 
 </div>

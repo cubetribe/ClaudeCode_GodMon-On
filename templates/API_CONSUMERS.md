@@ -1,15 +1,15 @@
 # API Consumer Registry
 
-> ⚠️ Diese Datei MUSS aktuell gehalten werden bei jeder API-Änderung!
-> Letzte Aktualisierung: 2025-12-07
+> ⚠️ This file MUST be kept up to date with every API change!
+> Last updated: 2025-12-07
 
-## Schnell-Referenz: Consumer finden
+## Quick Reference: Finding Consumers
 
 ```bash
-# Nach Type-Name suchen
+# Search for type name
 grep -rn "TypeName" src/ --include="*.ts*"
 
-# Nach Endpoint suchen
+# Search for endpoint
 grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 ```
 
@@ -20,17 +20,17 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/users.ts`
 **Types:** `shared/types/User.ts`
 
-| Consumer | Pfad | Verwendung |
-|----------|------|------------|
+| Consumer | Path | Usage |
+|----------|------|-------|
 | useUsers Hook | `src/hooks/useUsers.ts:15` | Data Fetching |
 | UserList | `src/components/UserList.tsx:23` | Display |
 | UserService | `src/api/userService.ts:8` | API Client |
 
-### Bei Änderungen prüfen
+### Check when changing
 
-- [ ] Response-Schema → alle Consumer-Destructurings
-- [ ] URL-Änderung → alle fetch/axios-Calls
-- [ ] Auth-Änderung → alle Header-Configs
+- [ ] Response schema → all consumer destructurings
+- [ ] URL change → all fetch/axios calls
+- [ ] Auth change → all header configs
 
 ---
 
@@ -39,15 +39,15 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/products.ts`
 **Types:** `shared/types/Product.ts`
 
-| Consumer | Pfad | Verwendung |
-|----------|------|------------|
+| Consumer | Path | Usage |
+|----------|------|-------|
 | useProducts | `src/hooks/useProducts.ts:12` | Data Fetching |
 | ProductCard | `src/components/ProductCard.tsx:34` | Display |
 | CartService | `src/services/cart.ts:45` | Cart Logic |
 
 ---
 
-## Template für neue Endpoints
+## Template for New Endpoints
 
 ```markdown
 ## /api/v1/[endpoint]
@@ -55,11 +55,11 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/[file].ts`
 **Types:** `shared/types/[Type].ts`
 
-| Consumer | Pfad | Verwendung |
-|----------|------|------------|
-| [Name] | `[pfad:zeile]` | [Zweck] |
+| Consumer | Path | Usage |
+|----------|------|-------|
+| [Name] | `[path:line]` | [Purpose] |
 
-### Bei Änderungen prüfen
+### Check when changing
 
-- [ ] [Spezifische Prüfpunkte]
+- [ ] [Specific checkpoints]
 ```

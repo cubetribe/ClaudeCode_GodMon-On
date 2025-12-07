@@ -1,94 +1,94 @@
-# CLAUDE.md - React/Node.js Projekt
+# CLAUDE.md - React/Node.js Project
 
-## Projekt-Stack
+## Project Stack
 
 - **Frontend:** React 18 + TypeScript + Vite
 - **Backend:** Node.js + Express + TypeScript
 - **Database:** PostgreSQL + Prisma
 - **Testing:** Vitest (Unit), Playwright (E2E)
 
-## Verzeichnisstruktur
+## Directory Structure
 
 ```
 src/
-├── api/           # API-Client und Services
-├── components/    # React-Components
+├── api/           # API Client and Services
+├── components/    # React Components
 ├── hooks/         # Custom React Hooks
-├── pages/         # Route-Components
-├── types/         # Frontend-spezifische Types
-├── utils/         # Helper-Funktionen
+├── pages/         # Route Components
+├── types/         # Frontend-specific Types
+├── utils/         # Helper Functions
 
 shared/
-├── types/         # Geteilte TypeScript-Types (Frontend + Backend)
+├── types/         # Shared TypeScript Types (Frontend + Backend)
 
 backend/
-├── routes/        # Express-Router
-├── services/      # Business-Logik
-├── middleware/    # Express-Middleware
+├── routes/        # Express Routers
+├── services/      # Business Logic
+├── middleware/    # Express Middleware
 
 docs/
-├── API_CONSUMERS.md    # ⚠️ PFLICHT: Consumer-Registry
-├── architecture.md     # Systemarchitektur
-├── DEPENDENCY_GRAPH.md # Modul-Abhängigkeiten
+├── API_CONSUMERS.md    # ⚠️ REQUIRED: Consumer Registry
+├── architecture.md     # System Architecture
+├── DEPENDENCY_GRAPH.md # Module Dependencies
 ```
 
-## Befehle
+## Commands
 
 ```bash
-npm run dev              # Dev-Server starten
-npm run build            # Production-Build
-npm run typecheck        # TypeScript prüfen
-npm run test             # Unit Tests
-npm run test:e2e         # E2E Tests
+npm run dev              # Start dev server
+npm run build            # Production build
+npm run typecheck        # Check TypeScript
+npm run test             # Unit tests
+npm run test:e2e         # E2E tests
 npm run lint             # ESLint
-npm run deps:graph       # Dependency-Graph generieren
+npm run deps:graph       # Generate dependency graph
 npm run generate:api-types  # OpenAPI → TypeScript
 ```
 
-## Code-Konventionen
+## Code Conventions
 
-- Functional Components only (keine Classes)
-- Named Exports bevorzugen
+- Functional Components only (no Classes)
+- Prefer Named Exports
 - Strict TypeScript (`strict: true`)
 - 2 Spaces Indentation
-- Single Quotes für Strings
+- Single Quotes for Strings
 
-## ⚠️ KRITISCHE REGEL: API-Änderungen
+## ⚠️ CRITICAL RULE: API Changes
 
-**BEVOR du Dateien in `src/api/`, `backend/routes/` oder `shared/types/` änderst:**
+**BEFORE you modify files in `src/api/`, `backend/routes/` or `shared/types/`:**
 
-1. **Consumer finden:**
+1. **Find consumers:**
    ```bash
    grep -rn "TypeName\|/api/endpoint" src/ --include="*.ts*"
    ```
 
-2. **Impact-Liste erstellen** (alle gefundenen Dateien notieren)
+2. **Create impact list** (note all found files)
 
-3. **Alle Consumer aktualisieren** im gleichen Commit
+3. **Update all consumers** in the same commit
 
-4. **Validieren:**
+4. **Validate:**
    ```bash
    npm run typecheck && npm test
    ```
 
-5. **Registry aktualisieren:** `docs/API_CONSUMERS.md`
+5. **Update registry:** `docs/API_CONSUMERS.md`
 
-## Subagent-Orchestrierung
+## Subagent Orchestration
 
-- **architect:** Für Design-Entscheidungen und Impact-Analyse
-- **builder:** Für Implementierung (ruft validator auf bei API-Änderungen)
-- **validator:** MUSS nach API/Type-Änderungen aufgerufen werden
-- **scribe:** Für Dokumentations-Updates nach Features
+- **architect:** For design decisions and impact analysis
+- **builder:** For implementation (calls validator for API changes)
+- **validator:** MUST be called after API/Type changes
+- **scribe:** For documentation updates after features
 
-## API-Consumer-Registry
+## API Consumer Registry
 
-Immer aktuell halten: @docs/API_CONSUMERS.md
+Always keep up to date: @docs/API_CONSUMERS.md
 
-## Workflow für Features
+## Workflow for Features
 
 ```
-1. architect → Design + Impact-Analyse
-2. builder → Implementierung + Consumer-Updates
-3. validator → Cross-File-Prüfung + Tests
-4. scribe → Dokumentation + Registry-Update
+1. architect → Design + Impact Analysis
+2. builder → Implementation + Consumer Updates
+3. validator → Cross-File Validation + Tests
+4. scribe → Documentation + Registry Update
 ```

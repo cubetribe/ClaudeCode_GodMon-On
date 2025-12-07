@@ -2,14 +2,14 @@
 
 /**
  * check-api-impact.js
- * 
- * Dieses Script wird automatisch aufgerufen wenn API/Type-Dateien
- * geändert werden. Es listet alle Consumer-Dateien auf.
- * 
+ *
+ * This script is automatically called when API/Type files
+ * are changed. It lists all consumer files.
+ *
  * Installation:
- * 1. Speichere in: scripts/check-api-impact.js
- * 2. Mache ausführbar: chmod +x scripts/check-api-impact.js
- * 3. Konfiguriere in .claude/settings.json (siehe unten)
+ * 1. Save as: scripts/check-api-impact.js
+ * 2. Make executable: chmod +x scripts/check-api-impact.js
+ * 3. Configure in .claude/settings.json (see below)
  */
 
 const { execSync } = require('child_process');
@@ -22,23 +22,23 @@ const apiPaths = ['src/api/', 'backend/routes/', 'shared/types/'];
 const isApiFile = apiPaths.some(p => changedFile.includes(p));
 
 if (isApiFile) {
-  console.log('\n⚠️  API/TYPE-DATEI GEÄNDERT!');
+  console.log('\n⚠️  API/TYPE FILE CHANGED!');
   console.log('━'.repeat(50));
-  
+
   const fileName = path.basename(changedFile, '.ts');
-  
+
   try {
     const result = execSync(
       `grep -rn "${fileName}" src/ --include="*.ts" --include="*.tsx" | head -20`,
       { encoding: 'utf-8' }
     );
-    
-    console.log('📋 Potenzielle Consumer gefunden:\n');
+
+    console.log('📋 Potential consumers found:\n');
     console.log(result);
     console.log('━'.repeat(50));
-    console.log('AKTION ERFORDERLICH: Prüfe und aktualisiere alle Consumer!');
-    console.log('Dann: npm run typecheck');
+    console.log('ACTION REQUIRED: Review and update all consumers!');
+    console.log('Then: npm run typecheck');
   } catch (e) {
-    console.log('✅ Keine Consumer gefunden.');
+    console.log('✅ No consumers found.');
   }
 }
