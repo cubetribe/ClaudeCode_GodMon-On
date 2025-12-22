@@ -3,7 +3,7 @@
 > **Years of trial, error, and mass prompt engineering - distilled into one glorious package.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Subagents](https://img.shields.io/badge/Subagents-4%20Specialists-green)](./agents/)
+[![Subagents](https://img.shields.io/badge/Subagents-5%20Specialists-green)](./agents/)
 [![YOLO Mode](https://img.shields.io/badge/YOLO%20Mode-Available-red)](./INSTALLATION.md)
 
 ---
@@ -28,9 +28,10 @@ With CC_GodMode you give **one single prompt** - and everything else runs automa
 You: "I need user authentication with JWT"
 
 AI (now Orchestrator):
-  → Calls @architect for design & impact analysis
+  → Calls @architect for high-level design
+  → Calls @api-guardian for API impact analysis
   → Calls @builder for implementation
-  → Calls @validator for cross-file checks
+  → Calls @validator for quality checks
   → Calls @scribe for documentation
   → Hooks automatically warn about API changes
 
@@ -57,10 +58,11 @@ You: *drinks coffee*
 │                                                              │
 │   "Ok, for this feature I need..."                          │
 │                                                              │
-│   1. @architect for architecture design                     │
-│   2. @builder for implementation                            │
-│   3. @validator for quality checks                          │
-│   4. @scribe for documentation                              │
+│   1. @architect for high-level design                       │
+│   2. @api-guardian for API contracts (if API changes)       │
+│   3. @builder for implementation                            │
+│   4. @validator for quality checks                          │
+│   5. @scribe for documentation                              │
 │                                                              │
 │   "Starting the workflow now..."                            │
 └─────────────────────────────────────────────────────────────┘
@@ -68,23 +70,27 @@ You: *drinks coffee*
         ┌───────────────────┼───────────────────┐
         │                   │                   │
         ▼                   ▼                   ▼
-   @architect          @builder           @validator
+   @architect         @api-guardian        @builder
    (Subagent)          (Subagent)         (Subagent)
         │                   │                   │
         └───────────────────┼───────────────────┘
                             │
-                            ▼
-                       @scribe
-                      (Subagent)
+                    ┌───────┴───────┐
+                    ▼               ▼
+               @validator       @scribe
+               (Subagent)      (Subagent)
+                    │               │
+                    └───────┬───────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 🪝 HOOKS RUN AUTOMATICALLY                   │
 │                                                              │
 │   On every file change:                                     │
-│   → check-api-impact.js checks for API changes              │
-│   → Warns if consumers need updating                        │
-│   → Orchestrator reacts and adapts                          │
+│   → check-api-impact.js detects API changes                 │
+│   → Analyzes breaking changes                               │
+│   → Finds affected consumers                                │
+│   → Triggers @api-guardian workflow                         │
 └─────────────────────────────────────────────────────────────┘
                             │
                             ▼
@@ -109,20 +115,36 @@ You: *drinks coffee*
 
 ## The Subagents 🤖
 
-The Orchestrator has 4 specialized subagents at its disposal:
+The Orchestrator has 5 specialized subagents at its disposal:
 
 | Agent | Role | Called for |
 |-------|------|------------|
-| `@architect` | Senior Software Architect | Design, planning, impact analysis, API contracts |
-| `@builder` | Senior Full-Stack Developer | Code implementation, tests, consumer updates |
-| `@validator` | Code Quality Engineer | Cross-file consistency, TypeScript checks, security |
+| `@architect` | Senior Software Architect | High-level design, module structure, tech decisions |
+| `@api-guardian` | API Lifecycle Expert | API contracts, breaking changes, consumer impact analysis |
+| `@builder` | Senior Full-Stack Developer | Code implementation, tests |
+| `@validator` | Code Quality Engineer | Verification, quality gate, security checks |
 | `@scribe` | Technical Writer | Documentation, changelog, API registry |
 
 Each agent has:
 - **Own personality** and expertise
 - **Specific tools** it's allowed to use
-- **Clear responsibilities**
+- **Clear responsibilities** (no overlap!)
 - **Output formats** for structured reports
+- **Explicit "What I do NOT do"** section
+
+### Agent Workflow
+
+```
+@architect → High-level design
+    ↓
+@api-guardian → API impact analysis (if API changes)
+    ↓
+@builder → Implementation
+    ↓
+@validator → Quality gate
+    ↓
+@scribe → Documentation
+```
 
 ---
 
@@ -131,35 +153,49 @@ Each agent has:
 The secret why nothing gets forgotten:
 
 ```
-You (or @builder) changes: src/api/userService.ts
+You (or @builder) changes: shared/types/User.ts
 
                     │
                     ▼
         ┌───────────────────────┐
         │  check-api-impact.js  │  ← Runs AUTOMATICALLY
         │                       │
-        │  "Hey, this is an     │
-        │   API file!"          │
+        │  Enhanced Detection:  │
+        │  • Breaking changes   │
+        │  • Consumer discovery │
+        │  • Impact severity    │
         └───────────────────────┘
                     │
                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│ ⚠️  API/TYPE FILE CHANGED!                                   │
-│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│ 📁 File: src/api/userService.ts                             │
-│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│ 📋 Potential consumers found:                               │
-│                                                              │
-│ src/hooks/useUsers.ts:15: import { UserService }            │
-│ src/components/UserList.tsx:23: UserService.getAll()        │
-│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
-│ 🔴 ACTION REQUIRED: Update consumers!                        │
-└─────────────────────────────────────────────────────────────┘
-                    │
-                    ▼
-        Orchestrator sees this and
-        calls @validator for
-        cross-file consistency check
+╔════════════════════════════════════════════════════════════╗
+║  ⚠️   API/TYPE FILE CHANGE DETECTED                         ║
+╚════════════════════════════════════════════════════════════╝
+
+📁 File: shared/types/User.ts
+📋 Type: TYPE DEFINITION
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 BREAKING CHANGE ANALYSIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 POTENTIAL BREAKING CHANGES DETECTED:
+
+   🔴 REMOVED_FIELDS
+      └─ email: string;
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 CONSUMER DISCOVERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Found 5 potential consumer(s):
+
+   📍 src/hooks/useUsers.ts:15: import { User }
+   📍 src/components/UserCard.tsx:23: user.email
+   ...
+
+╔════════════════════════════════════════════════════════════╗
+║  ⚡ @api-guardian MUST be called for API changes!          ║
+╚════════════════════════════════════════════════════════════╝
 ```
 
 **This happens on EVERY Write/Edit.** Automatically. Without you having to remember.
@@ -184,9 +220,9 @@ Implement fix → Make sure nothing breaks
 
 ### API Change (Critical!)
 ```
-@architect → @builder → @validator (MANDATORY!) → @scribe
+@architect → @api-guardian → @builder → @validator → @scribe
 ```
-Impact analysis → Change + all consumers → Cross-file check → Docs
+Design → **Impact analysis** → Implementation + all consumers → Check → Docs
 
 ### Refactoring
 ```
@@ -203,8 +239,8 @@ Plan → Rebuild → Verify
 > *For the brave: One prompt, everything automatic*
 
 ```bash
-git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
-cd ClaudeCode_GodMon-On
+git clone https://github.com/cubetribe/CC_GodMode.git
+cd CC_GodMode
 claude --dangerously-skip-permissions
 ```
 
@@ -221,8 +257,8 @@ Lean back. Done.
 > *For the cautious: Step by step with confirmation*
 
 ```bash
-git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
-cd ClaudeCode_GodMon-On
+git clone https://github.com/cubetribe/CC_GodMode.git
+cd CC_GodMode
 claude
 ```
 
@@ -255,15 +291,20 @@ Copy this prompt:
 ```
 You are the Orchestrator for this project.
 
-Your subagents: @architect @builder @validator @scribe
+Your subagents:
+- @architect (Design)
+- @api-guardian (API Contracts & Impact)
+- @builder (Code)
+- @validator (Check)
+- @scribe (Docs)
 
 Workflow rules:
 - New feature: @architect → @builder → @validator → @scribe
+- API change: @architect → @api-guardian → @builder → @validator → @scribe
 - Bug fix: @builder → @validator
-- API change: @architect → @builder → @validator (MANDATORY!) → @scribe
 
 You delegate and coordinate. You don't write code yourself.
-For API changes @validator MUST be called.
+For API changes @api-guardian MUST be called before @builder.
 Reports go in the Agents/ folder.
 
 Wait for my task.
@@ -278,12 +319,13 @@ I need a REST API for user management with CRUD operations.
 ### 4. Drink coffee ☕
 
 The Orchestrator:
-1. Calls `@architect` for API design
-2. Calls `@builder` for implementation
-3. Hooks automatically warn about issues
-4. Calls `@validator` for quality checks
-5. Calls `@scribe` for documentation
-6. Gives you a final report
+1. Calls `@architect` for high-level design
+2. Calls `@api-guardian` for API contract design
+3. Calls `@builder` for implementation
+4. Hooks automatically warn about issues
+5. Calls `@validator` for quality checks
+6. Calls `@scribe` for documentation
+7. Gives you a final report
 
 ---
 
@@ -297,12 +339,13 @@ CC_GodMode/
 │
 ├── agents/                   # The subagents
 │   ├── architect.md          # 🏗️ The Architect
+│   ├── api-guardian.md       # 🛡️ The API Guardian (NEW!)
 │   ├── builder.md            # 👷 The Developer
 │   ├── validator.md          # ✅ The Checker
 │   └── scribe.md             # 📝 The Writer
 │
 ├── scripts/
-│   └── check-api-impact.js   # 🪝 The automatic hook
+│   └── check-api-impact.js   # 🪝 The automatic hook (enhanced!)
 │
 ├── config/                   # Configuration files
 └── templates/                # Project templates
@@ -312,36 +355,40 @@ CC_GodMode/
 
 ## Why does this work? 🎯
 
-### 1. Specialization over generalism
-Each subagent is an expert for ONE thing. No "do everything".
+### 1. Clear Separation of Concerns
+Each subagent has ONE job. No overlap. No confusion.
 
-### 2. Automation over memory
-Hooks run automatically. You don't have to remember.
+### 2. API Guardian as Single Point of Truth
+All API-related decisions go through `@api-guardian`. No more fragmented responsibility.
 
-### 3. Orchestration over micromanagement
-You say WHAT, not HOW. The Orchestrator decides the flow.
+### 3. Enhanced Hooks
+The hook script now:
+- Detects breaking changes
+- Analyzes git diff
+- Categorizes severity
+- Triggers the right workflow
 
-### 4. Cross-file awareness
-@validator knows ALL dependencies. Nothing gets forgotten.
+### 4. Explicit "What I Do NOT Do"
+Every agent knows what's NOT their job. Clear handoffs.
 
-### 5. Documentation by default
-@scribe documents automatically. No more outdated READMEs.
+### 5. Structured Reports
+Every agent outputs in a consistent format. Easy to follow.
 
 ---
 
 ## FAQ ❓
 
-**Q: Do I really need this?**
-A: Have you ever forgotten to update API consumers? Then yes.
+**Q: Why 5 agents instead of 4?**
+A: The `@api-guardian` solves the problem of fragmented API responsibility. Previously, API logic was spread across all 4 agents.
 
-**Q: Does this work with my project?**
-A: If it's TypeScript/JavaScript with a reasonably normal structure, yes.
+**Q: When do I need @api-guardian?**
+A: Whenever you change files in `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`.
 
-**Q: Can I customize the subagents?**
-A: Sure! The `.md` files in `agents/` are simple Markdown with frontmatter.
+**Q: Can I skip @api-guardian for small changes?**
+A: No. The hook will remind you. Small changes can have big impact.
 
-**Q: What if a workflow doesn't fit?**
-A: Just tell the Orchestrator what should be different. It's flexible.
+**Q: Does this work with GraphQL?**
+A: Yes! The `@api-guardian` supports `schema.graphql` files too.
 
 ---
 

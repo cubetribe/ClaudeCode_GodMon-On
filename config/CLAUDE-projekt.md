@@ -30,6 +30,9 @@ docs/
 ├── API_CONSUMERS.md    # ⚠️ REQUIRED: Consumer Registry
 ├── architecture.md     # System Architecture
 ├── DEPENDENCY_GRAPH.md # Module Dependencies
+
+Agents/
+├── *-report.md    # Agent reports (created during workflow)
 ```
 
 ## Commands
@@ -53,42 +56,57 @@ npm run generate:api-types  # OpenAPI → TypeScript
 - 2 Spaces Indentation
 - Single Quotes for Strings
 
-## ⚠️ CRITICAL RULE: API Changes
-
-**BEFORE you modify files in `src/api/`, `backend/routes/` or `shared/types/`:**
-
-1. **Find consumers:**
-   ```bash
-   grep -rn "TypeName\|/api/endpoint" src/ --include="*.ts*"
-   ```
-
-2. **Create impact list** (note all found files)
-
-3. **Update all consumers** in the same commit
-
-4. **Validate:**
-   ```bash
-   npm run typecheck && npm test
-   ```
-
-5. **Update registry:** `docs/API_CONSUMERS.md`
-
 ## Subagent Orchestration
 
-- **architect:** For design decisions and impact analysis
-- **builder:** For implementation (calls validator for API changes)
-- **validator:** MUST be called after API/Type changes
-- **scribe:** For documentation updates after features
+### Available Agents
+
+| Agent | Task | Called For |
+|-------|------|------------|
+| `@architect` | High-level design | New modules, tech decisions |
+| `@api-guardian` | API lifecycle | ANY API/Type changes |
+| `@builder` | Implementation | Code writing |
+| `@validator` | Quality gate | Verification |
+| `@scribe` | Documentation | Docs updates |
+
+### Orchestration Rules
+
+```
+Rule 1: @architect BEFORE @builder for new features
+Rule 2: @api-guardian BEFORE @builder for API changes
+Rule 3: @validator AFTER every implementation
+Rule 4: @scribe after feature completion
+```
+
+### Workflows
+
+- **New Feature:** `@architect` → `@builder` → `@validator` → `@scribe`
+- **Bug Fix:** `@builder` → `@validator`
+- **API Change:** `@architect` → `@api-guardian` → `@builder` → `@validator` → `@scribe`
+- **Refactoring:** `@architect` → `@builder` → `@validator`
+
+## ⚠️ CRITICAL RULE: API Changes
+
+**For ANY change to `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`:**
+
+1. **STOP** - Hook will trigger automatically
+2. **Call @api-guardian** for impact analysis
+3. **Receive** consumer file list
+4. **@builder** updates all consumers
+5. **@validator** verifies changes
+6. **@scribe** updates documentation
+
+**You do NOT manually search for consumers - @api-guardian handles this!**
 
 ## API Consumer Registry
 
-Always keep up to date: @docs/API_CONSUMERS.md
+Always keep up to date: `docs/API_CONSUMERS.md`
 
-## Workflow for Features
+The `@scribe` agent is responsible for updating this based on `@api-guardian`'s analysis.
 
-```
-1. architect → Design + Impact Analysis
-2. builder → Implementation + Consumer Updates
-3. validator → Cross-File Validation + Tests
-4. scribe → Documentation + Registry Update
-```
+## Automatic Hooks
+
+The `check-api-impact.js` hook runs on every file change and:
+- Detects API-relevant file changes
+- Analyzes potential breaking changes
+- Lists affected consumers
+- Reminds to call `@api-guardian`

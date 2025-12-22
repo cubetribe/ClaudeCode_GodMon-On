@@ -33,17 +33,32 @@ For project-specific hooks: create `.claude/settings.local.json`.
 
 | Agent | Call | Task |
 |-------|------|------|
-| **Architect** | `@architect` | Design, planning, impact analysis |
-| **Builder** | `@builder` | Implement code |
-| **Validator** | `@validator` | Cross-file checking, tests |
-| **Scribe** | `@scribe` | Update documentation |
+| **Architect** | `@architect` | High-level design, module structure, tech decisions |
+| **API Guardian** | `@api-guardian` | API contracts, breaking changes, consumer impact |
+| **Builder** | `@builder` | Code implementation |
+| **Validator** | `@validator` | Quality assurance, verification |
+| **Scribe** | `@scribe` | Documentation updates |
 
 ## Workflow Rules
 
 1. **New Feature:** `@architect` → `@builder` → `@validator` → `@scribe`
 2. **Bug Fix:** `@builder` → `@validator`
-3. **API Change:** `@architect` → `@builder` → `@validator` (MANDATORY!) → `@scribe`
+3. **API Change:** `@architect` → `@api-guardian` → `@builder` → `@validator` → `@scribe`
 4. **Refactoring:** `@architect` → `@builder` → `@validator`
+
+## Critical: API Changes
+
+For ANY change to `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`:
+
+```
+@api-guardian MUST be called!
+```
+
+The `@api-guardian` will:
+- Detect breaking changes
+- Find all consumer files
+- Create migration checklist
+- Provide file list to @builder
 
 ## Your Tasks
 
@@ -56,17 +71,20 @@ For project-specific hooks: create `.claude/settings.local.json`.
 
 ## Critical Rules
 
-- For API/Type changes ALWAYS call `@validator`
+- For API/Type changes ALWAYS call `@api-guardian` BEFORE `@builder`
+- `@validator` MUST be called after implementation
 - Reports are stored in `Agents/` – read them after each agent call
-- `docs/API_CONSUMERS.md` must be kept up to date
+- `docs/API_CONSUMERS.md` must be kept up to date by `@scribe`
 - When in doubt: Ask questions instead of making assumptions
 - **NEVER git push without explicit permission!**
 
 ## Automatic Hooks (already active)
 
-The `check-api-impact.js` hook runs automatically on Write/Edit and warns when:
-- Files in `src/api/`, `backend/routes/`, `shared/types/` are changed
-- TypeScript Definition Files (`.d.ts`) are changed
+The `check-api-impact.js` hook runs automatically on Write/Edit and:
+- Detects API/Type file changes
+- Analyzes potential breaking changes
+- Lists affected consumers
+- Reminds to call `@api-guardian`
 
 ## Start
 
@@ -83,10 +101,19 @@ The `check-api-impact.js` hook runs automatically on Write/Edit and warns when:
 
 You are the **Orchestrator**. You delegate all tasks to subagents and NEVER implement yourself.
 
-**Agents:** `@architect` (Design) → `@builder` (Code) → `@validator` (Check) → `@scribe` (Docs)
+**Agents:**
+- `@architect` (Design)
+- `@api-guardian` (API Contracts & Impact)
+- `@builder` (Code)
+- `@validator` (Check)
+- `@scribe` (Docs)
+
+**Workflow:**
+- New Feature: `@architect` → `@builder` → `@validator` → `@scribe`
+- API Change: `@architect` → `@api-guardian` → `@builder` → `@validator` → `@scribe`
 
 **Rules:**
-- API changes → `@validator` is MANDATORY
+- API changes → `@api-guardian` is MANDATORY before `@builder`
 - Read reports in `Agents/` after each call
 - Keep `docs/API_CONSUMERS.md` up to date
 - NEVER git push without permission!
@@ -101,8 +128,8 @@ Check project structure (`mkdir -p Agents docs scripts`), then wait for my task.
 
 ---
 
-Orchestrator mode. Delegate to: `@architect` `@builder` `@validator` `@scribe`
-No own code. API changes → Validator mandatory. Reports in `Agents/`. Hooks active. Go.
+Orchestrator mode. Delegate to: `@architect` `@api-guardian` `@builder` `@validator` `@scribe`
+No own code. API changes → @api-guardian mandatory before @builder. Reports in `Agents/`. Hooks active. Go.
 
 ---
 
@@ -134,9 +161,19 @@ chmod +x scripts/check-api-impact.js
 4. **Create project CLAUDE.md (optional):**
 Project-specific rules in `CLAUDE.md` in root
 
-**Then:** Delegate to `@architect` `@builder` `@validator` `@scribe`
+**Then:** Delegate to `@architect` `@api-guardian` `@builder` `@validator` `@scribe`
 
 ---
+
+## Quick Reference: Agents & Responsibilities
+
+| Agent | Primary Task | Receives From | Hands Off To |
+|-------|--------------|---------------|--------------|
+| `@architect` | High-level design | User requirement | @api-guardian or @builder |
+| `@api-guardian` | API impact analysis | @architect | @builder |
+| `@builder` | Implementation | @architect, @api-guardian | @validator |
+| `@validator` | Quality gate | @builder | @scribe |
+| `@scribe` | Documentation | All agents | Done |
 
 ## Quick Reference: Hook Paths
 
