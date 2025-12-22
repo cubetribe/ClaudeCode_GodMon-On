@@ -2,9 +2,12 @@
 
 > **Years of trial, error, and mass prompt engineering - distilled into one glorious package.**
 
+[![Version](https://img.shields.io/badge/Version-2.0.0-blue)](./CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Subagents](https://img.shields.io/badge/Subagents-5%20Specialists-green)](./agents/)
 [![YOLO Mode](https://img.shields.io/badge/YOLO%20Mode-Available-red)](./INSTALLATION.md)
+
+> **Version 2.0.0** - 5-Agent System with `@api-guardian` | [See CHANGELOG](./CHANGELOG.md)
 
 ---
 
