@@ -1,27 +1,50 @@
-MIT License
+CC_GodMode - Proprietary License
 
-Copyright (c) 2025 Dennis Westermann (www.dennis-westermann.de)
+Copyright (c) 2025 Dennis Westermann
+www.dennis-westermann.de
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+All rights reserved.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+================================================================================
+TERMS OF USE
+================================================================================
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. PRIVATE USE
+   This software may be used for private, non-commercial purposes free of charge.
+   Private use includes personal projects, learning, and individual development.
 
----
+2. COMMERCIAL USE
+   Any commercial use of this software is strictly prohibited without prior
+   written permission from the copyright holder.
 
-TL;DR: Do whatever you want with this. But if your production server catches
-fire, that's on you, not me. I'm just a guy who got tired of forgetting to
-update API consumers.
+   Commercial use includes, but is not limited to:
+   - Use in products or services offered for sale
+   - Use in a commercial business environment
+   - Use to generate revenue directly or indirectly
+   - Redistribution as part of a commercial product
+
+   For commercial licensing inquiries, please contact:
+   Dennis Westermann - www.dennis-westermann.de
+
+3. MODIFICATIONS
+   You may modify the software for private use only.
+   Modified versions may not be redistributed without permission.
+
+4. REDISTRIBUTION
+   Redistribution of this software, in whole or in part, is not permitted
+   without explicit written permission from the copyright holder.
+
+5. ATTRIBUTION
+   If you use this software, attribution to Dennis Westermann is appreciated
+   but not required for private use.
+
+6. NO WARRANTY
+   THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED. THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING
+   FROM THE USE OF THIS SOFTWARE.
+
+================================================================================
+
+For questions, licensing, or permissions:
+Dennis Westermann
+www.dennis-westermann.de

@@ -3,7 +3,7 @@
 > **Years of trial, error, and mass prompt engineering - distilled into one glorious package.**
 
 [![Version](https://img.shields.io/badge/Version-3.1.0-blue)](./CHANGELOG.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](./LICENSE)
 [![Subagents](https://img.shields.io/badge/Subagents-7%20Specialists-green)](./agents/)
 [![YOLO Mode](https://img.shields.io/badge/YOLO%20Mode-Available-red)](./INSTALLATION.md)
 [![MCP Servers](https://img.shields.io/badge/MCP%20Servers-4%20Integrated-purple)](./INSTALLATION.md#-mcp-server-installation)
@@ -535,7 +535,11 @@ A: See [MCP Server Installation](./INSTALLATION.md#-mcp-server-installation) for
 
 ## License 📄
 
-MIT - Do whatever you want.
+**Proprietary License** - Private use permitted. Commercial use requires permission.
+
+See [LICENSE](./LICENSE) for details.
+
+Copyright (c) 2025 Dennis Westermann - [www.dennis-westermann.de](https://www.dennis-westermann.de)
 
 ---
 
