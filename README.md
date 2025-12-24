@@ -333,8 +333,8 @@ See [INSTALLATION.md](./INSTALLATION.md#-mcp-server-installation) for detailed s
 > *For the brave: One prompt, everything automatic*
 
 ```bash
-git clone https://github.com/cubetribe/CC_GodMode.git
-cd CC_GodMode
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 claude --dangerously-skip-permissions
 ```
 
@@ -351,8 +351,8 @@ Lean back. Done.
 > *For the cautious: Step by step with confirmation*
 
 ```bash
-git clone https://github.com/cubetribe/CC_GodMode.git
-cd CC_GodMode
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 claude
 ```
 

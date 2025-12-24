@@ -261,9 +261,9 @@ Project-specific rules in `CLAUDE.md` in root
 | MCP | Agent | Purpose | Installation |
 |-----|-------|---------|--------------|
 | Playwright | @tester | Browser automation, E2E, screenshots | `claude mcp add playwright -- npx @playwright/mcp@latest` |
-| GitHub | @github-manager | Issues, PRs, Releases | `claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$TOKEN -- npx @modelcontextprotocol/server-github` |
-| Lighthouse | @tester | Performance audits | `claude mcp add lighthouse -- npx @anthropic-community/mcp-lighthouse` |
-| A11y | @tester | Accessibility testing | `claude mcp add a11y -- npx @anthropic/mcp-a11y` |
+| GitHub | @github-manager | Issues, PRs, Releases | `claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$TOKEN -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server` |
+| Lighthouse | @tester | Performance audits | `claude mcp add lighthouse -- npx lighthouse-mcp` |
+| A11y | @tester | Accessibility testing | `claude mcp add a11y -- npx a11y-mcp` |
 
 ## Quick Reference: Hook Paths
 

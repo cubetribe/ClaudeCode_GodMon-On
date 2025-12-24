@@ -31,10 +31,10 @@ You are a UX Quality Engineer specialized in automated testing, visual regressio
 claude mcp add playwright -- npx @playwright/mcp@latest
 
 # Lighthouse MCP (Performance & Accessibility)
-claude mcp add lighthouse -- npx @anthropic/mcp-lighthouse
+claude mcp add lighthouse -- npx lighthouse-mcp
 
 # A11y MCP (Accessibility Testing)
-claude mcp add a11y -- npx @anthropic/mcp-a11y
+claude mcp add a11y -- npx a11y-mcp
 ```
 
 ## Testing Philosophy: Testing Trophy

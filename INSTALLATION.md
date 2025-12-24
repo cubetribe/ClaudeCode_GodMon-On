@@ -27,8 +27,8 @@
 ### Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/cubetribe/CC_GodMode.git
-cd CC_GodMode
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 ```
 
 ### Step 2: Start Claude in God Mode
@@ -71,8 +71,8 @@ Claude does the rest. You'll get a summary at the end.
 ### Step 1: Clone the repo
 
 ```bash
-git clone https://github.com/cubetribe/CC_GodMode.git
-cd CC_GodMode
+git clone https://github.com/cubetribe/ClaudeCode_GodMon-On.git
+cd ClaudeCode_GodMon-On
 ```
 
 ### Step 2: Start Claude normally
@@ -500,7 +500,10 @@ echo $GITHUB_TOKEN
 # Re-add with fresh token
 claude mcp remove github
 export GITHUB_TOKEN="new_token_here"
-claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN -- npx @modelcontextprotocol/server-github
+claude mcp add github \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
+  -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN \
+  ghcr.io/github/github-mcp-server
 ```
 
 ### "Playwright browser not installed"
@@ -550,7 +553,7 @@ Copy the prompt from [ORCHESTRATOR-PROMPT-V3.md](./ORCHESTRATOR-PROMPT-V3.md)
 To update CC_GodMode:
 
 ```bash
-cd CC_GodMode
+cd ClaudeCode_GodMon-On
 git pull
 
 # Update agents
