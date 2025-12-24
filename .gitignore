@@ -8,9 +8,12 @@ Thumbs.db
 *.swp
 *.swo
 
-# Generated Reports (project-specific)
-Agents/*.md
-!Agents/.gitkeep
+# Generated Reports (project-specific, only in Agents/ folder)
+/Agents/*.md
+!/Agents/.gitkeep
+
+# Agent definitions must be tracked (negation comes after to override)
+!agents/*.md
 
 # Node
 node_modules/

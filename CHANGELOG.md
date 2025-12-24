@@ -7,7 +7,90 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.0] - 2024-12-22
+## [3.0.0] - 2025-12-24
+
+### Added
+
+- **New Agent: `@tester`** - UX Quality Engineer
+  - E2E Testing with Playwright MCP
+  - Visual Regression Testing (screenshots, pixel diff)
+  - Accessibility Testing with Axe-core (WCAG 2.1 compliance)
+  - Performance Audits with Lighthouse (Core Web Vitals)
+  - Cross-Browser Testing (Chrome, Firefox, Safari)
+  - Responsive Testing (Mobile, Tablet, Desktop viewports)
+  - Console Error Monitoring
+  - Testing Trophy philosophy (Kent C. Dodds)
+
+- **New Agent: `@github-manager`** - GitHub Project Management Specialist
+  - Issue lifecycle management (create, label, assign, close)
+  - Pull Request workflow (branch creation, PR management, review coordination)
+  - Release management (tags, GitHub Releases, release notes generation)
+  - Repository synchronization (fork sync, upstream merge)
+  - CI/CD monitoring (GitHub Actions status, failure analysis)
+  - Uses GitHub MCP Server for API access (with `gh` CLI fallback)
+
+- **MCP Server Integration** - Full documentation and installation
+  - **Playwright MCP** (Microsoft) - Browser automation for @tester
+  - **GitHub MCP** (GitHub) - Repository management for @github-manager
+  - **Lighthouse MCP** - Performance & accessibility audits for @tester
+  - **A11y MCP** - WCAG compliance testing for @tester
+
+- **New Installation Script** - `scripts/install-mcps.sh`
+  - Automated MCP server installation
+  - Prerequisite checks
+  - Fallback handling
+
+- **New Orchestrator Prompt V3** - `ORCHESTRATOR-PROMPT-V3.md`
+  - 7-Agent workflow
+  - Dual Quality Gates: @validator (code) → @tester (UX)
+  - MCP server references
+  - Testing Trophy integration
+
+### Changed
+
+- **Quality Gate Split**
+  - `@validator` - Now focused on code quality (TypeScript, unit tests, security)
+  - `@tester` - Now handles UX quality (E2E, visual, a11y, performance)
+
+- **Workflow Updates**
+  - New Feature: `@architect` → `@builder` → `@validator` → `@tester` → `@scribe`
+  - API Change: `@architect` → `@api-guardian` → `@builder` → `@validator` → `@tester` → `@scribe`
+  - Release: `@scribe` → `@github-manager`
+
+- **INSTALLATION.md** - Complete rewrite with MCP documentation
+  - Verified MCP server links
+  - Docker vs npx installation options
+  - Troubleshooting section
+
+- **README.md** - Updated for 7-Agent system
+
+### Requirements
+
+- **Required MCPs:**
+  - Playwright MCP (`@playwright/mcp`)
+  - GitHub MCP (Docker: `ghcr.io/github/github-mcp-server`)
+
+- **Recommended MCPs:**
+  - Lighthouse MCP (`lighthouse-mcp`)
+  - A11y MCP (`a11y-mcp`)
+
+- **Prerequisites:**
+  - Node.js 18+
+  - Docker (for GitHub MCP)
+  - GitHub Personal Access Token
+
+### MCP Server Sources
+
+| MCP | GitHub | NPM |
+|-----|--------|-----|
+| Playwright | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) | [@playwright/mcp](https://www.npmjs.com/package/@playwright/mcp) |
+| GitHub | [github/github-mcp-server](https://github.com/github/github-mcp-server) | Docker only (npm deprecated) |
+| Lighthouse | [priyankark/lighthouse-mcp](https://github.com/priyankark/lighthouse-mcp) | [lighthouse-mcp](https://www.npmjs.com/package/lighthouse-mcp) |
+| A11y | [priyankark/a11y-mcp](https://github.com/priyankark/a11y-mcp) | [a11y-mcp](https://www.npmjs.com/package/a11y-mcp) |
+
+---
+
+## [2.0.0] - 2025-12-22
 
 ### Added
 
@@ -67,7 +150,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2024-12-07
+## [1.0.0] - 2025-12-07
 
 ### Added
 
@@ -93,8 +176,97 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Agents | Key Feature |
 |---------|------|--------|-------------|
-| 2.0.0 | 2024-12-22 | 5 | `@api-guardian` + Enhanced Hooks |
-| 1.0.0 | 2024-12-07 | 4 | Initial Release |
+| 3.0.0 | 2025-12-24 | 7 | `@tester` + `@github-manager` + MCP Integration |
+| 2.0.0 | 2025-12-22 | 5 | `@api-guardian` + Enhanced Hooks |
+| 1.0.0 | 2025-12-07 | 4 | Initial Release |
+
+---
+
+## Upgrade Guide: v2.x → v3.0.0
+
+### 1. Install New Agent Files
+
+```bash
+cp agents/tester.md ~/.claude/agents/
+cp agents/github-manager.md ~/.claude/agents/
+```
+
+### 2. Install MCP Servers
+
+```bash
+# Run the installation script
+chmod +x scripts/install-mcps.sh
+./scripts/install-mcps.sh
+
+# Or manually:
+claude mcp add playwright -- npx @playwright/mcp@latest
+claude mcp add lighthouse -- npx lighthouse-mcp
+claude mcp add a11y -- npx a11y-mcp
+
+# For GitHub MCP (requires Docker + token)
+export GITHUB_TOKEN="your_token"
+claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
+```
+
+### 3. Install Playwright Browsers
+
+```bash
+npx playwright install chromium
+```
+
+### 4. Update Orchestrator Prompt
+
+Use `ORCHESTRATOR-PROMPT-V3.md` instead of V2.
+
+### 5. New Workflow
+
+**Old (v2.x):**
+```
+@architect → @builder → @validator → @scribe
+```
+
+**New (v3.0):**
+```
+@architect → @builder → @validator → @tester → @scribe
+```
+
+The quality gate is now split:
+- `@validator` = Code quality (TypeScript, unit tests, security)
+- `@tester` = UX quality (E2E, visual, a11y, performance)
+
+---
+
+## Upgrade Guide: v1.0.0 → v2.0.0
+
+### 1. Add New Agent File
+
+```bash
+cp agents/github-manager.md ~/.claude/agents/
+```
+
+### 2. Setup GitHub MCP Server (Recommended)
+
+```bash
+# Option A: Docker
+claude mcp add github \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=YOUR_TOKEN \
+  -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN \
+  ghcr.io/github/github-mcp-server
+
+# Option B: Use gh CLI (Fallback)
+# Install: https://cli.github.com/
+gh auth login
+```
+
+### 3. Update Orchestrator Prompt
+
+Use the updated `ORCHESTRATOR-PROMPT-V2.md` which now includes `@github-manager`.
+
+### 4. New Workflows Available
+
+- **Release:** After @scribe updates CHANGELOG → @github-manager creates GitHub Release
+- **Bug Report:** User describes bug → @github-manager creates structured Issue
+- **Feature Complete:** @validator confirms green → @github-manager creates PR
 
 ---
 

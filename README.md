@@ -2,12 +2,14 @@
 
 > **Years of trial, error, and mass prompt engineering - distilled into one glorious package.**
 
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue)](./CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Subagents](https://img.shields.io/badge/Subagents-5%20Specialists-green)](./agents/)
+[![Subagents](https://img.shields.io/badge/Subagents-7%20Specialists-green)](./agents/)
 [![YOLO Mode](https://img.shields.io/badge/YOLO%20Mode-Available-red)](./INSTALLATION.md)
+[![MCP Servers](https://img.shields.io/badge/MCP%20Servers-4%20Integrated-purple)](./INSTALLATION.md#-mcp-server-installation)
+[![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-orange)](https://github.com/microsoft/playwright-mcp)
 
-> **Version 2.0.0** - 5-Agent System with `@api-guardian` | [See CHANGELOG](./CHANGELOG.md)
+> **Version 3.0.0** - 7-Agent System with `@tester` + `@github-manager` + MCP Integration | [See CHANGELOG](./CHANGELOG.md)
 
 ---
 
@@ -36,6 +38,7 @@ AI (now Orchestrator):
   → Calls @builder for implementation
   → Calls @validator for quality checks
   → Calls @scribe for documentation
+  → Calls @github-manager to create PR and release
   → Hooks automatically warn about API changes
 
 You: *drinks coffee*
@@ -66,6 +69,7 @@ You: *drinks coffee*
 │   3. @builder for implementation                            │
 │   4. @validator for quality checks                          │
 │   5. @scribe for documentation                              │
+│   6. @github-manager for Issues, PRs, Releases              │
 │                                                              │
 │   "Starting the workflow now..."                            │
 └─────────────────────────────────────────────────────────────┘
@@ -118,15 +122,17 @@ You: *drinks coffee*
 
 ## The Subagents 🤖
 
-The Orchestrator has 5 specialized subagents at its disposal:
+The Orchestrator has 7 specialized subagents at its disposal:
 
-| Agent | Role | Called for |
-|-------|------|------------|
-| `@architect` | Senior Software Architect | High-level design, module structure, tech decisions |
-| `@api-guardian` | API Lifecycle Expert | API contracts, breaking changes, consumer impact analysis |
-| `@builder` | Senior Full-Stack Developer | Code implementation, tests |
-| `@validator` | Code Quality Engineer | Verification, quality gate, security checks |
-| `@scribe` | Technical Writer | Documentation, changelog, API registry |
+| Agent | Role | Called for | MCP Required |
+|-------|------|------------|--------------|
+| `@architect` | Senior Software Architect | High-level design, module structure, tech decisions | - |
+| `@api-guardian` | API Lifecycle Expert | API contracts, breaking changes, consumer impact analysis | - |
+| `@builder` | Senior Full-Stack Developer | Code implementation, tests | - |
+| `@validator` | Code Quality Engineer | TypeScript, unit tests, security checks | - |
+| `@tester` | UX Quality Engineer | E2E tests, visual regression, a11y, performance | Playwright |
+| `@scribe` | Technical Writer | Documentation, changelog, API registry | - |
+| `@github-manager` | GitHub Project Manager | Issues, PRs, Releases, CI/CD | GitHub |
 
 Each agent has:
 - **Own personality** and expertise
@@ -144,9 +150,36 @@ Each agent has:
     ↓
 @builder → Implementation
     ↓
-@validator → Quality gate
+@validator → Code quality gate (TypeScript, unit tests, security)
+    ↓
+@tester → UX quality gate (E2E, visual, a11y, performance)
     ↓
 @scribe → Documentation
+    ↓
+@github-manager → PR/Release (if needed)
+```
+
+### Dual Quality Gates (NEW in v3.0!)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    QUALITY GATES                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  @validator (Code Quality)        @tester (UX Quality)       │
+│  ─────────────────────────        ────────────────────       │
+│  ✓ TypeScript compiles            ✓ E2E tests pass           │
+│  ✓ Unit tests pass                ✓ Screenshots match        │
+│  ✓ No security issues             ✓ A11y compliant           │
+│  ✓ Consumers updated              ✓ Performance OK           │
+│                                                              │
+│              ↓                            ↓                  │
+│         Code OK?                     UX OK?                  │
+│              ↓                            ↓                  │
+│              └────────────┬───────────────┘                  │
+│                           ↓                                  │
+│                    ✅ Ready for @scribe                      │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -211,27 +244,85 @@ The Orchestrator knows these standard workflows:
 
 ### New Feature
 ```
-@architect → @builder → @validator → @scribe
+@architect → @builder → @validator → @tester → @scribe
 ```
-Design → Implementation → Quality check → Documentation
+Design → Implementation → Code check → UX check → Documentation
 
 ### Bug Fix
 ```
-@builder → @validator
+@builder → @validator → @tester
 ```
-Implement fix → Make sure nothing breaks
+Implement fix → Code check → UX check
 
 ### API Change (Critical!)
 ```
-@architect → @api-guardian → @builder → @validator → @scribe
+@architect → @api-guardian → @builder → @validator → @tester → @scribe
 ```
-Design → **Impact analysis** → Implementation + all consumers → Check → Docs
+Design → **Impact analysis** → Implementation → Code check → UX check → Docs
 
 ### Refactoring
 ```
-@architect → @builder → @validator
+@architect → @builder → @validator → @tester
 ```
-Plan → Rebuild → Verify
+Plan → Rebuild → Code check → UX check
+
+### Release
+```
+@scribe → @github-manager
+```
+Changelog updated → Tag + GitHub Release created
+
+### Bug Report
+```
+@github-manager
+```
+User describes bug → Structured Issue created with labels
+
+### Feature Complete
+```
+@tester → @github-manager
+```
+All tests pass → PR created with proper description
+
+---
+
+## MCP Servers 🔌
+
+CC_GodMode uses MCP (Model Context Protocol) servers for enhanced capabilities:
+
+### Required MCPs
+
+| MCP Server | Agent | Purpose | Source |
+|------------|-------|---------|--------|
+| **Playwright** | @tester | Browser automation, E2E tests, screenshots | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
+| **GitHub** | @github-manager | Issues, PRs, Releases, CI/CD | [github/github-mcp-server](https://github.com/github/github-mcp-server) |
+
+### Recommended MCPs
+
+| MCP Server | Agent | Purpose | Source |
+|------------|-------|---------|--------|
+| **Lighthouse** | @tester | Performance audits, Core Web Vitals | [lighthouse-mcp](https://www.npmjs.com/package/lighthouse-mcp) |
+| **A11y** | @tester | Accessibility testing, WCAG compliance | [a11y-mcp](https://www.npmjs.com/package/a11y-mcp) |
+
+### Quick Install
+
+```bash
+# Install all MCPs at once
+chmod +x scripts/install-mcps.sh
+./scripts/install-mcps.sh
+
+# Or individually
+claude mcp add playwright -- npx @playwright/mcp@latest
+claude mcp add lighthouse -- npx lighthouse-mcp
+claude mcp add a11y -- npx a11y-mcp
+
+# GitHub MCP (requires Docker + token)
+export GITHUB_TOKEN="your_token"
+claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
+  -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
+```
+
+See [INSTALLATION.md](./INSTALLATION.md#-mcp-server-installation) for detailed setup instructions.
 
 ---
 
@@ -298,13 +389,20 @@ Your subagents:
 - @architect (Design)
 - @api-guardian (API Contracts & Impact)
 - @builder (Code)
-- @validator (Check)
+- @validator (Code Quality Gate)
+- @tester (UX Quality Gate) - Uses Playwright MCP
 - @scribe (Docs)
+- @github-manager (Issues, PRs, Releases)
 
 Workflow rules:
-- New feature: @architect → @builder → @validator → @scribe
-- API change: @architect → @api-guardian → @builder → @validator → @scribe
-- Bug fix: @builder → @validator
+- New feature: @architect → @builder → @validator → @tester → @scribe
+- API change: @architect → @api-guardian → @builder → @validator → @tester → @scribe
+- Bug fix: @builder → @validator → @tester
+- Release: @scribe → @github-manager
+
+Quality gates:
+- @validator = Code compiles, unit tests pass, security OK
+- @tester = E2E works, visuals match, a11y OK, performance OK
 
 You delegate and coordinate. You don't write code yourself.
 For API changes @api-guardian MUST be called before @builder.
@@ -325,10 +423,12 @@ The Orchestrator:
 1. Calls `@architect` for high-level design
 2. Calls `@api-guardian` for API contract design
 3. Calls `@builder` for implementation
-4. Hooks automatically warn about issues
-5. Calls `@validator` for quality checks
-6. Calls `@scribe` for documentation
-7. Gives you a final report
+4. Hooks automatically warn about API issues
+5. Calls `@validator` for code quality (TypeScript, unit tests)
+6. Calls `@tester` for UX quality (E2E, visual, a11y, perf)
+7. Calls `@scribe` for documentation
+8. Calls `@github-manager` for PR/Release
+9. Gives you a final report
 
 ---
 
@@ -337,18 +437,22 @@ The Orchestrator:
 ```
 CC_GodMode/
 ├── README.md                 # You are here 👋
-├── INSTALLATION.md           # Setup guide
-├── ORCHESTRATOR-PROMPT.md    # Copy-paste prompts
+├── INSTALLATION.md           # Setup guide (with MCP instructions)
+├── ORCHESTRATOR-PROMPT-V3.md # Copy-paste prompts
+├── CHANGELOG.md              # Version history
 │
-├── agents/                   # The subagents
+├── agents/                   # The 7 subagents
 │   ├── architect.md          # 🏗️ The Architect
-│   ├── api-guardian.md       # 🛡️ The API Guardian (NEW!)
+│   ├── api-guardian.md       # 🛡️ The API Guardian
 │   ├── builder.md            # 👷 The Developer
-│   ├── validator.md          # ✅ The Checker
-│   └── scribe.md             # 📝 The Writer
+│   ├── validator.md          # ✅ Code Quality Gate
+│   ├── tester.md             # 🧪 UX Quality Gate (NEW!)
+│   ├── scribe.md             # 📝 The Writer
+│   └── github-manager.md     # 🐙 The GitHub Manager
 │
 ├── scripts/
-│   └── check-api-impact.js   # 🪝 The automatic hook (enhanced!)
+│   ├── check-api-impact.js   # 🪝 The automatic hook
+│   └── install-mcps.sh       # 🔌 MCP installation script (NEW!)
 │
 ├── config/                   # Configuration files
 └── templates/                # Project templates
@@ -364,34 +468,52 @@ Each subagent has ONE job. No overlap. No confusion.
 ### 2. API Guardian as Single Point of Truth
 All API-related decisions go through `@api-guardian`. No more fragmented responsibility.
 
-### 3. Enhanced Hooks
+### 3. GitHub Manager for Project Lifecycle
+Issues, PRs, and Releases handled by `@github-manager`. Complete project workflow coverage.
+
+### 4. Enhanced Hooks
 The hook script now:
 - Detects breaking changes
 - Analyzes git diff
 - Categorizes severity
 - Triggers the right workflow
 
-### 4. Explicit "What I Do NOT Do"
+### 5. Explicit "What I Do NOT Do"
 Every agent knows what's NOT their job. Clear handoffs.
 
-### 5. Structured Reports
+### 6. Structured Reports
 Every agent outputs in a consistent format. Easy to follow.
 
 ---
 
 ## FAQ ❓
 
-**Q: Why 5 agents instead of 4?**
-A: The `@api-guardian` solves the problem of fragmented API responsibility. Previously, API logic was spread across all 4 agents.
+**Q: Why 7 agents now?**
+A: The `@tester` separates code quality from UX quality. Previously, @validator did everything.
+
+**Q: What's the difference between @validator and @tester?**
+A: `@validator` = Code quality (TypeScript, unit tests, security). `@tester` = UX quality (E2E, visual, a11y, performance).
+
+**Q: Do I need all 4 MCP servers?**
+A: Playwright and GitHub MCPs are required. Lighthouse and A11y are recommended but optional.
+
+**Q: Can I skip @tester for small changes?**
+A: For non-UI changes (backend only), you can skip @tester. For any UI change, @tester is recommended.
 
 **Q: When do I need @api-guardian?**
 A: Whenever you change files in `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`.
 
-**Q: Can I skip @api-guardian for small changes?**
-A: No. The hook will remind you. Small changes can have big impact.
-
 **Q: Does this work with GraphQL?**
 A: Yes! The `@api-guardian` supports `schema.graphql` files too.
+
+**Q: Do I need Docker for GitHub MCP?**
+A: Recommended. If Docker is not available, @github-manager falls back to `gh` CLI.
+
+**Q: Can agents push without my permission?**
+A: No. CC_GodMode enforces "NEVER git push without permission" across all agents.
+
+**Q: Where do I get the MCP servers?**
+A: See [MCP Server Installation](./INSTALLATION.md#-mcp-server-installation) for all links and commands.
 
 ---
 
