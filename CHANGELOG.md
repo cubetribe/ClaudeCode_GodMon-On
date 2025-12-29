@@ -7,6 +7,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [4.0.0] - 2025-12-29
+
+### Added
+
+- **Mandatory Pre-Push Versioning** - New rule enforced across all agents
+  - VERSION file MUST be updated before any push
+  - CHANGELOG.md MUST be updated before any push
+  - Never push the same version twice
+  - Pre-Push Checklist in CLAUDE.md
+
+- **VERSION file as Standard** - Single source of truth for project version
+  - Must exist in every project root
+  - Can be read by frontend/scripts for version display
+  - Semantic versioning enforced (MAJOR.MINOR.PATCH)
+
+- **@scribe Version Management** - New responsibility for @scribe agent
+  - @scribe now manages VERSION file updates
+  - @scribe ensures CHANGELOG entries before any push
+  - Version uniqueness verification
+
+### Changed
+
+- **Output folder standardized to `reports/`** - Breaking change from `Agents/`
+  - All 13 path references updated across documentation
+  - `reports/` is gitignored (reports not pushed to GitHub)
+  - Agent definitions remain in `agents/` (tracked in Git)
+
+- **Complete English translation** - All documentation now in English
+  - CLAUDE.md fully translated
+  - All 7 agent files translated
+  - README.md template section translated
+  - CHANGELOG.md translated
+
+### Breaking Changes
+
+- `Agents/` folder renamed to `reports/` for output
+- New mandatory versioning rules before push
+- @scribe agent has new required responsibilities
+
+### Technical
+
+- Blueprint compliance: 95% → 100%
+- All agent files use consistent English terminology
+- Pre-push validation now checks version consistency
+
+---
+
+## [3.3.0] - 2025-12-29
+
+### Added
+
+- **CLAUDE.md Orchestrator** - Auto-loaded project context
+  - Complete orchestrator configuration in project root
+  - Automatically loaded by Claude Code
+  - Replaces manual copy-paste of orchestrator prompt
+  - ASCII workflow diagrams
+  - Handoff matrix for agent communication
+
+- **Blueprint-compliant agent structure**
+  - All 7 agents refactored according to blueprint schema
+  - Essence lines for quick overview
+  - Unified "What I Do NOT Do" sections
+  - Workflow position diagrams per agent
+  - Standardized output formats
+
+- **Hierarchical output structure**
+  - `reports/[workflow-name]_[timestamp]/` format
+  - Numbered reports (00-architect, 01-api-guardian, ...)
+  - README.md in reports folder with naming convention
+
+- **Template-Ready**
+  - CC_GodMode usable as universal template
+  - Documentation for creating custom teams
+  - Blueprint structure explained in README
+
+### Changed
+
+- README.md extended as template documentation
+- Project structure enhanced with CLAUDE.md and reports/ hierarchy
+- Version badge displays "Blueprint-Template"
+
+### Technical
+
+- Agent files: Maintained uniform YAML frontmatter
+- Blueprint compliance: 63% → 95%
+- No breaking changes to existing workflows
+
+---
+
 ## [3.2.0] - 2025-12-24
 
 ### Added

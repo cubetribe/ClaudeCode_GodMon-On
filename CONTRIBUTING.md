@@ -114,7 +114,7 @@ CC_GodMode/
 ├── scripts/          # Automation scripts
 ├── templates/        # Project templates
 ├── config/           # Configuration files
-├── Agents/           # Generated reports (ignored in .gitignore)
+├── reports/          # Generated reports (ignored in .gitignore)
 └── docs/             # Additional documentation
 ```
 
@@ -160,7 +160,7 @@ Before creating a PR:
 - [ ] Installation runs through
 - [ ] Agents are recognized
 - [ ] Hooks trigger for API files
-- [ ] Reports land in `Agents/`
+- [ ] Reports land in `reports/`
 - [ ] Nothing explodes
 
 ---

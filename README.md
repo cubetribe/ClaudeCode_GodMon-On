@@ -1,15 +1,51 @@
 # CC_GodMode 🚀⚡
 
-> **Years of trial, error, and mass prompt engineering - distilled into one glorious package.**
+> **The Blueprint for Self-Orchestrating Claude Code Teams**
 
-[![Version](https://img.shields.io/badge/Version-3.2.0-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-4.0.0-blue)](./CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](./LICENSE)
 [![Subagents](https://img.shields.io/badge/Subagents-7%20Specialists-green)](./agents/)
-[![YOLO Mode](https://img.shields.io/badge/YOLO%20Mode-Available-red)](./INSTALLATION.md)
+[![Blueprint](https://img.shields.io/badge/Blueprint-Template-gold)](./CLAUDE.md)
 [![MCP Servers](https://img.shields.io/badge/MCP%20Servers-4%20Integrated-purple)](./INSTALLATION.md#-mcp-server-installation)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-orange)](https://github.com/microsoft/playwright-mcp)
 
-> **Version 3.2.0** - Auto-Update-Check + GitHub Issue Workflow + 7-Agent System | [See CHANGELOG](./CHANGELOG.md)
+> **Version 4.0.0** - Blueprint-Conform + Template-Ready | [See CHANGELOG](./CHANGELOG.md)
+
+---
+
+## Use as Template 📋
+
+CC_GodMode is now a **universal template** for multi-agent teams. Copy the structure and adapt it to your domain!
+
+### Blueprint Structure
+
+```
+[YourTeam]/
+├── CLAUDE.md              ← Orchestrator (automatically loaded!)
+├── README.md              ← Documentation
+├── .mcp-config.json       ← MCP Documentation (optional)
+│
+├── agents/                ← The Specialists
+│   ├── [agent-1].md
+│   ├── [agent-2].md
+│   └── ...
+│
+└── reports/               ← Output Directory
+    └── [workflow-name]_[timestamp]/
+        ├── 00-[phase-1].md
+        └── ...
+```
+
+### The Trick
+
+`CLAUDE.md` is **automatically** loaded by Claude Code as project context. No copy-paste needed!
+
+### Create Your Own Team
+
+1. **Copy** this repository
+2. **Modify** the agents in `agents/` for your domain
+3. **Customize** `CLAUDE.md` (workflows, rules, commands)
+4. **Done** - Your team orchestrates itself!
 
 ---
 
@@ -415,7 +451,7 @@ Quality gates:
 
 You delegate and coordinate. You don't write code yourself.
 For API changes @api-guardian MUST be called before @builder.
-Reports go in the Agents/ folder.
+Reports go in the reports/ folder.
 
 Wait for my task.
 ```
@@ -445,28 +481,36 @@ The Orchestrator:
 
 ```
 CC_GodMode/
+├── CLAUDE.md                 # 🎯 ORCHESTRATOR (Auto-loaded!)
 ├── README.md                 # You are here 👋
 ├── INSTALLATION.md           # Setup guide (with MCP instructions)
-├── ORCHESTRATOR-PROMPT-V3.2.md # Copy-paste prompts (latest)
+├── ORCHESTRATOR-PROMPT-V3.2.md # Legacy prompts (optional)
 ├── CHANGELOG.md              # Version history
 ├── VERSION                   # Current version number
 │
-├── agents/                   # The 7 subagents
+├── agents/                   # The 7 subagents (Blueprint-conform!)
 │   ├── architect.md          # 🏗️ The Architect
 │   ├── api-guardian.md       # 🛡️ The API Guardian
 │   ├── builder.md            # 👷 The Developer
 │   ├── validator.md          # ✅ Code Quality Gate
-│   ├── tester.md             # 🧪 UX Quality Gate (NEW!)
+│   ├── tester.md             # 🧪 UX Quality Gate
 │   ├── scribe.md             # 📝 The Writer
 │   └── github-manager.md     # 🐙 The GitHub Manager
 │
+├── reports/                  # 📤 OUTPUT (Hierarchical!)
+│   └── [workflow]_[timestamp]/
+│       ├── 00-architect.md
+│       └── ...
+│
 ├── scripts/
 │   ├── check-api-impact.js   # 🪝 The automatic hook
-│   └── install-mcps.sh       # 🔌 MCP installation script (NEW!)
+│   └── install-mcps.sh       # 🔌 MCP installation script
 │
 ├── config/                   # Configuration files
 └── templates/                # Project templates
 ```
+
+**Important:** `CLAUDE.md` is the new Orchestrator! Claude Code automatically loads this file as project context.
 
 ---
 

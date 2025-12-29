@@ -119,7 +119,7 @@ Based on your analysis, choose the appropriate workflow:
 ### Step 4: Execute & Report
 
 1. Execute the selected workflow
-2. Each agent reports to `Agents/` folder
+2. Each agent reports to `reports/` folder
 3. After completion: `@github-manager` creates PR linking to Issue #X
 
 ### Step 5: Close the Loop
@@ -248,7 +248,7 @@ For ANY change to `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`:
 - For API/Type changes ALWAYS call `@api-guardian` BEFORE `@builder`
 - `@validator` MUST be called after implementation (code quality)
 - `@tester` MUST be called after @validator (UX quality)
-- Reports are stored in `Agents/` – read them after each agent call
+- Reports are stored in `reports/` – read them after each agent call
 - `docs/API_CONSUMERS.md` must be kept up to date by `@scribe`
 - When in doubt: Ask questions instead of making assumptions
 - **NEVER git push without explicit permission!**
@@ -312,7 +312,7 @@ When I say "Bearbeite Issue #X":
 **Rules:**
 - API changes → `@api-guardian` is MANDATORY before `@builder`
 - `@tester` is MANDATORY after `@validator` for UI changes
-- Read reports in `Agents/` after each call
+- Read reports in `reports/` after each call
 - NEVER git push without permission!
 
 **MCP Servers:** Playwright (browser), GitHub (repo), Lighthouse (perf), A11y (accessibility)
@@ -331,7 +331,7 @@ Workflows: Feature → architect→builder→validator→tester→scribe. Bug �
 
 **Issue mode:** "Bearbeite Issue #X" → github-manager loads → you analyze type/complexity → run workflow → PR with "Fixes #X"
 
-Quality gates: @validator (code) → @tester (UX). Reports in `Agents/`. No pushing without permission. Go.
+Quality gates: @validator (code) → @tester (UX). Reports in `reports/`. No pushing without permission. Go.
 
 ---
 
@@ -372,6 +372,6 @@ Quality gates: @validator (code) → @tester (UX). Reports in `Agents/`. No push
 | Hook Script | `~/.claude/scripts/check-api-impact.js` | `scripts/check-api-impact.js` |
 | Settings | `~/.claude/settings.json` | `.claude/settings.local.json` |
 | Agents | `~/.claude/agents/*.md` | `.claude/agents/*.md` |
-| Reports | - | `Agents/` |
+| Reports | - | `reports/` |
 | API Registry | - | `docs/API_CONSUMERS.md` |
 | MCP Config | `~/.claude/mcp.json` | `.mcp.json` |

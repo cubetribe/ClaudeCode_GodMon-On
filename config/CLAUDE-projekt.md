@@ -31,7 +31,7 @@ docs/
 ├── architecture.md     # System Architecture
 ├── DEPENDENCY_GRAPH.md # Module Dependencies
 
-Agents/
+reports/
 ├── *-report.md    # Agent reports (created during workflow)
 ```
 
