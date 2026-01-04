@@ -200,6 +200,11 @@ OR
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Report Output
+**Save to:** `reports/v[VERSION]/04-tester-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
+
 ---
 
 ## Workflow Position

@@ -132,6 +132,11 @@ grep -rn "{ fieldName" src/ --include="*.ts" --include="*.tsx"
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Report Output
+**Save to:** `reports/v[VERSION]/01-api-guardian-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
+
 ---
 
 ## Workflow Position

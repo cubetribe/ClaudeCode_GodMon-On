@@ -2,14 +2,14 @@
 
 > **The Blueprint for Self-Orchestrating Claude Code Teams**
 
-[![Version](https://img.shields.io/badge/Version-4.0.1-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-4.1.0-blue)](./CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](./LICENSE)
 [![Subagents](https://img.shields.io/badge/Subagents-7%20Specialists-green)](./agents/)
 [![Blueprint](https://img.shields.io/badge/Blueprint-Template-gold)](./CLAUDE.md)
 [![MCP Servers](https://img.shields.io/badge/MCP%20Servers-4%20Integrated-purple)](./INSTALLATION.md#-mcp-server-installation)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-orange)](https://github.com/microsoft/playwright-mcp)
 
-> **Version 4.0.1** - Blueprint-Conform + Template-Ready | [See CHANGELOG](./CHANGELOG.md)
+> **Version 4.1.0** - Version-First Workflow + Organized Reports | [See CHANGELOG](./CHANGELOG.md)
 
 ---
 
@@ -23,6 +23,7 @@ CC_GodMode is now a **universal template** for multi-agent teams. Copy the struc
 [YourTeam]/
 ├── CLAUDE.md              ← Orchestrator (automatically loaded!)
 ├── README.md              ← Documentation
+├── VERSION                ← Current version (single source of truth)
 ├── .mcp-config.json       ← MCP Documentation (optional)
 │
 ├── agents/                ← The Specialists
@@ -30,9 +31,9 @@ CC_GodMode is now a **universal template** for multi-agent teams. Copy the struc
 │   ├── [agent-2].md
 │   └── ...
 │
-└── reports/               ← Output Directory
-    └── [workflow-name]_[timestamp]/
-        ├── 00-[phase-1].md
+└── reports/               ← Output Directory (by version!)
+    └── v[VERSION]/        ← e.g., v4.1.0/
+        ├── 00-[agent-1]-report.md
         └── ...
 ```
 
@@ -51,7 +52,7 @@ CC_GodMode is now a **universal template** for multi-agent teams. Copy the struc
 
 Want to add CC_GodMode to an existing project? Use the inject file:
 
-1. **Copy** the content from [`ORCHESTRATOR-INJECT.md`](./ORCHESTRATOR-INJECT.md)
+1. **Copy** the content from [`ORCHESTRATOR-INJECT-V4.1.0.md`](./ORCHESTRATOR-INJECT-V4.1.0.md)
 2. **Paste** it into your project's `CLAUDE.md` (after your project-specific instructions)
 3. **Copy** the `agents/` folder to your project
 4. **Done** - Your existing project now has orchestration!
@@ -60,7 +61,7 @@ Want to add CC_GodMode to an existing project? Use the inject file:
 
 Claude Code's context compaction can cause the orchestrator to "forget" its role. Use the restart prompt:
 
-1. **Open** [`ORCHESTRATOR-RESTART.md`](./ORCHESTRATOR-RESTART.md)
+1. **Open** [`ORCHESTRATOR-RESTART-V4.1.0.md`](./ORCHESTRATOR-RESTART-V4.1.0.md)
 2. **Copy** the short restart prompt
 3. **Paste** it into the chat when Claude starts implementing instead of delegating
 4. **Continue** - Orchestrator mode is restored!
@@ -508,8 +509,9 @@ CC_GodMode/
 ├── CLAUDE.md                 # 🎯 ORCHESTRATOR (Auto-loaded!)
 ├── README.md                 # You are here 👋
 ├── INSTALLATION.md           # Setup guide (with MCP instructions)
-├── ORCHESTRATOR-INJECT.md    # Inject into existing CLAUDE.md
-├── ORCHESTRATOR-RESTART.md   # Short restart prompt after /compact
+├── ORCHESTRATOR-INJECT-V4.1.0.md    # Inject into existing CLAUDE.md
+├── ORCHESTRATOR-RESTART-V4.1.0.md   # Short restart prompt after /compact
+├── ORCHESTRATOR-PROMPT-V4.1.0.md    # Full orchestrator prompt (legacy)
 ├── CHANGELOG.md              # Version history
 ├── VERSION                   # Current version number
 │
@@ -522,9 +524,9 @@ CC_GodMode/
 │   ├── scribe.md             # 📝 The Writer
 │   └── github-manager.md     # 🐙 The GitHub Manager
 │
-├── reports/                  # 📤 OUTPUT (Hierarchical!)
-│   └── [workflow]_[timestamp]/
-│       ├── 00-architect.md
+├── reports/                  # 📤 OUTPUT (By Version!)
+│   └── v[VERSION]/           # e.g., v4.1.0/
+│       ├── 00-architect-report.md
 │       └── ...
 │
 ├── scripts/

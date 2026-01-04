@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [4.1.0] - 2025-01-04
+
+### Added
+
+- **Version-First Workflow** - New mandatory workflow rule
+  - Determine target version BEFORE any work starts
+  - All agent reports grouped by version number
+  - New section in CLAUDE.md explaining the workflow
+
+- **Version-Based Report Structure** - Reports organized by CHANGELOG version
+  - Old: `reports/[workflow-name]_[timestamp]/`
+  - New: `reports/v[VERSION]/` (e.g., `reports/v4.1.0/`)
+  - Cleaner organization, easier to find reports for specific releases
+
+### Changed
+
+- **CLAUDE.md** - Updated orchestrator instructions
+  - New Rule 1: "Version-First"
+  - Rule 7 updated: Reports in `reports/vX.X.X/`
+  - Start workflow now includes version determination step
+
+- **All 7 Agent Files** - Added "Report Output" section
+  - Each agent now documents its report path: `reports/v[VERSION]/XX-agent-report.md`
+  - Numbered prefixes: 00-architect, 01-api-guardian, 02-builder, 03-validator, 04-tester, 05-scribe, 06-github-manager
+
+- **@scribe** - Updated report reading paths to version folder format
+
+- **ORCHESTRATOR-INJECT.md** - Updated output structure documentation
+
+- **ORCHESTRATOR-RESTART.md** - Updated reports path reference
+
+- **README.md** - Updated project structure section
+
+### Technical
+
+- Global agents (`~/.claude/agents/`) synchronized with local templates
+- All version references updated to 4.1.0
+
+---
+
 ## [4.0.2] - 2025-12-29
 
 ### Added

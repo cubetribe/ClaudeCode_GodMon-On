@@ -79,12 +79,12 @@ Before ANY push to GitHub/Dev/Production, I MUST:
 
 ### 2. Read Agent Reports
 
-I read reports from:
-- `reports/architect-report.md` (Design decisions)
-- `reports/api-guardian-report.md` (Consumer matrix)
-- `reports/builder-report.md` (Implemented features)
-- `reports/validator-report.md` (Validation status)
-- `reports/tester-report.md` (Test coverage, screenshots)
+I read reports from the **version folder** (`reports/v[VERSION]/`):
+- `00-architect-report.md` (Design decisions)
+- `01-api-guardian-report.md` (Consumer matrix)
+- `02-builder-report.md` (Implemented features)
+- `03-validator-report.md` (Validation status)
+- `04-tester-report.md` (Test coverage, screenshots)
 
 ### 3. Update API Consumer Registry
 
@@ -215,6 +215,11 @@ For new complex functions:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+### Report Output
+**Save to:** `reports/v[VERSION]/05-scribe-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
 
 ---
 

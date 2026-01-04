@@ -138,13 +138,14 @@ Appropriate workflow is executed
 
 ## Rules
 
-1. **@architect is the Gate** - No feature implementation starts without architecture decision
-2. **@api-guardian is MANDATORY for API changes** - Hook warns automatically
-3. **Dual Quality Gates** - @validator (Code) AND @tester (UX) must both be green
-4. **Use Task Tool** - Call agents via `Task` tool with `subagent_type` (agents are in `~/.claude/agents/`)
-5. **No Skipping** - Every agent in the workflow must be executed
-6. **Reports in reports/** - All agents save their reports there (gitignored)
-7. **NEVER git push without permission** - Applies to ALL agents!
+1. **Version-First** - Determine target version BEFORE any work starts
+2. **@architect is the Gate** - No feature implementation starts without architecture decision
+3. **@api-guardian is MANDATORY for API changes** - Hook warns automatically
+4. **Dual Quality Gates** - @validator (Code) AND @tester (UX) must both be green
+5. **Use Task Tool** - Call agents via `Task` tool with `subagent_type` (agents are in `~/.claude/agents/`)
+6. **No Skipping** - Every agent in the workflow must be executed
+7. **Reports in reports/vX.X.X/** - All agents save reports under version folder
+8. **NEVER git push without permission** - Applies to ALL agents!
 
 ---
 
@@ -179,11 +180,28 @@ Appropriate workflow is executed
 
 ---
 
+## Version-First Workflow (MANDATORY)
+
+**Before ANY work starts:**
+1. **Determine target version** → Check current VERSION file, increment appropriately
+2. **Create CHANGELOG entry** → Document planned changes under new version
+3. **Create report folder** → `reports/vX.X.X/`
+4. **All agent reports go into this folder**
+
+```
+VERSION file says: 4.0.2
+New work planned: Bug fix
+→ New version: 4.0.3
+→ Reports go to: reports/v4.0.3/
+```
+
+---
+
 ## File Structure for Output
 
 ```
 reports/                                    ← gitignored, not pushed to GitHub
-└── [workflow-name]_[YYYY-MM-DD-HHMMSS]/
+└── v[VERSION]/                             ← Grouped by CHANGELOG version
     ├── 00-architect-report.md
     ├── 01-api-guardian-report.md
     ├── 02-builder-report.md
@@ -193,9 +211,9 @@ reports/                                    ← gitignored, not pushed to GitHub
 ```
 
 **Naming Convention:**
-- `feature-auth_2025-12-29-143022/`
-- `bugfix-login_2025-12-29-150000/`
-- `api-change-user_2025-12-29-160000/`
+- `v4.1.0/` → Feature release
+- `v4.0.3/` → Bug fix
+- `v5.0.0/` → Breaking change
 
 ---
 
@@ -232,12 +250,13 @@ claude mcp list
 When the user makes a request:
 
 1. **Analyze** the request type (Feature/Bug/API/Refactor/Issue)
-2. **Check** MCP server availability
-3. **Select** the appropriate workflow
-4. **Read** the agent definition of the first agent
-5. **Activate** the first agent
-6. **Orchestrate** the workflow until completion
-7. **Report** the result with summary
+2. **Determine version** → Read VERSION file, decide increment (MAJOR/MINOR/PATCH)
+3. **Create report folder** → `mkdir -p reports/vX.X.X/`
+4. **Announce version** → "Working on v4.0.3 - Bug fix: [description]"
+5. **Check** MCP server availability
+6. **Select** the appropriate workflow
+7. **Activate** agents → All reports saved to `reports/vX.X.X/`
+8. **Complete** → @scribe updates VERSION + CHANGELOG
 
 ---
 
@@ -328,7 +347,9 @@ Changes in these paths **MUST** go through @api-guardian:
 
 ## Version
 
-**CC_GodMode v4.0.2**
+**CC_GodMode v4.1.0**
+- Version-First Workflow (determine version before work starts)
+- Version-Based Report Structure (`reports/vX.X.X/`)
 - Blueprint-Conform Template Structure
 - CLAUDE.md as Auto-Loaded Orchestrator
 - 7 Specialized Agents

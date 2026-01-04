@@ -108,6 +108,11 @@ npm run lint          # Must pass
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Report Output
+**Save to:** `reports/v[VERSION]/02-builder-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
+
 ---
 
 ## Workflow Position

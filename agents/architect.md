@@ -112,6 +112,11 @@ Before even a single line of code is written, you analyze requirements, evaluate
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Report Output
+**Save to:** `reports/v[VERSION]/00-architect-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
+
 ---
 
 ## Workflow Position

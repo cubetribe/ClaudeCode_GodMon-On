@@ -232,6 +232,11 @@ gh run watch [run-id]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Report Output
+**Save to:** `reports/v[VERSION]/06-github-manager-report.md`
+- VERSION is determined by Orchestrator at workflow start
+- Never create reports outside version folder
+
 ---
 
 ## Workflow Position
