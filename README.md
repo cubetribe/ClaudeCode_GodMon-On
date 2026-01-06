@@ -1,185 +1,66 @@
-# CC_GodMode 🚀⚡
+<div align="center">
 
-> **The Blueprint for Self-Orchestrating Claude Code Teams**
+# CC_GodMode
 
-[![Version](https://img.shields.io/badge/Version-5.0.0-blue)](./CHANGELOG.md)
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](./LICENSE)
-[![Subagents](https://img.shields.io/badge/Subagents-7%20Specialists-green)](./agents/)
-[![Blueprint](https://img.shields.io/badge/Blueprint-Template-gold)](./CLAUDE.md)
-[![MCP Servers](https://img.shields.io/badge/MCP%20Servers-5%20Integrated-purple)](./MANUAL-INSTALL-V5.0.md)
-[![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-orange)](https://github.com/microsoft/playwright-mcp)
+### *"What happens when an AI system is used to improve itself?"*
 
-> **Version 5.0.0** - One-Shot Installation + Full English Translation | [See CHANGELOG](./CHANGELOG.md)
+**You're looking at the answer.**
 
----
+[![Version](https://img.shields.io/badge/Version-5.1.1-blue)](./CHANGELOG.md)
+[![State of the Art](https://img.shields.io/badge/2026%20Compliance-87%25-green)](./reports/)
+[![Agents](https://img.shields.io/badge/Agents-7%20Specialists-purple)](./agents/)
+[![Self-Improving](https://img.shields.io/badge/Self--Improving-Yes%2C%20Really-red)](./CHANGELOG.md)
 
-## Use as Template 📋
-
-CC_GodMode is now a **universal template** for multi-agent teams. Copy the structure and adapt it to your domain!
-
-### Blueprint Structure
-
-```
-[YourTeam]/
-├── CLAUDE.md              ← Orchestrator (automatically loaded!)
-├── README.md              ← Documentation
-├── VERSION                ← Current version (single source of truth)
-├── .mcp-config.json       ← MCP Documentation (optional)
-│
-├── agents/                ← The Specialists
-│   ├── [agent-1].md
-│   ├── [agent-2].md
-│   └── ...
-│
-└── reports/               ← Output Directory (by version!)
-    └── v[VERSION]/        ← e.g., v4.1.0/
-        ├── 00-[agent-1]-report.md
-        └── ...
-```
-
-### The Trick
-
-`CLAUDE.md` is **automatically** loaded by Claude Code as project context. No copy-paste needed!
-
-### Create Your Own Team
-
-1. **Copy** this repository
-2. **Modify** the agents in `agents/` for your domain
-3. **Customize** `CLAUDE.md` (workflows, rules, commands)
-4. **Done** - Your team orchestrates itself!
-
-### Add to Existing Project
-
-Want to add CC_GodMode to an existing project? Use the project setup file:
-
-1. **Copy** the content from [`PROJECT-SETUP-V5.0.md`](./PROJECT-SETUP-V5.0.md)
-2. **Paste** it into your project's `CLAUDE.md` (after your project-specific instructions)
-3. **Done** - Your existing project now has orchestration! (Agents are already global)
-
-### Context Recovery (After /compact)
-
-Claude Code's context compaction can cause the orchestrator to "forget" its role. Use the restart prompt:
-
-1. **Open** [`RESTART-V5.0.md`](./RESTART-V5.0.md)
-2. **Copy** the short restart prompt
-3. **Paste** it into the chat when Claude starts implementing instead of delegating
-4. **Continue** - Orchestrator mode is restored!
-
-**Signs you need to restart:**
-- Claude writes code instead of calling agents
-- Claude forgets @api-guardian for API changes
-- Claude skips quality gates
-- Claude pushes without permission
+</div>
 
 ---
 
-## What is CC_GodMode? 🤔
+## The Story
 
-**CC_GodMode** transforms your AI coding setup into a self-orchestrating machine.
+It started simple: One developer, mass sleep deprivation, and a vision.
 
-### The Problem
+**Phase 1:** Manual labor. Researching best practices. Reading docs. Testing prompts. Failing. Iterating. Building agent after agent. Workflow after workflow. Week after week.
 
-You tell your AI assistant "Build feature X" and then... chaos:
-- You have to trigger every step manually
-- You forget to update API consumers
-- Documentation falls behind
-- TypeScript screams, tests cry, tech lead gives you the look
+**Phase 2:** The system works. 7 specialized AI agents orchestrating themselves. Features get built. Bugs get fixed. Documentation writes itself. *"This is pretty good,"* I thought.
 
-### The Solution
+**Phase 3:** January 6th, 2026. A thought: *"What if I use the system... to improve the system?"*
 
-With CC_GodMode you give **one single prompt** - and everything else runs automatically:
+I gave it one prompt. The orchestrator delegated to the research team. Analyzed its own architecture. Found inefficiencies. Proposed improvements. Implemented them. Validated itself. Documented the changes.
+
+**The loop closed.**
+
+**Phase 4:** You're reading this README. An AI wrote parts of it. An AI will improve it. The experiment continues.
+
+---
+
+## What Is This?
+
+**CC_GodMode** transforms Claude Code into a self-orchestrating development team.
+
+**You say WHAT. The AI figures out HOW.**
 
 ```
 You: "I need user authentication with JWT"
 
-AI (now Orchestrator):
-  → Calls @architect for high-level design
-  → Calls @api-guardian for API impact analysis
-  → Calls @builder for implementation
-  → Calls @validator for code quality checks
-  → Calls @tester for UX quality checks
-  → Calls @scribe for documentation
-  → Calls @github-manager to create PR and release
-  → Hooks automatically warn about API changes
+Orchestrator:
+  → Analyzes request
+  → Determines version (5.1.1)
+  → Creates report folder
+  → Delegates to @architect for design
+  → Delegates to @api-guardian for API impact
+  → Delegates to @builder for implementation
+  → @validator checks code quality
+  → @tester checks UX quality
+  → @scribe documents everything
+  → @github-manager creates PR
 
 You: *drinks coffee*
 ```
 
-**You say WHAT. The AI decides HOW and delegates autonomously.**
-
----
-
-## How does it work? 🧠
-
-### The Orchestrator Loop
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        YOU                                   │
-│                   "Build Feature X"                          │
-└─────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│              🤖 AI BECOMES THE ORCHESTRATOR                  │
-│                                                              │
-│   "Ok, for this feature I need..."                          │
-│                                                              │
-│   1. @architect for high-level design                       │
-│   2. @api-guardian for API contracts (if API changes)       │
-│   3. @builder for implementation                            │
-│   4. @validator for quality checks                          │
-│   5. @scribe for documentation                              │
-│   6. @github-manager for Issues, PRs, Releases              │
-│                                                              │
-│   "Starting the workflow now..."                            │
-└─────────────────────────────────────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-        ▼                   ▼                   ▼
-   @architect         @api-guardian        @builder
-   (Subagent)          (Subagent)         (Subagent)
-        │                   │                   │
-        └───────────────────┼───────────────────┘
-                            │
-                            ▼
-                       @validator
-                       (Subagent)
-                            │
-                            ▼
-                        @tester
-                       (Subagent)
-                            │
-                    ┌───────┴───────┐
-                    ▼               ▼
-                @scribe      @github-manager
-               (Subagent)      (Subagent)
-                    │               │
-                    └───────┬───────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                 🪝 HOOKS RUN AUTOMATICALLY                   │
-│                                                              │
-│   On every file change:                                     │
-│   → check-api-impact.js detects API changes                 │
-│   → Analyzes breaking changes                               │
-│   → Finds affected consumers                                │
-│   → Triggers @api-guardian workflow                         │
-└─────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                        YOU                                   │
-│               "Feature is done. Nice."                       │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### The Difference to Normal Prompting
+The difference?
 
 | Without CC_GodMode | With CC_GodMode |
-|--------------------|-----------------|
+|:---|:---|
 | You: "Design the feature" | You: "Build Feature X" |
 | You: "Now implement it" | ☕ |
 | You: "Check the types" | ☕ |
@@ -189,442 +70,305 @@ You: *drinks coffee*
 
 ---
 
-## The Subagents 🤖
+## The Agents
 
-The Orchestrator has 7 specialized subagents at its disposal:
+7 specialists. Each with their own expertise. Each knowing exactly what they do—and what they don't.
 
-| Agent | Role | Called for | MCP Required |
-|-------|------|------------|--------------|
-| `@architect` | Senior Software Architect | High-level design, module structure, tech decisions | - |
-| `@api-guardian` | API Lifecycle Expert | API contracts, breaking changes, consumer impact analysis | - |
-| `@builder` | Senior Full-Stack Developer | Code implementation, tests | - |
-| `@validator` | Code Quality Engineer | TypeScript, unit tests, security checks | - |
-| `@tester` | UX Quality Engineer | E2E tests, visual regression, a11y, performance | Playwright |
-| `@scribe` | Technical Writer | Documentation, changelog, API registry | - |
-| `@github-manager` | GitHub Project Manager | Issues, PRs, Releases, CI/CD | GitHub |
+| Agent | Role | Specialty |
+|:------|:-----|:----------|
+| `@architect` | System Architect | High-level design, module structure, tech decisions |
+| `@api-guardian` | API Lifecycle Expert | Breaking changes, consumer impact, contract validation |
+| `@builder` | Senior Developer | Implementation, following @architect's specifications |
+| `@validator` | Code Quality Gate | TypeScript, unit tests, security, consumer verification |
+| `@tester` | UX Quality Gate | E2E tests, visual regression, accessibility, performance |
+| `@scribe` | Technical Writer | Documentation, changelog, version management |
+| `@github-manager` | GitHub Manager | Issues, PRs, releases, CI/CD orchestration |
 
-Each agent has:
-- **Own personality** and expertise
-- **Specific tools** it's allowed to use
-- **Clear responsibilities** (no overlap!)
-- **Output formats** for structured reports
-- **Explicit "What I do NOT do"** section
-
-### Agent Workflow
+**Dual Quality Gates:**
 
 ```
-@architect → High-level design
-    ↓
-@api-guardian → API impact analysis (if API changes)
-    ↓
-@builder → Implementation
-    ↓
-@validator → Code quality gate (TypeScript, unit tests, security)
-    ↓
-@tester → UX quality gate (E2E, visual, a11y, performance)
-    ↓
-@scribe → Documentation
-    ↓
-@github-manager → PR/Release (if needed)
-```
-
-### Dual Quality Gates (NEW in v3.0!)
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    QUALITY GATES                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  @validator (Code Quality)        @tester (UX Quality)       │
-│  ─────────────────────────        ────────────────────       │
-│  ✓ TypeScript compiles            ✓ E2E tests pass           │
-│  ✓ Unit tests pass                ✓ Screenshots match        │
-│  ✓ No security issues             ✓ A11y compliant           │
-│  ✓ Consumers updated              ✓ Performance OK           │
-│                                                              │
-│              ↓                            ↓                  │
-│         Code OK?                     UX OK?                  │
-│              ↓                            ↓                  │
-│              └────────────┬───────────────┘                  │
-│                           ↓                                  │
-│                    ✅ Ready for @scribe                      │
-└─────────────────────────────────────────────────────────────┘
+                    @builder completes
+                           │
+           ┌───────────────┴───────────────┐
+           ▼                               ▼
+    ┌─────────────┐                 ┌─────────────┐
+    │ @validator  │                 │  @tester    │
+    │ Code Quality│                 │ UX Quality  │
+    ├─────────────┤                 ├─────────────┤
+    │ ✓ TypeScript│                 │ ✓ E2E Tests │
+    │ ✓ Unit Tests│                 │ ✓ Visuals   │
+    │ ✓ Security  │                 │ ✓ A11y      │
+    │ ✓ Consumers │                 │ ✓ Perf      │
+    └──────┬──────┘                 └──────┬──────┘
+           │                               │
+           └───────────────┬───────────────┘
+                           ▼
+                   Both gates passed?
+                   → Continue to @scribe
 ```
 
 ---
 
-## The Hooks 🪝
-
-The secret why nothing gets forgotten:
+## The Architecture
 
 ```
-You (or @builder) changes: shared/types/User.ts
-
-                    │
-                    ▼
-        ┌───────────────────────┐
-        │  check-api-impact.js  │  ← Runs AUTOMATICALLY
-        │                       │
-        │  Enhanced Detection:  │
-        │  • Breaking changes   │
-        │  • Consumer discovery │
-        │  • Impact severity    │
-        └───────────────────────┘
-                    │
-                    ▼
-╔════════════════════════════════════════════════════════════╗
-║  ⚠️   API/TYPE FILE CHANGE DETECTED                         ║
-╚════════════════════════════════════════════════════════════╝
-
-📁 File: shared/types/User.ts
-📋 Type: TYPE DEFINITION
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔍 BREAKING CHANGE ANALYSIS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🔴 POTENTIAL BREAKING CHANGES DETECTED:
-
-   🔴 REMOVED_FIELDS
-      └─ email: string;
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 CONSUMER DISCOVERY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Found 5 potential consumer(s):
-
-   📍 src/hooks/useUsers.ts:15: import { User }
-   📍 src/components/UserCard.tsx:23: user.email
-   ...
-
-╔════════════════════════════════════════════════════════════╗
-║  ⚡ @api-guardian MUST be called for API changes!          ║
-╚════════════════════════════════════════════════════════════╝
+~/.claude/                          ← RUNTIME (What Claude loads)
+├── agents/                         ← 7 agents, globally available
+│   ├── architect.md
+│   ├── api-guardian.md
+│   ├── builder.md
+│   ├── validator.md
+│   ├── tester.md
+│   ├── scribe.md
+│   └── github-manager.md
+├── scripts/                        ← Hook scripts
+│   └── check-api-impact.js
+├── templates/                      ← Project templates
+│   ├── CLAUDE-ORCHESTRATOR.md
+│   └── PROJECT-SETUP-V5.0.md
+└── settings.json                   ← Hooks configuration
 ```
 
-**This happens on EVERY Write/Edit.** Automatically. Without you having to remember.
+```
+your-project/                       ← YOUR PROJECT
+├── CLAUDE.md                       ← Orchestrator (auto-loaded!)
+├── VERSION                         ← Single source of truth
+├── CHANGELOG.md                    ← Version history
+└── reports/                        ← Agent outputs
+    └── v5.1.0/                     ← Grouped by version
+        ├── 00-architect-report.md
+        └── ...
+```
+
+**The trick:** `CLAUDE.md` is automatically loaded by Claude Code. No copy-paste. No activation. Just... works.
 
 ---
 
-## Workflows 🔄
+## The Workflows
 
-The Orchestrator knows these standard workflows:
+The Orchestrator selects the right workflow automatically:
 
-### New Feature
+**New Feature:**
 ```
 @architect → @builder → @validator → @tester → @scribe
 ```
-Design → Implementation → Code check → UX check → Documentation
 
-### Bug Fix
+**Bug Fix:**
 ```
 @builder → @validator → @tester
 ```
-Implement fix → Code check → UX check
 
-### API Change (Critical!)
+**API Change (Critical!):**
 ```
 @architect → @api-guardian → @builder → @validator → @tester → @scribe
 ```
-Design → **Impact analysis** → Implementation → Code check → UX check → Docs
 
-### Refactoring
+**Refactoring:**
 ```
 @architect → @builder → @validator → @tester
 ```
-Plan → Rebuild → Code check → UX check
 
-### Release
+**Release:**
 ```
 @scribe → @github-manager
 ```
-Changelog updated → Tag + GitHub Release created
-
-### Bug Report
-```
-@github-manager
-```
-User describes bug → Structured Issue created with labels
-
-### Feature Complete
-```
-@tester → @github-manager
-```
-All tests pass → PR created with proper description
 
 ---
 
-## MCP Servers 🔌
+## The Hook
 
-CC_GodMode uses MCP (Model Context Protocol) servers for enhanced capabilities:
+The secret ingredient: A PostToolUse hook that runs after every file change.
 
-### Required MCPs
-
-| MCP Server | Agent | Purpose | Source |
-|------------|-------|---------|--------|
-| **Playwright** | @tester | Browser automation, E2E tests, screenshots | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
-| **GitHub** | @github-manager | Issues, PRs, Releases, CI/CD | [github/github-mcp-server](https://github.com/github/github-mcp-server) |
-
-### Recommended MCPs
-
-| MCP Server | Agent | Purpose | Source |
-|------------|-------|---------|--------|
-| **Lighthouse** | @tester | Performance audits, Core Web Vitals | [lighthouse-mcp](https://www.npmjs.com/package/lighthouse-mcp) |
-| **A11y** | @tester | Accessibility testing, WCAG compliance | [a11y-mcp](https://www.npmjs.com/package/a11y-mcp) |
-
-### Quick Install
-
-```bash
-# Install all MCPs at once
-chmod +x scripts/install-mcps.sh
-./scripts/install-mcps.sh
-
-# Or individually
-claude mcp add playwright -- npx @playwright/mcp@latest
-claude mcp add lighthouse -- npx lighthouse-mcp
-claude mcp add a11y -- npx a11y-mcp
-
-# GitHub MCP (requires Docker + token)
-export GITHUB_TOKEN="your_token"
-claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
-  -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
+```
+Developer changes: shared/types/User.ts
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │  check-api-impact.js  │  ← AUTOMATICALLY
+              │                       │
+              │  • Detects API change │
+              │  • Analyzes diff      │
+              │  • Finds consumers    │
+              │  • Warns about breaks │
+              └───────────────────────┘
+                          │
+                          ▼
+╔═══════════════════════════════════════════════════════════╗
+║  ⚠️  API/TYPE FILE CHANGE DETECTED                         ║
+║                                                            ║
+║  📁 File: shared/types/User.ts                             ║
+║  🔴 BREAKING: Removed field 'email'                        ║
+║  📍 5 consumers found                                      ║
+║                                                            ║
+║  ⚡ @api-guardian MUST be called!                          ║
+╚═══════════════════════════════════════════════════════════╝
 ```
 
-See [MANUAL-INSTALL-V5.0.md](./MANUAL-INSTALL-V5.0.md) for detailed setup instructions.
+Nothing gets forgotten. The hook remembers for you.
 
 ---
 
-## Installation 🛠️
+## Installation
 
-### Option A: One-Shot Install (Recommended) 🚀
+### One-Shot Install (Recommended)
 
-> *One prompt - Claude installs everything automatically*
+> One prompt. Claude installs everything.
 
-**Step 1:** Start Claude Code with Skip-Permissions (important!):
-
+**Step 1:** Start Claude with permissions:
 ```bash
 claude --dangerously-skip-permissions
 ```
 
-**Step 2:** Copy the complete content from [`INSTALL-V5.0.md`](./INSTALL-V5.0.md) and paste it.
+**Step 2:** Copy the entire content from [`INSTALL-V5.0.md`](./INSTALL-V5.0.md) and paste it.
 
-**Step 3:** Sit back. Claude will:
+**Step 3:** Watch. Claude will:
 - Clone the repository
-- Install the 7 agents
-- Set up the hook scripts
-- Install the Memory MCP Server
-- Configure and verify everything
+- Install 7 agents globally
+- Set up hook scripts
+- Install Memory MCP Server
+- Configure and verify
 
-**Why `--dangerously-skip-permissions`?**
-The installation requires many file and shell operations. Without this flag, you would have to confirm each individual action (30+ times). With the flag, everything runs automatically.
+**Why `--dangerously-skip-permissions`?** 30+ file operations. Without it, you'd confirm each one manually.
 
-**Works on:**
-- macOS
-- Linux
-- Windows (PowerShell)
+### Manual Install
+
+See [`MANUAL-INSTALL-V5.0.md`](./MANUAL-INSTALL-V5.0.md) for step-by-step instructions.
 
 ---
 
-### Option B: Safe Mode 🛡️
+## Activate in Your Project
 
-> *For cautious users: Step by step with confirmation*
+After installation, for each project:
 
-```bash
-git clone https://github.com/cubetribe/ClaudeCode_GodMode-On.git
-cd ClaudeCode_GodMode-On
-claude
-```
-
-Then enter:
-```
-I want to install CC_GodMode step by step.
-Read MANUAL-INSTALL-V5.0.md and guide me through.
-Ask before each file change.
-```
-
----
-
-### Option C: Manual 📝
-
-See [MANUAL-INSTALL-V5.0.md](./MANUAL-INSTALL-V5.0.md) for the step-by-step guide.
-
----
-
-## Quick Start 🏃‍♂️
-
-After installation:
-
-### 1. Open your project
+**macOS / Linux:**
 ```bash
 cd your-project
+cp ~/.claude/templates/CLAUDE-ORCHESTRATOR.md ./CLAUDE.md
 claude
 ```
 
-### 2. Activate Orchestrator mode
-
-Copy this prompt:
-```
-You are the Orchestrator for this project.
-
-Your subagents:
-- @architect (Design)
-- @api-guardian (API Contracts & Impact)
-- @builder (Code)
-- @validator (Code Quality Gate)
-- @tester (UX Quality Gate) - Uses Playwright MCP
-- @scribe (Docs)
-- @github-manager (Issues, PRs, Releases)
-
-Workflow rules:
-- New feature: @architect → @builder → @validator → @tester → @scribe
-- API change: @architect → @api-guardian → @builder → @validator → @tester → @scribe
-- Bug fix: @builder → @validator → @tester
-- Release: @scribe → @github-manager
-
-Quality gates:
-- @validator = Code compiles, unit tests pass, security OK
-- @tester = E2E works, visuals match, a11y OK, performance OK
-
-You delegate and coordinate. You don't write code yourself.
-For API changes @api-guardian MUST be called before @builder.
-Reports go in the reports/ folder.
-
-Wait for my task.
+**Windows:**
+```powershell
+cd your-project
+Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.md"
+claude
 ```
 
-### 3. Give your task
-
-```
-I need a REST API for user management with CRUD operations.
-```
-
-### 4. Drink coffee ☕
-
-The Orchestrator:
-1. Calls `@architect` for high-level design
-2. Calls `@api-guardian` for API contract design
-3. Calls `@builder` for implementation
-4. Hooks automatically warn about API issues
-5. Calls `@validator` for code quality (TypeScript, unit tests)
-6. Calls `@tester` for UX quality (E2E, visual, a11y, perf)
-7. Calls `@scribe` for documentation
-8. Calls `@github-manager` for PR/Release
-9. Gives you a final report
+The CLAUDE.md is auto-loaded. Orchestrator mode is active.
 
 ---
 
-## Project Structure 📁
+## MCP Servers
 
-```
-CC_GodMode/
-├── CLAUDE.md                 # 🎯 ORCHESTRATOR (Auto-loaded!)
-├── README.md                 # You are here 👋
-├── INSTALL-V5.0.md           # 🚀 One-shot installation prompt
-├── PROJECT-SETUP-V5.0.md     # Inject into existing CLAUDE.md
-├── RESTART-V5.0.md           # Short restart prompt after /compact
-├── MANUAL-INSTALL-V5.0.md    # Manual setup guide (step-by-step)
-├── ROADMAP-V5.0.md           # Future plans (Memory MCP)
-├── CHANGELOG.md              # Version history
-├── VERSION                   # Current version number
-│
-├── agents/                   # The 7 subagents (Blueprint-conform!)
-│   ├── architect.md          # 🏗️ The Architect
-│   ├── api-guardian.md       # 🛡️ The API Guardian
-│   ├── builder.md            # 👷 The Developer
-│   ├── validator.md          # ✅ Code Quality Gate
-│   ├── tester.md             # 🧪 UX Quality Gate
-│   ├── scribe.md             # 📝 The Writer
-│   └── github-manager.md     # 🐙 The GitHub Manager
-│
-├── reports/                  # 📤 OUTPUT (By Version!)
-│   └── v[VERSION]/           # e.g., v4.1.0/
-│       ├── 00-architect-report.md
-│       └── ...
-│
-├── scripts/
-│   ├── check-api-impact.js   # 🪝 The automatic hook
-│   └── install-mcps.sh       # 🔌 MCP installation script
-│
-├── config/                   # Configuration files
-└── templates/                # Project templates
-```
+Enhanced capabilities through Model Context Protocol:
 
-**Important:** `CLAUDE.md` is the new Orchestrator! Claude Code automatically loads this file as project context.
+| Server | Agent | Purpose | Required? |
+|:-------|:------|:--------|:----------|
+| **memory** | All | Persistent knowledge | ✅ Installed |
+| **playwright** | @tester | Browser automation, E2E | Recommended |
+| **github** | @github-manager | Issues, PRs, Releases | Recommended |
+| **lighthouse** | @tester | Performance audits | Optional |
+| **a11y** | @tester | Accessibility testing | Optional |
+
+```bash
+# Install recommended MCPs
+claude mcp add playwright -- npx @playwright/mcp@latest
+claude mcp add lighthouse -- npx lighthouse-mcp
+claude mcp add a11y -- npx a11y-mcp
+
+# GitHub MCP (requires token)
+export GITHUB_TOKEN="your_token"
+claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
+  -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN \
+  ghcr.io/github/github-mcp-server
+```
 
 ---
 
-## Why does this work? 🎯
+## The Rules
 
-### 1. Clear Separation of Concerns
-Each subagent has ONE job. No overlap. No confusion.
-
-### 2. API Guardian as Single Point of Truth
-All API-related decisions go through `@api-guardian`. No more fragmented responsibility.
-
-### 3. GitHub Manager for Project Lifecycle
-Issues, PRs, and Releases handled by `@github-manager`. Complete project workflow coverage.
-
-### 4. Enhanced Hooks
-The hook script now:
-- Detects breaking changes
-- Analyzes git diff
-- Categorizes severity
-- Triggers the right workflow
-
-### 5. Explicit "What I Do NOT Do"
-Every agent knows what's NOT their job. Clear handoffs.
-
-### 6. Structured Reports
-Every agent outputs in a consistent format. Easy to follow.
+1. **Version-First** — Determine version BEFORE any work starts
+2. **@architect is the Gate** — No feature starts without design
+3. **@api-guardian is MANDATORY** — For any API change
+4. **Dual Quality Gates** — Both @validator AND @tester must pass
+5. **No Skipping** — Every agent in workflow executes
+6. **Reports in reports/vX.X.X/** — Organized by version
+7. **NEVER push without permission** — Applies to ALL agents
 
 ---
 
-## FAQ ❓
+## Context Recovery
 
-**Q: Why 7 agents now?**
-A: The `@tester` separates code quality from UX quality. Previously, @validator did everything.
+Claude Code's `/compact` can cause memory loss. When the orchestrator starts implementing instead of delegating:
+
+1. Open [`RESTART-V5.0.md`](./RESTART-V5.0.md)
+2. Copy the restart prompt
+3. Paste into chat
+4. Orchestrator mode restored
+
+**Signs you need restart:**
+- Claude writes code instead of calling agents
+- Claude forgets @api-guardian for API changes
+- Claude skips quality gates
+- Claude pushes without permission
+
+---
+
+## FAQ
+
+**Q: Why 7 agents?**
+A: Separation of concerns. Each agent has ONE job. No overlap. No confusion.
 
 **Q: What's the difference between @validator and @tester?**
-A: `@validator` = Code quality (TypeScript, unit tests, security). `@tester` = UX quality (E2E, visual, a11y, performance).
+A: @validator = code quality (TypeScript, tests, security). @tester = UX quality (E2E, visual, a11y, perf).
 
-**Q: Do I need all 4 MCP servers?**
-A: Playwright and GitHub MCPs are required. Lighthouse and A11y are recommended but optional.
-
-**Q: Can I skip @tester for small changes?**
-A: For non-UI changes (backend only), you can skip @tester. For any UI change, @tester is recommended.
-
-**Q: When do I need @api-guardian?**
-A: Whenever you change files in `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`.
-
-**Q: Does this work with GraphQL?**
-A: Yes! The `@api-guardian` supports `schema.graphql` files too.
-
-**Q: Do I need Docker for GitHub MCP?**
-A: Recommended. If Docker is not available, @github-manager falls back to `gh` CLI.
+**Q: Can I skip @tester?**
+A: For backend-only changes, yes. For anything UI-related, no.
 
 **Q: Can agents push without my permission?**
-A: No. CC_GodMode enforces "NEVER git push without permission" across all agents.
+A: No. "NEVER git push without permission" is enforced across all agents.
 
-**Q: Where do I get the MCP servers?**
-A: See [MANUAL-INSTALL-V5.0.md](./MANUAL-INSTALL-V5.0.md) for all links and commands.
+**Q: Is this just... AI improving AI?**
+A: Yes. That's the unsettling part. And the fascinating part. Same thing, really.
 
 ---
 
-## Credits 🙏
+## The Meta
+
+This README was partly written by an AI.
+The system that wrote it will improve it.
+The loop continues.
+
+---
+
+## Version
+
+**CC_GodMode v5.1.1**
+
+- State-of-the-Art Analysis 2026 (self-validated)
+- 87% compliance with 2026 best practices
+- Complete agent tool mismatch fix
+- 7 specialized agents
+- Dual quality gates
+- Hook-based API detection
+- Version-first workflow
+
+See [CHANGELOG.md](./CHANGELOG.md) for the full story.
+
+---
+
+## Credits
 
 **Dennis Westermann** ([www.dennis-westermann.de](https://www.dennis-westermann.de))
-*Years of suffering, distilled into this repo*
+*Years of suffering, distilled into this repo. Now the repo improves itself. Was it worth it?*
 
 ---
 
-## License 📄
+## License
 
-**Proprietary License** - Private use permitted. Commercial use requires permission.
+**Proprietary License** — Private use permitted. Commercial use requires permission.
 
-See [LICENSE](./LICENSE) for details.
-
-Copyright (c) 2025 Dennis Westermann - [www.dennis-westermann.de](https://www.dennis-westermann.de)
+Copyright (c) 2025 Dennis Westermann
 
 ---
 
@@ -632,8 +376,8 @@ Copyright (c) 2025 Dennis Westermann - [www.dennis-westermann.de](https://www.de
 
 **Made with mass sleep deprivation**
 
-*"You say what. The AI does how."*
+*The experiment continues.*
 
-⭐ Star if it helps ⭐
+⭐ Star if you're not too unsettled ⭐
 
 </div>
