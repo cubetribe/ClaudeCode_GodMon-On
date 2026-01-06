@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.2.1] - 2026-01-07
+
+### Fixed
+
+- **version-bump.js path resolution** - Script now uses `process.cwd()` instead of `__dirname`
+  - Previously searched for VERSION/CHANGELOG relative to script location
+  - Now correctly uses current working directory
+  - Enables global installation in `~/.claude/scripts/` to work with any project
+
+---
+
 ## [5.2.0] - 2026-01-06
 
 ### Added

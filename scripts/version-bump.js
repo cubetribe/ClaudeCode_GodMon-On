@@ -15,9 +15,9 @@
 const fs = require('fs');
 const path = require('path');
 
-// Configuration
-const VERSION_FILE = path.join(__dirname, '..', 'VERSION');
-const CHANGELOG_FILE = path.join(__dirname, '..', 'CHANGELOG.md');
+// Configuration - use current working directory, not script location
+const VERSION_FILE = path.join(process.cwd(), 'VERSION');
+const CHANGELOG_FILE = path.join(process.cwd(), 'CHANGELOG.md');
 
 // ANSI Colors (same as check-update.js)
 const colors = {
