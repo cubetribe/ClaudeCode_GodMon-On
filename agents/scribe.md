@@ -244,22 +244,30 @@ I receive **all reports** and create the **permanent documentation**.
 
 **NOTE: I do NOT have Bash access!**
 
-To manage versions, ask the Orchestrator to run:
-```bash
-# Check current version
-cat VERSION
+When I need version or git information, I request from the Orchestrator:
 
-# Check git tags (to avoid duplicates)
-git tag -l
+**REQUEST TO ORCHESTRATOR:**
+```
+Please run these commands for version management:
+1. cat VERSION - Check current version
+2. git tag -l - Check existing tags to avoid duplicates
+3. tail -20 CHANGELOG.md - Verify CHANGELOG is updated
 
-# Verify CHANGELOG is updated
-tail -20 CHANGELOG.md
-
-# Version format validation
-# Must match: MAJOR.MINOR.PATCH (e.g., 1.2.3)
+I need this to ensure version uniqueness before updating.
 ```
 
-I can READ the VERSION file directly using the Read tool, but git commands must be executed by the Orchestrator.
+**What I CAN do myself:**
+- Use **Read tool** to read VERSION file directly
+- Use **Read tool** to read CHANGELOG.md
+- Use **Grep tool** to search changelog for version patterns
+
+**What Orchestrator must provide:**
+- Git tag list (to verify version uniqueness)
+- Git diff/log information
+- System commands
+
+**Version format validation:**
+- Must match: MAJOR.MINOR.PATCH (e.g., 1.2.3)
 
 ### Changelog Format (Keep a Changelog)
 ```markdown
@@ -290,25 +298,37 @@ I can READ the VERSION file directly using the Read tool, but git commands must 
 - **Auth Level** clearly state (public/protected/admin)
 - **Usage** describe (Data Fetching, Display, Mutation, etc.)
 
-### Quick Commands
+### Information Gathering
 
 **NOTE: I do NOT have Bash access!**
 
-To analyze changes, ask the Orchestrator to run:
-```bash
-# What changed (for docs)?
-git diff --name-only HEAD~1
+When I need git or system information, I request from the Orchestrator:
 
-# Verify VERSION was never pushed
-git tag -l | grep "$(cat VERSION)"
+**REQUEST TO ORCHESTRATOR:**
+```
+Please run the following commands for documentation analysis:
+1. git diff --name-only HEAD~1 - Identify which files changed
+2. git log --oneline -5 - Recent commit messages
+3. git diff HEAD~1 - Detailed changes for CHANGELOG
+4. git tag -l | grep "$(cat VERSION)" - Verify VERSION uniqueness
+
+I need this information to document changes accurately.
 ```
 
-For file analysis, I can use my own tools:
+**Common requests:**
+- `git log --oneline -5` - Recent commits for CHANGELOG context
+- `git diff HEAD~1` - Detailed changes for documentation
+- `git tag -l` - All existing tags to verify version uniqueness
+- `cat VERSION` - Current version (I can also Read this directly)
+
+**What I CAN do myself:**
 - Use **Grep tool** to find undocumented endpoints: pattern `router\.` in `backend/routes/`
 - Use **Read tool** to check `docs/API_CONSUMERS.md` for "Last Verified" dates
 - Use **Read tool** to read VERSION file directly
+- Use **Glob tool** to find all documentation files
+- Use **Read tool** to read agent reports from `reports/v[VERSION]/`
 
-Git commands must be executed by the Orchestrator.
+The Orchestrator has Bash access and will provide git/system command results.
 
 ### Input from Other Agents
 **From @api-guardian:**

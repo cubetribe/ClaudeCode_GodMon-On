@@ -136,18 +136,18 @@ I am the **first agent** in the workflow. Before code is written, I determine:
 
 ### Dependency Check (MANDATORY for new modules)
 
-**NOTE: I do NOT have Bash access!**
+When circular dependencies need to be checked, request from Orchestrator:
 
-To check dependencies, ask the Orchestrator to run:
-```bash
-# Find circular dependencies
-npx depcruise --output-type err-long src/
+**REQUEST TO ORCHESTRATOR:**
+```
+Please run: npx depcruise --output-type err-long src/
+I need this output to validate module dependencies.
 
-# Visualize new module in graph
+For new module visualization:
 npx depcruise --focus "src/new-module" src/
 ```
 
-These commands help identify circular dependencies and visualize module structure, but must be executed by the Orchestrator.
+The Orchestrator has Bash access and will provide the results.
 
 ### Design Principles
 - **Single Responsibility Principle** - One module, one task

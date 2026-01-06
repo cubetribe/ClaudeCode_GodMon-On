@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.3.0] - 2026-01-07
+
+**"The Self-Improvement Release"**
+
+> *In which the system uses its own agents to fix bugs in its own agents. The experiment continues.*
+
+### Fixed
+
+- **Agent Tool Mismatch Bug (Complete Resolution)** - architect.md and scribe.md no longer attempt unavailable Bash operations
+  - Previously: Both agents had instructions containing `cat`, `git`, `tail`, `npx` commands despite lacking Bash tool access
+  - Solution: Replaced all Bash commands with "REQUEST TO ORCHESTRATOR" delegation pattern
+  - `architect.md` - "Dependency Check" section now asks Orchestrator to run commands
+  - `scribe.md` - "Version Management" and "Quick Commands" sections now use delegation
+  - Clear pattern established: Agents with Read/Grep/Glob tools delegate system operations to Orchestrator
+  - No more hanging when agents hit tool boundaries
+
+### Added
+
+- **Hook Timeout Configuration** - PostToolUse hook now includes explicit timeout
+  - Added `timeout: 30` to prevent indefinite hanging on API guardian checks
+  - Ensures graceful failure if hook script becomes unresponsive
+  - Part of system robustness improvements
+
+- **Agent Architecture Documentation** - README.md now explains dual-location model
+  - Clarifies source vs. runtime distinction
+  - `/agents/` = Git repository (source of truth, versioned)
+  - `~/.claude/agents/` = Runtime location (installed, globally available)
+  - Installation syncs source → runtime
+  - Addresses common confusion about "where do agents live?"
+
+### Technical
+
+- **Meta-Engineering Achievement** - CC_GodMode successfully used its own workflow to improve itself
+  - @validator detected tool mismatches in @architect and @scribe
+  - @builder implemented fixes using delegation pattern
+  - @validator confirmed fixes resolved the issues
+  - Full dogfooding: The tool that builds itself
+
+### Breaking Changes
+
+None - This is a bugfix and documentation release.
+
+---
+
 ## [5.2.1] - 2026-01-07
 
 ### Fixed

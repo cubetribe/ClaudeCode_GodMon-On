@@ -144,6 +144,45 @@ your-project/                       ← YOUR PROJECT
 
 ---
 
+## Agent Architecture
+
+CC_GodMode uses a **dual-location model** for agents:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    AGENT DUAL-LOCATION MODEL                         │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│   GitHub Repository                    Your System                   │
+│   ════════════════                    ════════════                   │
+│                                                                      │
+│   CC_GodMode/                         ~/.claude/                     │
+│   └── agents/           ──INSTALL──►  └── agents/                   │
+│       ├── architect.md                    ├── architect.md          │
+│       ├── builder.md                      ├── builder.md            │
+│       ├── validator.md                    ├── validator.md          │
+│       └── ...                             └── ...                   │
+│                                                                      │
+│   📦 SOURCE                            🚀 RUNTIME                    │
+│   • Version controlled                 • Actually loaded by Claude   │
+│   • Templates for Git                  • System-wide available       │
+│   • Update here, reinstall             • Used during workflows       │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Why this design?**
+- **Source** (`/agents/`): Tracked in Git, shareable, updatable
+- **Runtime** (`~/.claude/agents/`): Where Claude Code actually looks for agents
+
+**Update flow:**
+1. Modify agent in `/agents/` (source)
+2. Run installation script
+3. Changes copied to `~/.claude/agents/` (runtime)
+4. Claude Code uses updated agents
+
+---
+
 ## The Workflows
 
 The Orchestrator selects the right workflow automatically:
