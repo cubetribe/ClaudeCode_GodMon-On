@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.2.0] - 2026-01-06
+
+### Added
+
+- **Version Automation Script** - `scripts/version-bump.js`
+  - CLI for semantic version bumping (major/minor/patch)
+  - Usage: `node scripts/version-bump.js [major|minor|patch] [--dry-run]`
+  - Automatic uniqueness check against CHANGELOG.md
+  - CHANGELOG.md template insertion at correct position
+  - Dry-run mode for safe preview
+  - Zero dependencies, cross-platform (Node.js built-ins only)
+  - Styled terminal output with ANSI colors
+  - Comprehensive error handling with clear guidance
+  - Implements GAP-ANALYSIS.md HIGH priority item #4
+
+### Technical
+
+- Script features:
+  - Semantic version parsing and validation
+  - Version incrementing with segment reset (e.g., minor bump resets patch to 0)
+  - CHANGELOG.md format validation (Keep a Changelog compliant)
+  - Automatic date insertion (YYYY-MM-DD)
+  - Template with Added/Changed/Fixed sections
+  - Prevention of duplicate version numbers
+  - Help system with examples
+
+---
+
 ## [5.1.1] - 2026-01-06
 
 ### Changed
