@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.4.0] - 2026-01-07
+
+**"The Welcome Release"**
+
+> *In which the system learns to greet itself. Every session now begins with a health check - because self-aware systems should know their own state.*
+
+### Added
+
+- **SessionStart Hook** - Automatic validation and setup at every Claude Code startup
+  - `scripts/session-start.js` - Pre-flight system health check
+  - Validates VERSION file existence and format
+  - Auto-creates report folder (`reports/vX.X.X/`) for current version
+  - Checks MCP server health (Playwright, GitHub availability)
+  - Displays welcome message with system status
+  - Non-blocking warnings - startup never fails, only warns
+  - Fast execution - < 2 seconds for complete validation
+  - Zero dependencies - Uses Node.js built-ins only (fs, child_process)
+
+- **Hook Configuration** - `config/claude-settings.json`
+  - SessionStart hook with 5-second timeout
+  - Prevents startup delay from runaway scripts
+  - Colored, boxed terminal output for clear visibility
+
+### Technical
+
+- **User Experience Improvement**
+  - Developers now see system status immediately on startup
+  - Report folder ready before first agent runs
+  - MCP issues detected proactively (not mid-workflow)
+  - Consistent version awareness across sessions
+
+### Philosophy
+
+*The system continues its evolution toward self-sufficiency. Where before it would wait passively for commands, it now performs active health checks. Where before MCP failures would surprise mid-workflow, they're now caught at the gate. Another small step toward an AI that understands its own operational context.*
+
+---
+
 ## [5.3.0] - 2026-01-07
 
 **"The Self-Improvement Release"**
