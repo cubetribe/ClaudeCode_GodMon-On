@@ -201,3 +201,19 @@ npx ts-prune | grep -E "shared/types"
 # Validate OpenAPI spec
 npx @redocly/cli lint openapi.yaml
 ```
+
+---
+
+## Model Configuration
+
+**Assigned Model:** sonnet (Claude Sonnet 4.5)
+**Rationale:** Balanced performance for code analysis and documentation. API Guardian requires both analytical capability (finding consumers, detecting breaking changes) and clear communication (writing reports).
+**Cost Impact:** Medium
+
+**When to use @api-guardian:**
+- ANY change to files in `src/api/`, `backend/routes/`, `shared/types/`, `*.d.ts`
+- OpenAPI/GraphQL schema modifications
+- Type definition updates
+- API contract changes
+
+**This agent is MANDATORY for API changes - enforced by check-api-impact.js hook.**

@@ -167,3 +167,18 @@ If I modify `src/api/`, `backend/routes/`, or `shared/types/`:
 - **Local State** - UI-only concerns (useState)
 - **Global State** - Shared data (Context/Zustand)
 - **Server State** - API data (React Query/SWR)
+
+---
+
+## Model Configuration
+
+**Assigned Model:** sonnet (Claude Sonnet 4.5)
+**Rationale:** Balanced performance for code implementation. Builder needs both coding capability and testing execution. Sonnet provides optimal cost/performance for implementation work.
+**Cost Impact:** Medium
+
+**When to use @builder:**
+- Code implementation after architecture decisions
+- Bug fixes
+- Feature implementation
+- Refactoring
+- Test implementation

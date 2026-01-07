@@ -233,3 +233,17 @@ Return to @builder (detailed list)
 - Implementation report
 - List of changed files
 - Test status
+
+---
+
+## Model Configuration
+
+**Assigned Model:** sonnet (Claude Sonnet 4.5)
+**Rationale:** Balanced performance for quality assessment and verification. Validator needs analytical capability (code review, consumer verification) and execution capability (run tests, typecheck).
+**Cost Impact:** Medium
+
+**When to use @validator:**
+- After ALL code implementation (mandatory quality gate)
+- Part of dual quality gate with @tester
+- Before any merge/push
+- API consumer verification

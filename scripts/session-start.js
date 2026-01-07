@@ -185,20 +185,51 @@ function createReportFolder(version) {
 }
 
 /**
- * Check MCP server health
+ * Check MCP server health (v5.6.0 - Enhanced with Tier 1 health check)
  */
-function checkMcpHealth() {
+async function checkMcpHealth() {
   const status = {
     available: false,
     servers: {
       required: [],
       optional: []
     },
-    errors: []
+    errors: [],
+    tier1Results: null
   };
 
   try {
-    // Run claude mcp list command
+    // Use enhanced MCP health check if available (v5.6.0)
+    const mcpHealthCheckPath = path.join(__dirname, 'mcp-health-check.js');
+
+    if (fs.existsSync(mcpHealthCheckPath)) {
+      // v5.6.0: Use Tier 1 health check
+      const { tier1HealthCheck } = require('./mcp-health-check.js');
+      const tier1Results = await tier1HealthCheck();
+
+      status.tier1Results = tier1Results;
+      status.available = true;
+
+      // Convert Tier 1 results to legacy format for compatibility
+      Object.entries(tier1Results.servers).forEach(([serverName, serverStatus]) => {
+        const serverInfo = {
+          name: serverName,
+          active: serverStatus.status === 'HEALTHY',
+          status: serverStatus.status,
+          severity: serverStatus.severity
+        };
+
+        if (serverStatus.required) {
+          status.servers.required.push(serverInfo);
+        } else {
+          status.servers.optional.push(serverInfo);
+        }
+      });
+
+      return status;
+    }
+
+    // Fallback: Original MCP check (v5.5.0 and earlier)
     const output = execSync('claude mcp list 2>&1', {
       encoding: 'utf-8',
       timeout: 5000,
@@ -320,19 +351,64 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
 
   lines.push('');
 
-  // MCP Servers Section
+  // MCP Servers Section (v5.6.0 - Enhanced with Tier 1 health status)
   lines.push(`${colors.cyan}MCP Servers${colors.reset}`);
 
   if (mcpStatus.available) {
     // Required servers
     const requiredStatus = mcpStatus.servers.required.map(s => {
-      const icon = s.active ? colors.green + '✓' : colors.red + '✗';
+      let icon = colors.green + '✓';
+
+      // v5.6.0: Use enhanced status if available
+      if (s.status) {
+        switch (s.status) {
+          case 'HEALTHY':
+            icon = colors.green + '✓';
+            break;
+          case 'WARNING':
+            icon = colors.yellow + '⚠';
+            break;
+          case 'CRITICAL':
+            icon = colors.red + '✗';
+            break;
+          case 'OFFLINE':
+            icon = colors.gray + '○';
+            break;
+          default:
+            icon = s.active ? colors.green + '✓' : colors.red + '✗';
+        }
+      } else {
+        // Legacy status
+        icon = s.active ? colors.green + '✓' : colors.red + '✗';
+      }
+
       return `${icon} ${s.name}${colors.reset}`;
     }).join('  ');
 
     // Optional servers
     const optionalStatus = mcpStatus.servers.optional.map(s => {
-      const icon = s.active ? colors.green + '✓' : colors.gray + '○';
+      let icon = colors.green + '✓';
+
+      // v5.6.0: Use enhanced status if available
+      if (s.status) {
+        switch (s.status) {
+          case 'HEALTHY':
+            icon = colors.green + '✓';
+            break;
+          case 'WARNING':
+            icon = colors.yellow + '⚠';
+            break;
+          case 'OFFLINE':
+            icon = colors.gray + '○';
+            break;
+          default:
+            icon = s.active ? colors.green + '✓' : colors.gray + '○';
+        }
+      } else {
+        // Legacy status
+        icon = s.active ? colors.green + '✓' : colors.gray + '○';
+      }
+
       return `${icon} ${s.name}${colors.reset}`;
     }).join('  ');
 
@@ -343,6 +419,14 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
     if (missingRequired.length > 0) {
       lines.push('');
       lines.push(`  ${colors.yellow}⚠ Missing required: ${missingRequired.map(s => s.name).join(', ')}${colors.reset}`);
+    }
+
+    // v5.6.0: Show Tier 1 health check duration if available
+    if (mcpStatus.tier1Results) {
+      const duration = mcpStatus.tier1Results.duration;
+      const healthySummary = `${mcpStatus.tier1Results.summary.healthy}/${mcpStatus.tier1Results.summary.total} healthy`;
+      lines.push('');
+      lines.push(`  ${colors.gray}Health check: ${healthySummary} (${duration}ms)${colors.reset}`);
     }
 
   } else {
@@ -381,17 +465,17 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
 }
 
 /**
- * Main function
+ * Main function (v5.6.0 - Enhanced with async health checks)
  */
-function main() {
+async function main() {
   // Check VERSION file
   const version = checkVersionFile();
 
   // Create report folder
   const reportFolder = createReportFolder(version);
 
-  // Check MCP health
-  const mcpStatus = checkMcpHealth();
+  // Check MCP health (v5.6.0 - Now async)
+  const mcpStatus = await checkMcpHealth();
 
   // Detect version bump suggestion
   const versionBump = detectVersionBump();
@@ -403,4 +487,7 @@ function main() {
 }
 
 // Run
-main();
+main().catch(error => {
+  console.error(`${colors.red}SessionStart error: ${error.message}${colors.reset}`);
+  process.exit(1);
+});

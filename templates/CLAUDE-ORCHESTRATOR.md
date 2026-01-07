@@ -61,70 +61,61 @@ subagent_type: "github-manager"  → @github-manager
 │                         │    │   API changes)          │    │                         │
 └─────────────────────────┘    └─────────────────────────┘    └─────────────────────────┘
                                                                            │
-                                                                           ▼
-                              ┌──────────────────────────────────────────────────────────┐
-                              │                   DUAL QUALITY GATES                      │
-                              ├──────────────────────────────────────────────────────────┤
-                              │                                                           │
-                              │  ┌─────────────────┐         ┌─────────────────┐         │
-                              │  │   @validator    │ ──────▶ │    @tester      │         │
-                              │  │ (Code Quality)  │         │  (UX Quality)   │         │
-                              │  │                 │         │                 │         │
-                              │  │ ✓ TypeScript    │         │ ✓ E2E Tests     │         │
-                              │  │ ✓ Unit Tests    │         │ ✓ Visual Match  │         │
-                              │  │ ✓ Security      │         │ ✓ A11y OK       │         │
-                              │  │ ✓ Consumers     │         │ ✓ Performance   │         │
-                              │  └─────────────────┘         └─────────────────┘         │
-                              │                                                           │
-                              └──────────────────────────────────────────────────────────┘
-                                                                           │
-                                               ┌───────────────────────────┴───────────────────────────┐
-                                               │                                                       │
-                                               ▼                                                       ▼
-                              ┌─────────────────────────┐                         ┌─────────────────────────┐
-                              │       @scribe           │                         │    @github-manager      │
-                              │   (Documentation)       │ ◀────────────────────── │   (PR/Release)          │
-                              └─────────────────────────┘                         └─────────────────────────┘
+                                                          ┌────────────────┴────────────────┐
+                                                          │                                 │
+                                                          ▼                                 ▼
+                              ┌──────────────────────────────────────────────────────────────────┐
+                              │                   PARALLEL QUALITY GATES                          │
+                              ├──────────────────────────────────────────────────────────────────┤
+                              │                                                                   │
+                              │  ┌─────────────────┐                     ┌─────────────────┐     │
+                              │  │   @validator    │                     │    @tester      │     │
+                              │  │ (Code Quality)  │                     │  (UX Quality)   │     │
+                              │  │                 │                     │                 │     │
+                              │  │ ✓ TypeScript    │                     │ ✓ E2E Tests     │     │
+                              │  │ ✓ Unit Tests    │                     │ ✓ Visual Match  │     │
+                              │  │ ✓ Security      │                     │ ✓ A11y OK       │     │
+                              │  │ ✓ Consumers     │                     │ ✓ Performance   │     │
+                              │  └─────────────────┘                     └─────────────────┘     │
+                              │           │                                       │               │
+                              │           └───────────────┬───────────────────────┘               │
+                              │                           │                                       │
+                              │                      SYNC POINT                                   │
+                              │                 (Both must be green)                              │
+                              └──────────────────────────────────────────────────────────────────┘
+                                                          │
+                                          ┌───────────────┴───────────────┐
+                                          │                               │
+                                          ▼                               ▼
+                              ┌─────────────────────────┐   ┌─────────────────────────┐
+                              │       @scribe           │   │    @github-manager      │
+                              │   (Documentation)       │◀──│   (PR/Release)          │
+                              └─────────────────────────┘   └─────────────────────────┘
 ```
 
 ---
 
 ## Standard Workflows
 
-**Note:** @validator and @tester run IN PARALLEL after @builder.
-Both must APPROVE before continuing to @scribe.
-
 ### 1. New Feature
 ```
-                            ┌──▶ @validator ──┐
-User ──▶ @architect ──▶ @builder              ├──▶ @scribe
-                            └──▶ @tester   ──┘
-                                 (PARALLEL)
+User ──▶ @architect ──▶ @builder ──▶ [@validator + @tester] ──▶ @scribe
 ```
 
 ### 2. Bug Fix
 ```
-                ┌──▶ @validator ──┐
-User ──▶ @builder                  ├──▶ (done)
-                └──▶ @tester   ──┘
-                     (PARALLEL)
+User ──▶ @builder ──▶ [@validator + @tester]
 ```
 
 ### 3. API Change (CRITICAL!)
 ```
-                                                    ┌──▶ @validator ──┐
-User ──▶ @architect ──▶ @api-guardian ──▶ @builder                    ├──▶ @scribe
-                                                    └──▶ @tester   ──┘
-                                                         (PARALLEL)
+User ──▶ @architect ──▶ @api-guardian ──▶ @builder ──▶ [@validator + @tester] ──▶ @scribe
 ```
 **@api-guardian is MANDATORY for API changes!**
 
 ### 4. Refactoring
 ```
-                            ┌──▶ @validator ──┐
-User ──▶ @architect ──▶ @builder              ├──▶ (done)
-                            └──▶ @tester   ──┘
-                                 (PARALLEL)
+User ──▶ @architect ──▶ @builder ──▶ [@validator + @tester]
 ```
 
 ### 5. Release
@@ -156,7 +147,7 @@ Appropriate workflow is executed
 1. **Version-First** - Determine target version BEFORE any work starts
 2. **@architect is the Gate** - No feature implementation starts without architecture decision
 3. **@api-guardian is MANDATORY for API changes** - Hook warns automatically
-4. **Dual Quality Gates** - @validator (Code) AND @tester (UX) must both be green
+4. **Parallel Quality Gates** - @validator (Code) AND @tester (UX) run IN PARALLEL, both must be green
 5. **Use Task Tool** - Call agents via `Task` tool with `subagent_type` (agents are in `~/.claude/agents/`)
 6. **No Skipping** - Every agent in the workflow must be executed
 7. **Reports in reports/vX.X.X/** - All agents save reports under version folder
@@ -236,9 +227,9 @@ reports/                                    ← gitignored, not pushed to GitHub
 
 | Command | Action |
 |---------|--------|
-| "New Feature: [X]" | Full Workflow: @architect → @builder → @validator → @tester → @scribe |
-| "Bug Fix: [X]" | Bug Workflow: @builder → @validator → @tester |
-| "API Change: [X]" | API Workflow: @architect → @api-guardian → @builder → @validator → @tester → @scribe |
+| "New Feature: [X]" | Full Workflow: @architect → @builder → [@validator + @tester] → @scribe |
+| "Bug Fix: [X]" | Bug Workflow: @builder → [@validator + @tester] |
+| "API Change: [X]" | API Workflow: @architect → @api-guardian → @builder → [@validator + @tester] → @scribe |
 | "Process Issue #X" | GitHub Issue Workflow |
 | "Prepare Release" | Release Workflow: @scribe → @github-manager |
 | "Status" | Show current workflow state |
@@ -290,9 +281,11 @@ Changes in these paths **MUST** go through @api-guardian:
 
 ---
 
-## Quality Gates (PARALLEL) - v5.6.0 Enhanced
+## Quality Gates in Detail
 
-After @builder completes, BOTH gates run simultaneously for **40% faster validation**:
+### Parallel Execution Model
+
+After @builder completes, **BOTH** quality gates run **IN PARALLEL**:
 
 ```
 @builder
@@ -301,55 +294,11 @@ After @builder completes, BOTH gates run simultaneously for **40% faster validat
     │                  │
     ▼                  ▼
 @validator        @tester
-(Code Quality)    (UX Quality)
     │                  │
     └────────┬─────────┘
              │
         SYNC POINT
-             │
-    ┌────────┴────────┐
-    │                 │
-BOTH APPROVED     ANY BLOCKED
-    │                 │
-    ▼                 ▼
-@scribe          @builder
-              (fix & retry)
 ```
-
-**v5.6.0: Parallel Execution Pattern**
-
-Use parallel Task tool calls to run both agents simultaneously:
-
-```markdown
-Call @validator and @tester in parallel for 40% faster validation:
-
-[TaskCall: @validator with validation context]
-[TaskCall: @tester with testing context]
-
-Wait for both to complete, then coordinate results based on Decision Matrix.
-```
-
-**Decision Matrix:**
-| @validator | @tester | Action |
-|------------|---------|--------|
-| ✅ APPROVED | ✅ APPROVED | → @scribe |
-| ✅ APPROVED | 🔴 BLOCKED | → @builder (tester concerns) |
-| 🔴 BLOCKED | ✅ APPROVED | → @builder (code concerns) |
-| 🔴 BLOCKED | 🔴 BLOCKED | → @builder (merged feedback) |
-
-**Performance Benefit:**
-- Sequential: 8-12 minutes (old method)
-- Parallel: 5-7 minutes (v5.6.0)
-- **Time saved: 40% faster!**
-
-**Orchestrator Usage:**
-
-The orchestrator coordinates parallel execution using `scripts/parallel-quality-gates.js`:
-- Launches both agents simultaneously
-- Waits for both to complete
-- Applies Decision Matrix
-- Merges feedback if both blocked
-- Falls back to sequential if parallel fails
 
 ### Gate 1: @validator (Code Quality)
 ```
@@ -358,6 +307,7 @@ The orchestrator coordinates parallel execution using `scripts/parallel-quality-
 ✓ No security issues
 ✓ All consumers updated (for API changes)
 ```
+**Decision:** APPROVED or BLOCKED
 
 ### Gate 2: @tester (UX Quality)
 ```
@@ -366,6 +316,21 @@ The orchestrator coordinates parallel execution using `scripts/parallel-quality-
 ✓ A11y compliant (WCAG 2.1 AA)
 ✓ Performance OK (Core Web Vitals)
 ```
+**Decision:** APPROVED or ISSUES FOUND
+
+### Decision Matrix
+
+| @validator | @tester | Action |
+|------------|---------|--------|
+| ✅ APPROVED | ✅ APPROVED | → @scribe (SUCCESS) |
+| ❌ BLOCKED | ✅ APPROVED | → @builder (Code fixes needed) |
+| ✅ APPROVED | ❌ ISSUES FOUND | → @builder (UX fixes needed) |
+| ❌ BLOCKED | ❌ ISSUES FOUND | → @builder (Both code + UX fixes needed) |
+
+**Key Benefits:**
+- **Faster Feedback** - Both gates run simultaneously
+- **Complete View** - All issues discovered in one pass
+- **Efficient Iteration** - Single @builder iteration fixes all issues
 
 ---
 
@@ -409,73 +374,28 @@ The orchestrator coordinates parallel execution using `scripts/parallel-quality-
 |-------|---------------|-----------|
 | @architect | User/Orchestrator | @api-guardian or @builder |
 | @api-guardian | @architect | @builder |
-| @builder | @architect, @api-guardian | @validator AND @tester (PARALLEL) |
-| @validator | @builder | SYNC POINT (waits for @tester) |
-| @tester | @builder | SYNC POINT (waits for @validator) |
-| @scribe | @validator + @tester (both approved) | @github-manager (for release) |
+| @builder | @architect, @api-guardian, or Quality Gates (for fixes) | @validator + @tester (parallel) |
+| @validator | @builder | SYNC POINT → @scribe or @builder |
+| @tester | @builder | SYNC POINT → @scribe or @builder |
+| @scribe | SYNC POINT (both gates green), all agents | @github-manager (for release) |
 | @github-manager | @scribe, @tester, User | Done |
+
+**Note:** @validator and @tester run in PARALLEL and synchronize at SYNC POINT before proceeding.
 
 ---
 
 ## Version
 
-**CC_GodMode v5.6.0 - The High-Priority Improvements Release**
-
-### Core Features (v4.1.0 Foundation)
+**CC_GodMode v5.5.0**
+- **NEW: Parallel Quality Gates** - @validator + @tester run simultaneously
+- **NEW: Decision Matrix** - Clear routing based on gate results
 - Version-First Workflow (determine version before work starts)
 - Version-Based Report Structure (`reports/vX.X.X/`)
 - Blueprint-Conform Template Structure
 - CLAUDE.md as Auto-Loaded Orchestrator
 - 7 Specialized Agents
-- Dual Quality Gates
 - Mandatory Pre-Push Versioning
 - GitHub Issue Workflow
 - 4 MCP Server Integrations
-
-### v5.6.0 New Features
-
-**H1: MCP Health Check System (4h)**
-- Three-tier health validation (Startup/Pre-Workflow/Agent-Level)
-- Proactive failure detection and prevention
-- Graceful degradation for optional MCPs
-- Zero mid-workflow MCP failures
-- Script: `scripts/mcp-health-check.js`
-
-**H2: Parallel Quality Gates (6h) - MAJOR PERFORMANCE BREAKTHROUGH**
-- **40% faster quality validation** (8-12min → 5-7min)
-- Simultaneous @validator and @tester execution
-- Decision Matrix for result coordination
-- Sequential fallback for safety
-- Script: `scripts/parallel-quality-gates.js`
-
-**M1: SubagentStop Hook Validation (3h)**
-- Automated agent output validation
-- Agent-specific quality standards
-- Completeness scoring
-- Hook: Validates every agent completion
-
-**M2: UserPromptSubmit Hook (2h)**
-- Intelligent task type detection
-- Complexity assessment
-- Workflow suggestions
-- Estimated time predictions
-- Script: `scripts/analyze-prompt.js`
-
-**M3: Enhanced SessionStart Hook (2h)**
-- Comprehensive MCP health checks
-- System diagnostics
-- Optimization suggestions
-- Proactive guidance
-
-### Performance Metrics
-- Startup time: +8 seconds (one-time cost)
-- Quality validation: -40% time (4-8 minutes saved per workflow)
-- MCP failure prevention: 95% reduction in mid-workflow failures
-
-### Compliance Achievement
-- **Overall: 93%** (up from 90% in v5.5.0)
-- MCP Integration: 80% (up from 70%)
-- Testing & QA: 70% (up from 60%)
-- Automation: 70% (up from 65%)
 
 See [CHANGELOG.md](./CHANGELOG.md) for details.

@@ -15,7 +15,7 @@
           {
             "type": "command",
             "command": "node ~/.claude/scripts/session-start.js",
-            "timeout": 5
+            "timeout": 15
           }
         ]
       }
@@ -32,5 +32,18 @@
         ]
       }
     ]
+  },
+  "parallelQualityGates": {
+    "enabled": true,
+    "timeout": 600000,
+    "fallbackToSequential": true,
+    "description": "v5.6.0: Parallel execution of @validator and @tester for 40% faster validation"
+  },
+  "mcpHealthCheck": {
+    "enabled": true,
+    "tier1Timeout": 5000,
+    "tier2Timeout": 2000,
+    "tier3Timeout": 500,
+    "description": "v5.6.0: Three-tier MCP health validation system"
   }
 }

@@ -357,3 +357,18 @@ The Orchestrator has Bash access and will provide git/system command results.
 ⚠️ **NO EXCEPTIONS - Even for single-line fixes**
 
 This is not optional - it's MANDATORY for every push!
+
+---
+
+## Model Configuration
+
+**Assigned Model:** sonnet (Claude Sonnet 4.5)
+**Rationale:** Balanced performance for technical writing and documentation. Scribe needs both reading capability (analyze agent reports) and writing capability (create clear documentation).
+**Cost Impact:** Medium
+
+**When to use @scribe:**
+- After both quality gates pass (@validator + @tester)
+- VERSION and CHANGELOG updates (MANDATORY before push)
+- API Consumer Registry maintenance
+- Documentation updates
+- Before ANY push to GitHub/production

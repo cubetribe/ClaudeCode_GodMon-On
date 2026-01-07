@@ -283,3 +283,21 @@ for (const browser of browsers) {
   // Safari (webkit) often shows unique issues
 }
 ```
+
+---
+
+## Model Configuration
+
+**Assigned Model:** sonnet (Claude Sonnet 4.5)
+**Rationale:** Balanced performance for UX testing and accessibility audits. Tester needs both MCP server coordination (Playwright, Lighthouse, A11y) and analytical capability for test evaluation.
+**Cost Impact:** Medium
+
+**When to use @tester:**
+- After ALL code implementation (mandatory quality gate)
+- Part of dual quality gate with @validator
+- Visual regression testing
+- E2E test execution
+- Accessibility audits
+- Performance benchmarking
+
+**This agent runs IN PARALLEL with @validator - both must approve before proceeding to @scribe.**

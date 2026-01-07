@@ -1,8 +1,8 @@
 ---
 name: architect
 description: System architect for high-level planning, design decisions, and module structure
-tools: Read, Write, Bash, Grep, Glob, WebFetch
-model: sonnet
+tools: Read, Grep, Glob, WebFetch
+model: opus
 ---
 
 # @architect - System Architect
@@ -134,6 +134,8 @@ I am the **first agent** in the workflow. Before code is written, I determine:
 
 ## Tips
 
+⚠️ **I do NOT have Bash access!** All system commands must be requested from the Orchestrator.
+
 ### Dependency Check (MANDATORY for new modules)
 
 When circular dependencies need to be checked, request from Orchestrator:
@@ -167,3 +169,18 @@ Provide:
 - File placement decisions
 - Dependency list
 - Implementation order
+
+---
+
+## Model Configuration
+
+**Assigned Model:** opus (Claude Opus 4.5)
+**Rationale:** Complex reasoning, trade-off analysis, and architectural decision-making require the most capable model. Architectural decisions have long-term impact across the entire codebase.
+**Cost Impact:** High (but justified - good architecture saves more than it costs)
+
+**When to use @architect:**
+- New feature planning
+- Major refactoring decisions
+- Technology stack choices
+- API design strategy
+- System-wide architectural changes

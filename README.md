@@ -6,8 +6,8 @@
 
 **You're looking at the answer.**
 
-[![Version](https://img.shields.io/badge/Version-5.5.0-blue)](./CHANGELOG.md)
-[![State of the Art](https://img.shields.io/badge/2026%20Compliance-90%25-green)](./reports/)
+[![Version](https://img.shields.io/badge/Version-5.6.0-blue)](./CHANGELOG.md)
+[![State of the Art](https://img.shields.io/badge/2026%20Compliance-93%25-green)](./reports/)
 [![Agents](https://img.shields.io/badge/Agents-7%20Specialists-purple)](./agents/)
 [![Self-Improving](https://img.shields.io/badge/Self--Improving-Yes%2C%20Really-red)](./CHANGELOG.md)
 
