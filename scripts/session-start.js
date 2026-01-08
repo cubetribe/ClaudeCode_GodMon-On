@@ -33,6 +33,20 @@ try {
   // Domain pack system not available - continue with CC_GodMode core only
 }
 
+// v5.8.3 - Workflow State Persistence
+const workflowStatePath = path.join(__dirname, 'workflow-state.js');
+let getResumeInfo = null;
+
+// Lazy load workflow state manager if available
+try {
+  if (fs.existsSync(workflowStatePath)) {
+    const workflowState = require(workflowStatePath);
+    getResumeInfo = workflowState.getResumeInfo;
+  }
+} catch (error) {
+  // Workflow state system not available - continue without it
+}
+
 // Configuration - use current working directory
 const VERSION_FILE = path.join(process.cwd(), 'VERSION');
 const REPORTS_DIR = path.join(process.cwd(), 'reports');
@@ -356,6 +370,68 @@ function discoverDomainPacksIfAvailable() {
 }
 
 /**
+ * Check for workflow in progress (v5.8.3)
+ */
+function checkWorkflowInProgress() {
+  if (!getResumeInfo) {
+    return null;
+  }
+
+  try {
+    return getResumeInfo();
+  } catch (error) {
+    // Non-critical - workflow state optional
+    return null;
+  }
+}
+
+/**
+ * Display workflow resume box (v5.8.3)
+ */
+function displayWorkflowResume(resumeInfo) {
+  const lines = [
+    `${colors.yellow}⚠ WORKFLOW IN PROGRESS DETECTED${colors.reset}`,
+    '',
+    `${colors.bright}Task:${colors.reset} ${resumeInfo.description}`,
+    `${colors.bright}Type:${colors.reset} ${resumeInfo.taskType.toUpperCase()}`,
+    `${colors.bright}Version:${colors.reset} ${resumeInfo.version}`,
+    `${colors.bright}Stage:${colors.reset} ${resumeInfo.stage}`,
+    `${colors.bright}Progress:${colors.reset} ${resumeInfo.progress} (${resumeInfo.completed.length}/${resumeInfo.completed.length + resumeInfo.pending.length} agents)`,
+    '',
+    `${colors.cyan}Completed:${colors.reset} ${resumeInfo.completed.join(', ') || 'None'}`,
+    `${colors.cyan}Pending:${colors.reset} ${resumeInfo.pending.join(', ') || 'None'}`,
+    ''
+  ];
+
+  // Quality gates status
+  const validatorIcon = resumeInfo.qualityGates.validator === 'APPROVED' ? colors.green + '✓' :
+                        resumeInfo.qualityGates.validator === 'BLOCKED' ? colors.red + '✗' :
+                        resumeInfo.qualityGates.validator === 'PENDING' ? colors.yellow + '○' :
+                        colors.gray + '–';
+  const testerIcon = resumeInfo.qualityGates.tester === 'APPROVED' ? colors.green + '✓' :
+                     resumeInfo.qualityGates.tester === 'BLOCKED' ? colors.red + '✗' :
+                     resumeInfo.qualityGates.tester === 'PENDING' ? colors.yellow + '○' :
+                     colors.gray + '–';
+
+  lines.push(`${colors.cyan}Quality Gates:${colors.reset} validator=${validatorIcon}${colors.reset} ${resumeInfo.qualityGates.validator}, tester=${testerIcon}${colors.reset} ${resumeInfo.qualityGates.tester}`);
+
+  if (resumeInfo.qualityGates.status) {
+    lines.push(`${colors.bright}Gate Status:${colors.reset} ${resumeInfo.qualityGates.status}`);
+  }
+
+  lines.push('');
+  lines.push(`${colors.bright}Elapsed Time:${colors.reset} ${resumeInfo.elapsedTime}`);
+  lines.push(`${colors.bright}Files Changed:${colors.reset} ${resumeInfo.filesChanged}`);
+  lines.push(`${colors.bright}Push Approved:${colors.reset} ${resumeInfo.pushApproved ? colors.green + 'YES' : colors.red + 'NO'}${colors.reset}`);
+  lines.push('');
+  lines.push(`${colors.bright}Next Action:${colors.reset} ${resumeInfo.nextAction}`);
+  lines.push('');
+  lines.push(`${colors.gray}Use the RESTART PROMPT below to continue this workflow.${colors.reset}`);
+
+  printBox(lines, colors.yellow);
+}
+
+/**
  * Display welcome message with system status
  */
 function displayWelcome(version, mcpStatus, reportFolder, versionBump, domainPacks) {
@@ -504,9 +580,24 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump, domainPac
 }
 
 /**
- * Main function (v5.7.0 - Enhanced with domain pack discovery)
+ * Main function (v5.8.3 - Enhanced with workflow state detection)
  */
 async function main() {
+  // v5.8.3: Check for workflow in progress FIRST
+  const workflowResume = checkWorkflowInProgress();
+
+  if (workflowResume) {
+    // Display workflow resume information prominently
+    console.log(''); // Empty line before box
+    displayWorkflowResume(workflowResume);
+    console.log(''); // Empty line after box
+    console.log('');
+    console.log(`${colors.bright}RESTART PROMPT:${colors.reset}`);
+    console.log(`${colors.cyan}Continue workflow for v${workflowResume.version}: ${workflowResume.description}${colors.reset}`);
+    console.log('');
+    // Continue to show system status below
+  }
+
   // Check VERSION file
   const version = checkVersionFile();
 
@@ -523,7 +614,9 @@ async function main() {
   const domainPacks = discoverDomainPacksIfAvailable();
 
   // Display welcome message
-  console.log(''); // Empty line before box
+  if (!workflowResume) {
+    console.log(''); // Empty line before box (only if no workflow resume shown)
+  }
   displayWelcome(version, mcpStatus, reportFolder, versionBump, domainPacks);
   console.log(''); // Empty line after box
 }

@@ -619,6 +619,56 @@ function showHelp() {
 }
 
 /**
+ * Check workflow violations (v5.9.0)
+ * Blocks execution if workflow rules are violated
+ */
+function checkWorkflowViolation(agentType, validation) {
+  const stateFile = path.join(process.cwd(), '.ccgm-state.json');
+
+  // If state file doesn't exist, allow execution (not in workflow mode)
+  if (!fs.existsSync(stateFile)) {
+    return null;
+  }
+
+  try {
+    const state = JSON.parse(fs.readFileSync(stateFile, 'utf-8'));
+
+    // Check if @scribe is called but gates not approved
+    if (agentType === 'scribe') {
+      const validatorApproved = state.qualityGates?.validator?.status === 'APPROVED';
+      const testerApproved = state.qualityGates?.tester?.status === 'APPROVED';
+
+      if (!validatorApproved || !testerApproved) {
+        return {
+          blocked: true,
+          reason: 'WORKFLOW_VIOLATION',
+          message: '@scribe cannot run before quality gates are approved',
+          details: {
+            validatorStatus: state.qualityGates?.validator?.status || 'NOT_RUN',
+            testerStatus: state.qualityGates?.tester?.status || 'NOT_RUN'
+          }
+        };
+      }
+    }
+
+    // Check if agent is in expected sequence
+    const expectedSequence = state.expectedAgents || [];
+    const completedAgents = state.completedAgents || [];
+
+    if (expectedSequence.length > 0 && !expectedSequence.includes(agentType)) {
+      // Not blocking yet, just warning
+      console.warn(`${colors.yellow}Warning: ${agentType} not in expected sequence: ${expectedSequence.join(' → ')}${colors.reset}`);
+    }
+
+    return null;
+  } catch (error) {
+    // If we can't read state file, don't block
+    console.warn(`${colors.yellow}Warning: Could not read workflow state: ${error.message}${colors.reset}`);
+    return null;
+  }
+}
+
+/**
  * Main CLI interface
  */
 function main() {
@@ -688,9 +738,50 @@ function main() {
   // Display results
   displayValidationResults(validation);
 
-  // Exit with appropriate code
-  // Note: We use exit code 0 even for invalid output to avoid blocking workflows
-  // The validation is for information/warning purposes
+  // v5.9.0: Check for workflow violations (BLOCKING)
+  const workflowViolation = checkWorkflowViolation(detectedAgent, validation);
+  if (workflowViolation) {
+    console.log('');
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log(`${colors.red}|  WORKFLOW VIOLATION - EXECUTION BLOCKED                    |${colors.reset}`);
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log('');
+    console.log(`${colors.bright}Reason:${colors.reset} ${workflowViolation.reason}`);
+    console.log(`${colors.bright}Message:${colors.reset} ${workflowViolation.message}`);
+    console.log('');
+    if (workflowViolation.details) {
+      console.log(`${colors.bright}Details:${colors.reset}`);
+      Object.entries(workflowViolation.details).forEach(([key, value]) => {
+        console.log(`  ${key}: ${value}`);
+      });
+      console.log('');
+    }
+    console.log(`${colors.yellow}Fix the issues and retry.${colors.reset}`);
+    console.log('');
+    process.exit(1);
+  }
+
+  // v5.9.0: Check completeness score - block if critically low
+  if (validation.completeness < 30) {
+    console.log('');
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log(`${colors.red}|  CRITICAL: COMPLETENESS TOO LOW - EXECUTION BLOCKED        |${colors.reset}`);
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log('');
+    console.log(`${colors.bright}Completeness Score:${colors.reset} ${validation.completeness}% (minimum: 30%)`);
+    console.log('');
+    console.log(`${colors.yellow}Agent output is critically incomplete.${colors.reset}`);
+    console.log(`${colors.yellow}Please ensure all required sections and patterns are present.${colors.reset}`);
+    console.log('');
+    process.exit(1);
+  }
+
+  // Exit successfully for warnings only
+  if (!validation.valid) {
+    console.log(`${colors.yellow}Note: Validation warnings present but not blocking.${colors.reset}`);
+    console.log('');
+  }
+
   process.exit(0);
 }
 

@@ -825,6 +825,71 @@ function getOrchestrationType(orchestrationType, domainData) {
 }
 
 /**
+ * Check for dangerous patterns in prompt (v5.9.0)
+ * Blocks execution if safety rules are violated
+ */
+function checkDangerousPatterns(prompt, analysis) {
+  const stateFile = path.join(process.cwd(), '.ccgm-state.json');
+  let workflowComplete = false;
+  let qualityGatesApproved = false;
+
+  // Check workflow state if available
+  if (fs.existsSync(stateFile)) {
+    try {
+      const state = JSON.parse(fs.readFileSync(stateFile, 'utf-8'));
+      workflowComplete = state.workflowComplete === true;
+      qualityGatesApproved = state.qualityGates?.validator?.status === 'APPROVED' &&
+                            state.qualityGates?.tester?.status === 'APPROVED';
+    } catch (error) {
+      // Ignore state file errors
+    }
+  }
+
+  // Check for push attempts when workflow not complete
+  const pushPatterns = [
+    /push|deploy|publish|release/i
+  ];
+
+  const hasPushIntent = pushPatterns.some(pattern => pattern.test(prompt));
+
+  if (hasPushIntent && !workflowComplete) {
+    return {
+      blocked: true,
+      reason: 'PREMATURE_PUSH_ATTEMPT',
+      message: 'Cannot push/deploy before workflow is complete',
+      details: {
+        workflowComplete: workflowComplete,
+        qualityGatesApproved: qualityGatesApproved,
+        suggestion: 'Complete the full workflow before pushing'
+      }
+    };
+  }
+
+  // Check for gate-skipping attempts
+  const skipPatterns = [
+    /skip.*(?:validator|tester|quality|gate|test)/i,
+    /bypass.*(?:validator|tester|quality|gate|test)/i,
+    /without.*(?:validator|tester|quality|gate|test)/i
+  ];
+
+  const hasSkipIntent = skipPatterns.some(pattern => pattern.test(prompt));
+
+  if (hasSkipIntent) {
+    return {
+      blocked: true,
+      reason: 'GATE_SKIP_ATTEMPT',
+      message: 'Cannot skip quality gates - they are mandatory',
+      details: {
+        suggestion: 'Quality gates (@validator and @tester) must both approve before proceeding',
+        enforcement: 'This is enforced by CC_GodMode workflow rules'
+      }
+    };
+  }
+
+  return null;
+}
+
+/**
  * Main CLI interface
  */
 function main() {
@@ -839,6 +904,29 @@ function main() {
 
   // Analyze prompt
   const analysis = analyzeUserPrompt(prompt);
+
+  // v5.9.0: Check for dangerous patterns (BLOCKING)
+  const dangerousPattern = checkDangerousPatterns(prompt, analysis);
+  if (dangerousPattern) {
+    console.log('');
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log(`${colors.red}|  DANGEROUS PATTERN DETECTED - EXECUTION BLOCKED            |${colors.reset}`);
+    console.log(`${colors.red}+============================================================+${colors.reset}`);
+    console.log('');
+    console.log(`${colors.bright}Reason:${colors.reset} ${dangerousPattern.reason}`);
+    console.log(`${colors.bright}Message:${colors.reset} ${dangerousPattern.message}`);
+    console.log('');
+    if (dangerousPattern.details) {
+      console.log(`${colors.bright}Details:${colors.reset}`);
+      Object.entries(dangerousPattern.details).forEach(([key, value]) => {
+        console.log(`  ${key}: ${value}`);
+      });
+      console.log('');
+    }
+    console.log(`${colors.yellow}Please follow the proper workflow.${colors.reset}`);
+    console.log('');
+    process.exit(1);
+  }
 
   // Display results
   displayAnalysis(analysis);

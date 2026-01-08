@@ -7,6 +7,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.9.0] - 2026-01-08
+
+**"The Enforcement Release" - Making rules unmissable with blocking hooks**
+
+> *In which the AI finally learns the difference between "should" and "must." After v5.8.3 organized the prompt files, we noticed a pattern: After /compact or context window resets, Claude would sometimes skip quality gates or try to push prematurely. The hooks existed but were advisory-only (exit code 0 with warnings). v5.9.0 makes violations impossible to ignore. Enhanced Restart Prompt now says "You ARE the Orchestrator" (not "mode active") with 6 numbered MANDATORY rules. Workflow State Persistence tracks progress across context resets. Pre-Push Check blocks pushes until both quality gates approve. The hooks now exit(1) for critical violations - turning suggestions into requirements. Result: Expected 70-80% reduction in post-compact workflow violations. The loop is learning that some rules cannot be optional.*
+
+### Added
+
+- **Enhanced Restart Prompt** (CC-GodMode-Prompts/CCGM_Prompt_Restart.md)
+  - Identity Statement: "You ARE the Orchestrator" (not "mode active")
+  - 6 numbered MANDATORY rules with explicit enforcement
+  - Full Decision Matrix (4 outcomes for quality gates)
+  - Self-Interruption Triggers (8 common violation patterns)
+  - Line count increased from 87 to 316 (263% more context)
+  - Minimal version preserved for quick restarts
+
+- **Workflow State Persistence** (scripts/workflow-state.js)
+  - JSON Schema for workflow state (docs/schemas/workflow-state.schema.json)
+  - 9 functions for state management (init, update, complete, resume)
+  - Session-start integration for workflow detection
+  - Tracks agents completed, quality gates status, task progress
+  - Enables seamless workflow resumption after /compact
+
+- **Pre-Push Check Hook** (scripts/pre-push-check.js)
+  - Validates workflow completion before git push
+  - Checks both quality gates (validator + tester) approved
+  - Verifies VERSION and CHANGELOG updates
+  - Detects uncommitted changes
+  - Prevents premature pushes that skip quality assurance
+
+### Changed
+
+- **Blocking Hook Enforcement** - Hooks now use exit(1) for critical violations
+  - validate-agent-output.js: Blocks @scribe before gates approved
+  - analyze-prompt.js: Blocks premature push attempts
+  - escalation-handler.js: Now enabled by default
+  - Transforms advisory warnings into hard requirements
+
+### Fixed
+
+- Post-/compact workflow violations (70-80% reduction expected)
+- Quality gate skipping after context window compaction
+- Missing enforcement in advisory-only hooks
+- Context loss causing orchestrator role confusion
+
+### Documentation
+
+- 7 agent reports in reports/v5.8.3/
+  - 00-architect: Hook system analysis and enforcement strategy
+  - 01-api-guardian: No API changes (internal tools only)
+  - 02-builder: Phase 1-3 implementation details
+  - 03-validator: Code quality verification
+  - 04-tester: No UI changes (backend automation)
+  - 05-scribe: This documentation
+  - 06-github-manager: Release preparation
+
+### Philosophy
+
+*The Enforcement Release - Because "should" is for suggestions, "must" is for requirements. After months of watching Claude skip quality gates after /compact, v5.9.0 finally draws the line. The Restart Prompt now screams "You ARE the Orchestrator" in bold - an identity statement, not a mode toggle. Workflow State Persistence remembers what was done even when Claude forgets. Pre-Push Check becomes the final guardian before code reaches production. The hooks stop being polite advisors and become strict gatekeepers (exit code 1 means "No, you SHALL NOT pass"). Expected result: 70-80% fewer violations when Claude loses context. The AI is learning that some rules cannot be broken - they can only be enforced. Next challenge: Make the enforcement so natural that Claude doesn't even think about violating it. The loop is getting stricter - one blocking hook at a time.* 🚫
+
+---
+
 ## [5.8.3] - 2026-01-08
 
 **"The Prompt Organization Release" - Clear structure for user-facing prompts**

@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CC_GodMode Workflow State",
+  "description": "Persists workflow state across /compact operations",
+  "type": "object",
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "description": "Unique identifier for this workflow session",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Target version for this workflow (semver format)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "taskType": {
+      "type": "string",
+      "description": "Type of task being executed",
+      "enum": ["feature", "bug", "api", "refactor", "release", "docs"]
+    },
+    "taskDescription": {
+      "type": "string",
+      "description": "Human-readable description of the task"
+    },
+    "workflowStage": {
+      "type": "string",
+      "description": "Current stage in the workflow",
+      "enum": [
+        "INITIALIZED",
+        "ARCHITECTURE",
+        "API_ANALYSIS",
+        "IMPLEMENTATION",
+        "QUALITY_GATES",
+        "DOCUMENTATION",
+        "RELEASE_PREP",
+        "COMPLETED"
+      ]
+    },
+    "agentsCompleted": {
+      "type": "array",
+      "description": "List of agents that have completed their work",
+      "items": {
+        "type": "string",
+        "enum": ["@architect", "@api-guardian", "@builder", "@validator", "@tester", "@scribe", "@github-manager"]
+      },
+      "uniqueItems": true
+    },
+    "agentsPending": {
+      "type": "array",
+      "description": "List of agents that still need to run",
+      "items": {
+        "type": "string",
+        "enum": ["@architect", "@api-guardian", "@builder", "@validator", "@tester", "@scribe", "@github-manager"]
+      },
+      "uniqueItems": true
+    },
+    "qualityGates": {
+      "type": "object",
+      "description": "Status of dual quality gates",
+      "properties": {
+        "validator": {
+          "type": ["string", "null"],
+          "description": "Code quality gate status",
+          "enum": ["PENDING", "APPROVED", "BLOCKED", null]
+        },
+        "tester": {
+          "type": ["string", "null"],
+          "description": "UX quality gate status",
+          "enum": ["PENDING", "APPROVED", "BLOCKED", null]
+        }
+      },
+      "required": ["validator", "tester"]
+    },
+    "filesChanged": {
+      "type": "array",
+      "description": "List of files modified during this workflow",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pushApproved": {
+      "type": "boolean",
+      "description": "Whether user has approved push to remote",
+      "default": false
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when workflow started"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last state update"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional workflow metadata",
+      "properties": {
+        "isApiChange": {
+          "type": "boolean",
+          "description": "Whether this workflow involves API changes"
+        },
+        "requiresArchitect": {
+          "type": "boolean",
+          "description": "Whether @architect review is required"
+        },
+        "estimatedDuration": {
+          "type": "number",
+          "description": "Estimated workflow duration in minutes"
+        }
+      }
+    }
+  },
+  "required": [
+    "sessionId",
+    "version",
+    "taskType",
+    "taskDescription",
+    "workflowStage",
+    "agentsCompleted",
+    "agentsPending",
+    "qualityGates",
+    "startedAt",
+    "lastUpdated"
+  ],
+  "additionalProperties": false
+}

@@ -34,10 +34,10 @@ const colors = {
 
 /**
  * Escalation Configuration
- * Default: DISABLED to preserve existing behavior
+ * v5.9.0: ENABLED for blocking hook enforcement
  */
 const ESCALATION_CONFIG = {
-  enabled: false,  // Must be explicitly enabled
+  enabled: true,  // Enabled in v5.9.0 for workflow enforcement
   tier1: {
     maxRetries: 3,
     retryDelayMs: 1000,

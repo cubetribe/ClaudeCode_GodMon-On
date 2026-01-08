@@ -541,7 +541,7 @@ Tier 3: Human Escalation (present options to user)
 
 ## Version
 
-**CC_GodMode v5.8.0 - The Governance & Domain-Pack Release**
+**CC_GodMode v5.9.0 - The Enforcement Release**
 
 ### Core Features (v4.1.0 Foundation)
 - Version-First Workflow (determine version before work starts)
