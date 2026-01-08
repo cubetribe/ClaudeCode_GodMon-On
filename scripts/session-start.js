@@ -19,6 +19,20 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+// v5.7.0 - Phase 2: Domain Pack Integration
+const domainPackLoaderPath = path.join(__dirname, '..', 'Orchester-Design', 'scripts', 'domain-pack-loader.js');
+let discoverDomainPacks = null;
+
+// Lazy load domain pack loader if available
+try {
+  if (fs.existsSync(domainPackLoaderPath)) {
+    const domainPackLoader = require(domainPackLoaderPath);
+    discoverDomainPacks = domainPackLoader.discoverDomainPacks;
+  }
+} catch (error) {
+  // Domain pack system not available - continue with CC_GodMode core only
+}
+
 // Configuration - use current working directory
 const VERSION_FILE = path.join(process.cwd(), 'VERSION');
 const REPORTS_DIR = path.join(process.cwd(), 'reports');
@@ -326,9 +340,25 @@ function detectVersionBump() {
 }
 
 /**
+ * Discover domain packs (v5.7.0)
+ */
+function discoverDomainPacksIfAvailable() {
+  if (!discoverDomainPacks) {
+    return null;
+  }
+
+  try {
+    return discoverDomainPacks();
+  } catch (error) {
+    // Non-critical - domain packs optional
+    return null;
+  }
+}
+
+/**
  * Display welcome message with system status
  */
-function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
+function displayWelcome(version, mcpStatus, reportFolder, versionBump, domainPacks) {
   const lines = [
     `${colors.bright}CC_GodMode v${version.toString()}${colors.reset}`,
     ''
@@ -436,6 +466,15 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
 
   lines.push('');
 
+  // v5.7.0: Domain Packs Section
+  if (domainPacks && domainPacks.length > 0) {
+    lines.push(`${colors.cyan}Domain Packs${colors.reset}`);
+    domainPacks.forEach(pack => {
+      lines.push(`  ${colors.green}✓${colors.reset} ${pack.name} (${pack.agentCount} agents)`);
+    });
+    lines.push('');
+  }
+
   // Agents Section
   lines.push(`${colors.cyan}Agents Ready${colors.reset}`);
 
@@ -465,7 +504,7 @@ function displayWelcome(version, mcpStatus, reportFolder, versionBump) {
 }
 
 /**
- * Main function (v5.6.0 - Enhanced with async health checks)
+ * Main function (v5.7.0 - Enhanced with domain pack discovery)
  */
 async function main() {
   // Check VERSION file
@@ -480,9 +519,12 @@ async function main() {
   // Detect version bump suggestion
   const versionBump = detectVersionBump();
 
+  // v5.7.0: Discover domain packs
+  const domainPacks = discoverDomainPacksIfAvailable();
+
   // Display welcome message
   console.log(''); // Empty line before box
-  displayWelcome(version, mcpStatus, reportFolder, versionBump);
+  displayWelcome(version, mcpStatus, reportFolder, versionBump, domainPacks);
   console.log(''); // Empty line after box
 }
 

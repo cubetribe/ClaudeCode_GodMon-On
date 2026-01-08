@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cc-godmode.dev/schemas/domain-config.schema.json",
+  "title": "CC_GodMode Domain Pack Configuration",
+  "description": "Schema for domain pack configuration files (domain-config.json)",
+  "type": "object",
+  "required": ["name", "version"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique identifier for the domain pack",
+      "pattern": "^[a-z0-9-]+$",
+      "examples": ["react-native", "backend-api", "ml-pipeline"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the domain pack",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "2.1.3"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the domain pack",
+      "maxLength": 500
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or maintainer of the domain pack"
+    },
+    "license": {
+      "type": "string",
+      "description": "License for the domain pack",
+      "examples": ["MIT", "Apache-2.0", "proprietary"]
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the domain pack repository"
+    },
+    "compatibility": {
+      "type": "object",
+      "description": "CC_GodMode version compatibility",
+      "properties": {
+        "minVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Minimum CC_GodMode version required"
+        },
+        "maxVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Maximum CC_GodMode version supported (optional)"
+        }
+      }
+    },
+    "agents": {
+      "type": "object",
+      "description": "Agent configuration overrides",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "extends": {
+            "type": "string",
+            "description": "Base agent to extend (e.g., 'core:builder')",
+            "examples": ["core:builder", "core:validator"]
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Path to agent prompt file relative to domain pack"
+          },
+          "model": {
+            "type": "string",
+            "description": "Preferred model for this agent",
+            "enum": ["haiku", "sonnet", "opus"],
+            "default": "sonnet"
+          },
+          "tools": {
+            "type": "array",
+            "description": "Additional tools required by this agent",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mcpServers": {
+            "type": "array",
+            "description": "Required MCP servers for this agent",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "validationRules": {
+      "type": "object",
+      "description": "Domain-specific validation rules per agent",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "requiredSections": {
+            "type": "array",
+            "description": "Additional required sections in agent output",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiredPatterns": {
+            "type": "array",
+            "description": "Additional regex patterns to match in output",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minLength": {
+            "type": "integer",
+            "description": "Minimum output length in characters",
+            "minimum": 0
+          },
+          "overrides": {
+            "type": "boolean",
+            "description": "If true, replaces core rules instead of extending",
+            "default": false
+          }
+        }
+      }
+    },
+    "workflows": {
+      "type": "object",
+      "description": "Domain-specific workflow modifications",
+      "properties": {
+        "newFeature": {
+          "type": "array",
+          "description": "Agent sequence for new feature workflow",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bugFix": {
+          "type": "array",
+          "description": "Agent sequence for bug fix workflow",
+          "items": {
+            "type": "string"
+          }
+        },
+        "apiChange": {
+          "type": "array",
+          "description": "Agent sequence for API change workflow",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Domain-specific hook configurations",
+      "properties": {
+        "preWorkflow": {
+          "type": "array",
+          "description": "Scripts to run before workflow starts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "postWorkflow": {
+          "type": "array",
+          "description": "Scripts to run after workflow completes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preAgent": {
+          "type": "object",
+          "description": "Scripts to run before specific agents",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "postAgent": {
+          "type": "object",
+          "description": "Scripts to run after specific agents",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "description": "Environment-specific settings",
+      "properties": {
+        "requiredEnvVars": {
+          "type": "array",
+          "description": "Required environment variables",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaults": {
+          "type": "object",
+          "description": "Default environment variable values",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization and discovery",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["mobile", "react-native", "ios", "android"]]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "name": "react-native",
+      "version": "1.0.0",
+      "description": "Domain pack for React Native mobile development",
+      "author": "CC_GodMode Team",
+      "license": "MIT",
+      "compatibility": {
+        "minVersion": "5.8.0"
+      },
+      "agents": {
+        "builder": {
+          "extends": "core:builder",
+          "prompt": "agents/builder.md"
+        },
+        "tester": {
+          "extends": "core:tester",
+          "prompt": "agents/tester.md",
+          "mcpServers": ["appium"]
+        }
+      },
+      "validationRules": {
+        "builder": {
+          "requiredSections": ["Platform Compatibility", "iOS Notes", "Android Notes"],
+          "overrides": false
+        }
+      },
+      "tags": ["mobile", "react-native", "ios", "android"]
+    }
+  ]
+}

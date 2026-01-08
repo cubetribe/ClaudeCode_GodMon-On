@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Agent Output Validator (v5.6.0)
+ * Agent Output Validator (v5.8.0)
  *
  * SubagentStop Hook Implementation
  *
@@ -11,10 +11,13 @@
  * Triggered automatically after every agent completes.
  *
  * Features:
- * - Agent-specific validation rules
+ * - Agent-specific validation rules (v5.6.0)
  * - Required section checking
  * - Output quality assessment
  * - Actionable feedback for incomplete outputs
+ * - Domain-specific quality gates (v5.8.0)
+ * - Dynamic domain registration
+ * - CLI --domain flag support
  */
 
 const fs = require('fs');
@@ -33,9 +36,10 @@ const colors = {
 };
 
 /**
- * Agent-specific validation rules
+ * Core validation rules (v5.6.0 - preserved for backwards compatibility)
+ * These are the baseline rules that apply to all domains.
  */
-const VALIDATION_RULES = {
+const VALIDATION_RULES_CORE = {
   architect: {
     requiredSections: [
       'Architectural Decisions',
@@ -148,10 +152,220 @@ const VALIDATION_RULES = {
 };
 
 /**
- * Validate agent output
+ * Domain-specific validation rules (v5.8.0)
+ * These extend or override core rules for specific project domains.
+ *
+ * Structure:
+ * {
+ *   domainName: {
+ *     agentName: {
+ *       requiredSections: [...],    // Additional sections required
+ *       requiredPatterns: [...],    // Additional patterns to check
+ *       minLength: number,          // Override minimum length (optional)
+ *       overrides: boolean          // If true, replaces core rules; if false, extends them
+ *     }
+ *   }
+ * }
  */
-function validateAgentOutput(agentName, output) {
-  const rules = VALIDATION_RULES[agentName];
+const VALIDATION_RULES_DOMAINS = {
+  // Example: React Native domain
+  'react-native': {
+    builder: {
+      requiredSections: [
+        'Platform Compatibility',
+        'iOS Considerations',
+        'Android Considerations'
+      ],
+      requiredPatterns: [
+        /Platform\.(OS|select)/i,
+        /(iOS|Android)/i
+      ],
+      overrides: false // Extends core rules
+    },
+    tester: {
+      requiredSections: [
+        'Device Testing',
+        'Simulator/Emulator Results'
+      ],
+      requiredPatterns: [
+        /(iPhone|iPad|Android|Simulator|Emulator)/i
+      ],
+      overrides: false
+    }
+  },
+
+  // Example: Backend/API domain
+  'backend': {
+    architect: {
+      requiredSections: [
+        'Database Schema',
+        'API Endpoints',
+        'Authentication Flow'
+      ],
+      requiredPatterns: [
+        /(REST|GraphQL|Database|Schema)/i,
+        /(endpoint|route)/i
+      ],
+      overrides: false
+    },
+    validator: {
+      requiredSections: [
+        'API Contract Validation',
+        'Database Migration Check'
+      ],
+      requiredPatterns: [
+        /(migration|schema|contract)/i
+      ],
+      overrides: false
+    }
+  },
+
+  // Example: Documentation-only domain
+  'docs': {
+    scribe: {
+      requiredSections: [
+        'Documentation Structure',
+        'API Reference Updated',
+        'Examples Provided'
+      ],
+      requiredPatterns: [
+        /(README|API|Examples|Guide)/i
+      ],
+      minLength: 500, // Higher minimum for docs
+      overrides: false
+    }
+  }
+};
+
+/**
+ * Backwards compatibility: Combined validation rules
+ * This is the legacy export that merges core rules.
+ */
+const VALIDATION_RULES = VALIDATION_RULES_CORE;
+
+/**
+ * Get validation rules for an agent, optionally with domain-specific extensions
+ * @param {string} agentName - The agent name (e.g., 'builder', 'architect')
+ * @param {string|null} domain - Optional domain name (e.g., 'react-native', 'backend')
+ * @returns {object|null} Merged validation rules or null if no rules exist
+ */
+function getRules(agentName, domain = null) {
+  const coreRules = VALIDATION_RULES_CORE[agentName];
+
+  // No core rules for this agent
+  if (!coreRules) {
+    // Check if there are domain-specific rules even without core
+    if (domain && VALIDATION_RULES_DOMAINS[domain] && VALIDATION_RULES_DOMAINS[domain][agentName]) {
+      return VALIDATION_RULES_DOMAINS[domain][agentName];
+    }
+    return null;
+  }
+
+  // No domain specified - return core rules
+  if (!domain) {
+    return coreRules;
+  }
+
+  // Check for domain-specific rules
+  const domainRules = VALIDATION_RULES_DOMAINS[domain]?.[agentName];
+
+  // No domain rules - return core
+  if (!domainRules) {
+    return coreRules;
+  }
+
+  // Domain rules with override - replace core entirely
+  if (domainRules.overrides === true) {
+    return {
+      ...domainRules,
+      name: coreRules.name // Preserve display name
+    };
+  }
+
+  // Merge domain rules into core rules (extend mode)
+  return {
+    requiredSections: [
+      ...coreRules.requiredSections,
+      ...(domainRules.requiredSections || [])
+    ],
+    requiredPatterns: [
+      ...coreRules.requiredPatterns,
+      ...(domainRules.requiredPatterns || [])
+    ],
+    minLength: domainRules.minLength || coreRules.minLength,
+    name: coreRules.name
+  };
+}
+
+/**
+ * Register a new domain with validation rules (v5.8.0)
+ * @param {string} domainName - The domain name to register
+ * @param {object} rules - The validation rules for the domain
+ * @returns {boolean} True if registration successful
+ */
+function registerDomain(domainName, rules) {
+  if (!domainName || typeof domainName !== 'string') {
+    console.error(`${colors.red}Error: Domain name must be a non-empty string${colors.reset}`);
+    return false;
+  }
+
+  if (!rules || typeof rules !== 'object') {
+    console.error(`${colors.red}Error: Rules must be an object${colors.reset}`);
+    return false;
+  }
+
+  // Validate structure of rules
+  const validAgents = Object.keys(VALIDATION_RULES_CORE);
+  const providedAgents = Object.keys(rules);
+
+  for (const agent of providedAgents) {
+    if (!validAgents.includes(agent)) {
+      console.warn(`${colors.yellow}Warning: Unknown agent '${agent}' in domain rules${colors.reset}`);
+    }
+
+    const agentRules = rules[agent];
+    if (agentRules.requiredSections && !Array.isArray(agentRules.requiredSections)) {
+      console.error(`${colors.red}Error: requiredSections must be an array${colors.reset}`);
+      return false;
+    }
+    if (agentRules.requiredPatterns && !Array.isArray(agentRules.requiredPatterns)) {
+      console.error(`${colors.red}Error: requiredPatterns must be an array${colors.reset}`);
+      return false;
+    }
+  }
+
+  // Register the domain
+  VALIDATION_RULES_DOMAINS[domainName] = rules;
+  console.log(`${colors.green}Domain '${domainName}' registered successfully${colors.reset}`);
+  return true;
+}
+
+/**
+ * Get list of available domains
+ * @returns {string[]} Array of domain names
+ */
+function getAvailableDomains() {
+  return Object.keys(VALIDATION_RULES_DOMAINS);
+}
+
+/**
+ * Get domain rules for a specific domain
+ * @param {string} domainName - The domain name
+ * @returns {object|null} Domain rules or null
+ */
+function getDomainRules(domainName) {
+  return VALIDATION_RULES_DOMAINS[domainName] || null;
+}
+
+/**
+ * Validate agent output
+ * @param {string} agentName - The agent name
+ * @param {string} output - The output content to validate
+ * @param {string|null} domain - Optional domain for domain-specific rules (v5.8.0)
+ */
+function validateAgentOutput(agentName, output, domain = null) {
+  // v5.8.0: Use getRules for domain-aware rule resolution
+  const rules = getRules(agentName, domain);
 
   if (!rules) {
     // No validation rules for this agent - pass
@@ -166,6 +380,7 @@ function validateAgentOutput(agentName, output) {
     valid: true,
     agent: agentName,
     agentDisplay: rules.name,
+    domain: domain, // v5.8.0: Track domain used for validation
     issues: [],
     warnings: [],
     stats: {
@@ -221,13 +436,17 @@ function validateAgentOutput(agentName, output) {
  */
 function displayValidationResults(validation) {
   console.log('');
-  console.log(`${colors.cyan}╔════════════════════════════════════════════════════════════╗${colors.reset}`);
-  console.log(`${colors.cyan}║  AGENT OUTPUT VALIDATION (v5.6.0)                          ║${colors.reset}`);
-  console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}`);
+  console.log(`${colors.cyan}+============================================================+${colors.reset}`);
+  console.log(`${colors.cyan}|  AGENT OUTPUT VALIDATION (v5.8.0)                          |${colors.reset}`);
+  console.log(`${colors.cyan}+============================================================+${colors.reset}`);
   console.log('');
 
   // Agent info
   console.log(`${colors.bright}Agent:${colors.reset} ${validation.agentDisplay || validation.agent}`);
+  // v5.8.0: Show domain if used
+  if (validation.domain) {
+    console.log(`${colors.bright}Domain:${colors.reset} ${validation.domain}`);
+  }
   console.log(`${colors.bright}Status:${colors.reset} ${getValidationStatusDisplay(validation)}`);
   console.log(`${colors.bright}Completeness:${colors.reset} ${getCompletenessDisplay(validation.completeness)}`);
   console.log('');
@@ -342,31 +561,113 @@ function detectAgentName(filename) {
 }
 
 /**
+ * Parse CLI arguments (v5.8.0)
+ * Supports: --domain=<name>, --list-domains, --help
+ */
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const result = {
+    reportPath: null,
+    agentName: null,
+    domain: null,
+    listDomains: false,
+    help: false
+  };
+
+  for (const arg of args) {
+    if (arg === '--help' || arg === '-h') {
+      result.help = true;
+    } else if (arg === '--list-domains') {
+      result.listDomains = true;
+    } else if (arg.startsWith('--domain=')) {
+      result.domain = arg.split('=')[1];
+    } else if (!result.reportPath) {
+      result.reportPath = arg;
+    } else if (!result.agentName) {
+      result.agentName = arg;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Show usage help
+ */
+function showHelp() {
+  console.log('');
+  console.log(`${colors.cyan}Agent Output Validator (v5.8.0)${colors.reset}`);
+  console.log('');
+  console.log('Usage:');
+  console.log('  validate-agent-output.js <report-file> [agent-name] [options]');
+  console.log('');
+  console.log('Options:');
+  console.log('  --domain=<name>    Apply domain-specific validation rules');
+  console.log('  --list-domains     List available domains');
+  console.log('  --help, -h         Show this help message');
+  console.log('');
+  console.log('Examples:');
+  console.log('  validate-agent-output.js reports/v5.8.0/02-builder-report.md builder');
+  console.log('  validate-agent-output.js reports/v5.8.0/02-builder-report.md builder --domain=react-native');
+  console.log('  validate-agent-output.js --list-domains');
+  console.log('');
+  console.log('Available Domains:');
+  getAvailableDomains().forEach(domain => {
+    console.log(`  - ${domain}`);
+  });
+  console.log('');
+}
+
+/**
  * Main CLI interface
  */
 function main() {
-  const reportPath = process.argv[2];
-  const agentName = process.argv[3];
+  const args = parseArgs();
 
-  if (!reportPath) {
-    console.error('Usage: validate-agent-output.js <report-file> [agent-name]');
+  // Handle --help
+  if (args.help) {
+    showHelp();
+    process.exit(0);
+  }
+
+  // Handle --list-domains
+  if (args.listDomains) {
+    console.log('');
+    console.log(`${colors.cyan}Available Domains:${colors.reset}`);
+    const domains = getAvailableDomains();
+    if (domains.length === 0) {
+      console.log('  (no domains registered)');
+    } else {
+      domains.forEach(domain => {
+        const rules = getDomainRules(domain);
+        const agentCount = Object.keys(rules).length;
+        console.log(`  ${colors.green}${domain}${colors.reset} - ${agentCount} agent(s) configured`);
+      });
+    }
+    console.log('');
+    process.exit(0);
+  }
+
+  // Validate required arguments
+  if (!args.reportPath) {
+    console.error('Usage: validate-agent-output.js <report-file> [agent-name] [--domain=<name>]');
     console.error('');
-    console.error('Example: validate-agent-output.js reports/v5.6.0/00-architect-plan.md architect');
+    console.error('Use --help for more information.');
     process.exit(1);
   }
 
   // Load output
-  const output = loadAgentOutput(reportPath);
+  const output = loadAgentOutput(args.reportPath);
 
   if (!output) {
-    console.error(`${colors.red}Could not load report: ${reportPath}${colors.reset}`);
+    console.error(`${colors.red}Could not load report: ${args.reportPath}${colors.reset}`);
     process.exit(1);
   }
 
   // Detect agent name if not provided
-  let detectedAgent = agentName;
+  let detectedAgent = args.agentName;
   if (!detectedAgent) {
-    detectedAgent = detectAgentName(path.basename(reportPath));
+    detectedAgent = detectAgentName(path.basename(args.reportPath));
   }
 
   if (!detectedAgent) {
@@ -375,8 +676,14 @@ function main() {
     process.exit(0);
   }
 
-  // Validate
-  const validation = validateAgentOutput(detectedAgent, output);
+  // Validate domain if provided
+  if (args.domain && !getDomainRules(args.domain)) {
+    console.warn(`${colors.yellow}Warning: Unknown domain '${args.domain}' - using core rules only${colors.reset}`);
+    args.domain = null;
+  }
+
+  // Validate with optional domain
+  const validation = validateAgentOutput(detectedAgent, output, args.domain);
 
   // Display results
   displayValidationResults(validation);
@@ -389,9 +696,18 @@ function main() {
 
 // Export for use by other scripts
 module.exports = {
+  // Core validation (v5.6.0)
   validateAgentOutput,
   displayValidationResults,
-  VALIDATION_RULES
+  VALIDATION_RULES,
+
+  // Domain support (v5.8.0)
+  VALIDATION_RULES_CORE,
+  VALIDATION_RULES_DOMAINS,
+  getRules,
+  registerDomain,
+  getAvailableDomains,
+  getDomainRules
 };
 
 // CLI mode

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * User Prompt Analyzer (v5.6.0)
+ * User Prompt Analyzer (v5.8.0)
  *
  * UserPromptSubmit Hook Implementation
  *
@@ -10,16 +10,32 @@
  * - Complexity assessment (low/medium/high)
  * - Suggested workflow
  * - Estimated time and agent sequence
+ * - Meta-decision rule application (v5.8.0)
  *
  * Features:
  * - Pattern-based task classification
  * - Intelligent workflow suggestions
  * - Context-aware optimization tips
  * - Proactive guidance
+ * - Meta-decision layer for special cases (v5.8.0)
  */
 
 const fs = require('fs');
 const path = require('path');
+
+// v5.7.0 - Phase 2: Domain Pack Integration
+const domainDetectorPath = path.join(__dirname, '..', 'Orchester-Design', 'scripts', 'domain-detector.js');
+let detectDomain = null;
+
+// Lazy load domain detector if available
+try {
+  if (fs.existsSync(domainDetectorPath)) {
+    const domainDetector = require(domainDetectorPath);
+    detectDomain = domainDetector.detectDomain;
+  }
+} catch (error) {
+  // Domain detector not available - continue with CC_GodMode core only
+}
 
 // ANSI Colors
 const colors = {
@@ -98,6 +114,138 @@ const TASK_PATTERNS = {
     ],
     keywords: ['issue', '#', 'github'],
     weight: 10
+  },
+
+  // v5.7.0: Legal/Domain task types
+  legal: {
+    patterns: [
+      /legal opinion|analyze case|review contract|strategic advice/i,
+      /lawsuit|litigation|legal analysis|precedent/i,
+      /legal research|court case|legal memo/i
+    ],
+    keywords: ['legal', 'contract', 'lawsuit', 'court', 'patent', 'attorney'],
+    weight: 12
+  }
+};
+
+/**
+ * Meta-Decision Layer (v5.8.0)
+ *
+ * Override rules for special cases that require workflow modifications.
+ * These rules are applied AFTER initial analysis to handle edge cases.
+ */
+const META_DECISION_LAYER = {
+  // Rule 1: Security Override
+  // Any security-related issue escalates to high complexity and adds @validator priority
+  securityOverride: {
+    id: 'META-001',
+    name: 'Security Override',
+    triggers: [
+      /security|vulnerability|CVE|exploit|injection|XSS|CSRF|auth bypass/i,
+      /sensitive data|credentials|password|token leak/i,
+      /privilege escalation|unauthorized access/i
+    ],
+    action: {
+      forceComplexity: 'high',
+      addAgents: ['validator'],
+      priorityAgent: 'validator',
+      addTips: [
+        'SECURITY: @validator will perform security-focused review',
+        'SECURITY: Consider adding security tests',
+        'SECURITY: Review for OWASP Top 10 vulnerabilities'
+      ]
+    },
+    description: 'Escalates security-related tasks to high priority with @validator focus'
+  },
+
+  // Rule 2: Breaking Change Escalation
+  // Breaking changes MUST go through @api-guardian regardless of task type
+  breakingChangeEscalation: {
+    id: 'META-002',
+    name: 'Breaking Change Escalation',
+    triggers: [
+      /breaking change|backward incompatible|deprecate/i,
+      /remove api|delete endpoint|change interface/i,
+      /major version|v\d+\.0\.0/i
+    ],
+    action: {
+      forceAgents: ['architect', 'api-guardian', 'builder', 'validator', 'tester', 'scribe'],
+      forceWorkflow: '@architect -> @api-guardian -> @builder -> @validator -> @tester -> @scribe',
+      addTips: [
+        'BREAKING: @api-guardian is MANDATORY for this change',
+        'BREAKING: Document migration path for consumers',
+        'BREAKING: Consider deprecation period before removal'
+      ]
+    },
+    description: 'Forces API change workflow for any breaking changes'
+  },
+
+  // Rule 3: Performance Critical Path
+  // Performance-related changes need @tester with specific focus
+  performanceCriticalPath: {
+    id: 'META-003',
+    name: 'Performance Critical Path',
+    triggers: [
+      /performance|optimize|slow|latency|throughput/i,
+      /memory leak|CPU usage|bottleneck/i,
+      /core web vitals|lighthouse score|page speed/i
+    ],
+    action: {
+      priorityAgent: 'tester',
+      addTips: [
+        'PERFORMANCE: @tester will run performance benchmarks',
+        'PERFORMANCE: Establish baseline metrics before changes',
+        'PERFORMANCE: Consider A/B testing for user-facing improvements'
+      ]
+    },
+    description: 'Adds performance testing focus to workflow'
+  },
+
+  // Rule 4: Emergency Hotfix
+  // Hotfixes skip @architect for faster deployment
+  emergencyHotfix: {
+    id: 'META-004',
+    name: 'Emergency Hotfix',
+    triggers: [
+      /hotfix|emergency|urgent fix|production down/i,
+      /critical bug|blocker|P0|severity.?1/i,
+      /immediate|ASAP|right now/i
+    ],
+    action: {
+      skipAgents: ['architect'],
+      forceWorkflow: '@builder -> @validator -> @tester',
+      forceComplexity: 'low',
+      addTips: [
+        'HOTFIX: Skipping @architect for faster resolution',
+        'HOTFIX: Create follow-up issue for proper fix if needed',
+        'HOTFIX: Ensure regression tests are added'
+      ]
+    },
+    description: 'Streamlines workflow for emergency fixes'
+  },
+
+  // Rule 5: Documentation-Only Optimization
+  // Pure documentation changes skip quality gates
+  documentationOnlyOptimization: {
+    id: 'META-005',
+    name: 'Documentation-Only Optimization',
+    triggers: [
+      /^(update|fix|improve|add).*(readme|changelog|docs|documentation|comments?)$/i,
+      /^documentation only|^docs only|^doc update$/i,
+      /typo in.*(readme|docs|documentation)/i
+    ],
+    action: {
+      forceAgents: ['scribe'],
+      forceWorkflow: '@scribe',
+      skipAgents: ['validator', 'tester', 'builder'],
+      forceComplexity: 'low',
+      addTips: [
+        'DOCS-ONLY: Simplified workflow - @scribe only',
+        'DOCS-ONLY: No code quality gates needed',
+        'DOCS-ONLY: Verify links and formatting'
+      ]
+    },
+    description: 'Optimizes pure documentation updates'
   }
 };
 
@@ -243,13 +391,29 @@ const WORKFLOW_SUGGESTIONS = {
       'Workflow will be determined by issue content',
       'PR will reference issue automatically'
     ]
+  },
+
+  // v5.7.0: Legal/Domain workflows
+  legal: {
+    workflow: '[Domain Pack: Anwaltsorchester]',
+    agents: [],
+    estimatedTime: {
+      low: '1-2 hours',
+      medium: '2-4 hours',
+      high: '4-8 hours'
+    },
+    tips: [
+      'Using domain-specific legal orchestration',
+      'Anwaltsorchester agents will handle this request',
+      'Legal analysis follows specialized workflow'
+    ]
   }
 };
 
 /**
- * Analyze user prompt
+ * Analyze user prompt (v5.8.0 - Enhanced with meta-decision layer)
  */
-function analyzeUserPrompt(prompt) {
+function analyzeUserPrompt(prompt, context = {}) {
   const analysis = {
     timestamp: new Date().toISOString(),
     prompt: prompt.slice(0, 100) + (prompt.length > 100 ? '...' : ''),
@@ -258,8 +422,34 @@ function analyzeUserPrompt(prompt) {
     confidence: 0,
     suggestedWorkflow: null,
     estimatedTime: null,
-    tips: []
+    tips: [],
+    // v5.7.0: Domain analysis
+    domain: null,
+    orchestrationType: null,
+    // v5.8.0: Meta-decision tracking
+    metaDecisions: [],
+    hasMetaDecisions: false
   };
+
+  // v5.7.0: Detect domain if available
+  if (detectDomain) {
+    try {
+      const domainAnalysis = detectDomain(
+        prompt,
+        context.recentFiles || [],
+        context.cwd || process.cwd()
+      );
+
+      analysis.domain = domainAnalysis;
+      analysis.orchestrationType = domainAnalysis.type === 'domain-pack' ? 'domain' : 'technical';
+    } catch (error) {
+      // Domain detection failed - continue with technical orchestration
+      analysis.orchestrationType = 'technical';
+    }
+  } else {
+    // Domain detector not available - use technical orchestration
+    analysis.orchestrationType = 'technical';
+  }
 
   // Get workflow suggestion
   if (analysis.taskType !== 'unknown') {
@@ -275,6 +465,17 @@ function analyzeUserPrompt(prompt) {
 
   // Calculate confidence
   analysis.confidence = calculateConfidence(prompt, analysis);
+
+  // v5.8.0: Apply meta-decision rules (AFTER initial analysis)
+  applyMetaDecisions(prompt, analysis);
+
+  // Recalculate estimated time if complexity was overridden
+  if (analysis.complexityOverridden && analysis.taskType !== 'unknown') {
+    const suggestion = WORKFLOW_SUGGESTIONS[analysis.taskType];
+    if (suggestion) {
+      analysis.estimatedTime = suggestion.estimatedTime[analysis.complexity] || 'Variable';
+    }
+  }
 
   return analysis;
 }
@@ -402,7 +603,94 @@ function calculateConfidence(prompt, analysis) {
 }
 
 /**
- * Display analysis results
+ * Apply Meta-Decision Rules (v5.8.0)
+ *
+ * Checks prompt against meta-decision rules and modifies analysis accordingly.
+ * Rules are applied in order of priority (security > breaking > performance > hotfix > docs).
+ *
+ * @param {string} prompt - The user's prompt
+ * @param {object} analysis - The initial analysis object
+ * @returns {object} - Modified analysis with applied meta-decisions
+ */
+function applyMetaDecisions(prompt, analysis) {
+  const appliedRules = [];
+
+  // Check each meta-decision rule
+  Object.entries(META_DECISION_LAYER).forEach(([ruleKey, rule]) => {
+    // Check if any trigger pattern matches
+    const isTriggered = rule.triggers.some(pattern => pattern.test(prompt));
+
+    if (isTriggered) {
+      appliedRules.push({
+        id: rule.id,
+        name: rule.name,
+        description: rule.description
+      });
+
+      const action = rule.action;
+
+      // Apply forceComplexity
+      if (action.forceComplexity) {
+        analysis.complexity = action.forceComplexity;
+        analysis.complexityOverridden = true;
+      }
+
+      // Apply forceWorkflow
+      if (action.forceWorkflow) {
+        analysis.suggestedWorkflow = action.forceWorkflow;
+        analysis.workflowOverridden = true;
+      }
+
+      // Apply forceAgents
+      if (action.forceAgents) {
+        analysis.agents = action.forceAgents;
+        analysis.agentsOverridden = true;
+      }
+
+      // Apply addAgents
+      if (action.addAgents) {
+        const currentAgents = analysis.agents || [];
+        action.addAgents.forEach(agent => {
+          if (!currentAgents.includes(agent)) {
+            currentAgents.push(agent);
+          }
+        });
+        analysis.agents = currentAgents;
+      }
+
+      // Apply skipAgents
+      if (action.skipAgents && analysis.agents) {
+        analysis.agents = analysis.agents.filter(
+          agent => !action.skipAgents.includes(agent)
+        );
+      }
+
+      // Apply priorityAgent
+      if (action.priorityAgent) {
+        analysis.priorityAgent = action.priorityAgent;
+      }
+
+      // Apply addTips
+      if (action.addTips) {
+        analysis.tips = [...(action.addTips), ...(analysis.tips || [])];
+      }
+    }
+  });
+
+  // Store applied rules in analysis
+  if (appliedRules.length > 0) {
+    analysis.metaDecisions = appliedRules;
+    analysis.hasMetaDecisions = true;
+  } else {
+    analysis.metaDecisions = [];
+    analysis.hasMetaDecisions = false;
+  }
+
+  return analysis;
+}
+
+/**
+ * Display analysis results (v5.8.0 - Enhanced with meta-decision display)
  */
 function displayAnalysis(analysis) {
   // Only display if confidence is reasonable
@@ -411,20 +699,38 @@ function displayAnalysis(analysis) {
   }
 
   console.log('');
-  console.log(`${colors.cyan}╔════════════════════════════════════════════════════════════╗${colors.reset}`);
-  console.log(`${colors.cyan}║  💡 WORKFLOW SUGGESTION (v5.6.0)                           ║${colors.reset}`);
-  console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}`);
+  console.log(`${colors.cyan}+============================================================+${colors.reset}`);
+  console.log(`${colors.cyan}|  WORKFLOW SUGGESTION (v5.8.0)                              |${colors.reset}`);
+  console.log(`${colors.cyan}+============================================================+${colors.reset}`);
   console.log('');
 
   // Task info
   console.log(`${colors.bright}Task Type:${colors.reset} ${getTaskTypeDisplay(analysis.taskType)}`);
-  console.log(`${colors.bright}Complexity:${colors.reset} ${getComplexityDisplay(analysis.complexity)}`);
+  console.log(`${colors.bright}Complexity:${colors.reset} ${getComplexityDisplay(analysis.complexity)}${analysis.complexityOverridden ? ` ${colors.yellow}(overridden)${colors.reset}` : ''}`);
   console.log(`${colors.bright}Confidence:${colors.reset} ${getConfidenceDisplay(analysis.confidence)}`);
+
+  // v5.7.0: Domain information
+  if (analysis.domain && analysis.orchestrationType) {
+    console.log(`${colors.bright}Orchestration:${colors.reset} ${getOrchestrationType(analysis.orchestrationType, analysis.domain)}`);
+  }
+
   console.log('');
+
+  // v5.8.0: Meta-Decision Rules Applied
+  if (analysis.hasMetaDecisions && analysis.metaDecisions.length > 0) {
+    console.log(`${colors.yellow}+------------------------------------------------------------+${colors.reset}`);
+    console.log(`${colors.yellow}|  META-DECISION RULES APPLIED                               |${colors.reset}`);
+    console.log(`${colors.yellow}+------------------------------------------------------------+${colors.reset}`);
+    analysis.metaDecisions.forEach(rule => {
+      console.log(`  ${colors.yellow}[${rule.id}]${colors.reset} ${colors.bright}${rule.name}${colors.reset}`);
+      console.log(`  ${colors.gray}${rule.description}${colors.reset}`);
+    });
+    console.log('');
+  }
 
   // Suggested workflow
   if (analysis.suggestedWorkflow) {
-    console.log(`${colors.bright}Suggested Workflow:${colors.reset}`);
+    console.log(`${colors.bright}Suggested Workflow:${colors.reset}${analysis.workflowOverridden ? ` ${colors.yellow}(overridden)${colors.reset}` : ''}`);
     console.log(`  ${colors.cyan}${analysis.suggestedWorkflow}${colors.reset}`);
     console.log('');
 
@@ -432,11 +738,25 @@ function displayAnalysis(analysis) {
     console.log('');
   }
 
+  // Priority Agent (v5.8.0)
+  if (analysis.priorityAgent) {
+    console.log(`${colors.bright}Priority Agent:${colors.reset} ${colors.yellow}@${analysis.priorityAgent}${colors.reset}`);
+    console.log('');
+  }
+
   // Tips
   if (analysis.tips.length > 0) {
     console.log(`${colors.bright}Tips:${colors.reset}`);
     analysis.tips.forEach(tip => {
-      console.log(`  ${colors.gray}•${colors.reset} ${tip}`);
+      // Color-code tips based on prefix
+      let tipColor = colors.gray;
+      if (tip.startsWith('SECURITY:')) tipColor = colors.red;
+      else if (tip.startsWith('BREAKING:')) tipColor = colors.yellow;
+      else if (tip.startsWith('PERFORMANCE:')) tipColor = colors.blue;
+      else if (tip.startsWith('HOTFIX:')) tipColor = colors.yellow;
+      else if (tip.startsWith('DOCS-ONLY:')) tipColor = colors.cyan;
+
+      console.log(`  ${tipColor}*${colors.reset} ${tip}`);
     });
     console.log('');
   }
@@ -454,6 +774,7 @@ function getTaskTypeDisplay(taskType) {
     'documentation': colors.cyan,
     'release': colors.bright,
     'issue': colors.yellow,
+    'legal': colors.yellow,  // v5.7.0
     'unknown': colors.gray
   };
 
@@ -493,6 +814,17 @@ function getConfidenceDisplay(confidence) {
 }
 
 /**
+ * Get orchestration type display (v5.7.0)
+ */
+function getOrchestrationType(orchestrationType, domainData) {
+  if (orchestrationType === 'domain') {
+    return `${colors.yellow}DOMAIN${colors.reset} - ${domainData.displayName} (Score: ${domainData.score})`;
+  } else {
+    return `${colors.cyan}TECHNICAL${colors.reset} - CC_GodMode Core`;
+  }
+}
+
+/**
  * Main CLI interface
  */
 function main() {
@@ -520,7 +852,10 @@ module.exports = {
   analyzeUserPrompt,
   displayAnalysis,
   detectTaskType,
-  assessComplexity
+  assessComplexity,
+  // v5.8.0: Meta-decision exports
+  applyMetaDecisions,
+  META_DECISION_LAYER
 };
 
 // CLI mode

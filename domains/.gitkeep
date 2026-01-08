@@ -1,0 +1,20 @@
+# Domain Packs Directory
+#
+# Place domain-specific configurations here.
+# Each domain pack should be a subdirectory with:
+#   - domain-config.json (required)
+#   - agents/ (optional - domain-specific agent prompts)
+#   - validation-rules.json (optional - domain-specific validation)
+#
+# Example structure:
+#   domains/
+#     react-native/
+#       domain-config.json
+#       agents/
+#         builder.md
+#         tester.md
+#       validation-rules.json
+#
+# Resolution Order: Project (./domains) > Global (~/.claude/domains) > Core
+#
+# See docs/policies/DOMAIN_PACK_SPEC.md for full specification.

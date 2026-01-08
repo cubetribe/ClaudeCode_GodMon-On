@@ -6,7 +6,7 @@
 
 **You're looking at the answer.**
 
-[![Version](https://img.shields.io/badge/Version-5.6.0-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-5.8.0-blue)](./CHANGELOG.md)
 [![State of the Art](https://img.shields.io/badge/2026%20Compliance-93%25-green)](./reports/)
 [![Agents](https://img.shields.io/badge/Agents-7%20Specialists-purple)](./agents/)
 [![Self-Improving](https://img.shields.io/badge/Self--Improving-Yes%2C%20Really-red)](./CHANGELOG.md)
@@ -336,6 +336,24 @@ claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
 
 ---
 
+## Documentation
+
+CC_GodMode includes comprehensive documentation for understanding and extending the system:
+
+### Core Documentation
+- **[CHANGELOG.md](./CHANGELOG.md)** - Full version history and evolution of the system
+- **[AGENT_ARCHITECTURE.md](./docs/AGENT_ARCHITECTURE.md)** - Understanding the dual-location model
+- **[AGENT_MODEL_SELECTION.md](./docs/AGENT_MODEL_SELECTION.md)** - Cost optimization and ROI analysis
+
+### Policy Documents (NEW in v5.7.0)
+- **[REPORT_TEMPLATES.md](./docs/templates/REPORT_TEMPLATES.md)** - Standardized formats for all 7 agents
+- **[CONTEXT_SCOPE_POLICY.md](./docs/policies/CONTEXT_SCOPE_POLICY.md)** - Agent boundaries and responsibilities
+- **[SECURITY_TOOLING_POLICY.md](./docs/policies/SECURITY_TOOLING_POLICY.md)** - Tool access control matrix
+
+These documents transform implicit knowledge into explicit contracts, making the system more maintainable and predictable.
+
+---
+
 ## Context Recovery
 
 Claude Code's `/compact` can cause memory loss. When the orchestrator starts implementing instead of delegating:
@@ -382,13 +400,15 @@ The loop continues.
 
 ## Version
 
-**CC_GodMode v5.1.1**
+**CC_GodMode v5.8.0**
 
-- State-of-the-Art Analysis 2026 (self-validated)
-- 87% compliance with 2026 best practices
-- Complete agent tool mismatch fix
-- 7 specialized agents
-- Dual quality gates
+- Meta-decision logic for intelligent workflow adaptation
+- Governance features (DECISIONS.md ADR log, RARE Matrix)
+- Domain-pack architecture for industry-specific validation
+- Three-tier escalation mechanism for error recovery
+- State-of-the-Art 2026 compliance: 93%
+- 7 specialized agents with clear boundaries
+- Dual quality gates (40% faster since v5.6.0)
 - Hook-based API detection
 - Version-first workflow
 
