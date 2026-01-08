@@ -1,15 +1,15 @@
 # API Consumer Registry
 
-> ⚠️ This file MUST be kept up to date with every API change!
-> Last updated: 2025-12-07
+> ⚠️ Diese Datei MUSS bei jeder API-Änderung aktuell gehalten werden!
+> Zuletzt aktualisiert: 2025-12-07
 
-## Quick Reference: Finding Consumers
+## Schnellreferenz: Consumer finden
 
 ```bash
-# Search for type name
+# Nach Typ-Namen suchen
 grep -rn "TypeName" src/ --include="*.ts*"
 
-# Search for endpoint
+# Nach Endpoint suchen
 grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 ```
 
@@ -20,17 +20,17 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/users.ts`
 **Types:** `shared/types/User.ts`
 
-| Consumer | Path | Usage |
-|----------|------|-------|
-| useUsers Hook | `src/hooks/useUsers.ts:15` | Data Fetching |
-| UserList | `src/components/UserList.tsx:23` | Display |
+| Consumer | Pfad | Verwendung |
+|----------|------|------------|
+| useUsers Hook | `src/hooks/useUsers.ts:15` | Datenabruf |
+| UserList | `src/components/UserList.tsx:23` | Anzeige |
 | UserService | `src/api/userService.ts:8` | API Client |
 
-### Check when changing
+### Prüfen bei Änderung
 
-- [ ] Response schema → all consumer destructurings
-- [ ] URL change → all fetch/axios calls
-- [ ] Auth change → all header configs
+- [ ] Response-Schema → alle Consumer-Destrukturierungen
+- [ ] URL-Änderung → alle fetch/axios-Aufrufe
+- [ ] Auth-Änderung → alle Header-Configs
 
 ---
 
@@ -39,15 +39,15 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/products.ts`
 **Types:** `shared/types/Product.ts`
 
-| Consumer | Path | Usage |
-|----------|------|-------|
-| useProducts | `src/hooks/useProducts.ts:12` | Data Fetching |
-| ProductCard | `src/components/ProductCard.tsx:34` | Display |
-| CartService | `src/services/cart.ts:45` | Cart Logic |
+| Consumer | Pfad | Verwendung |
+|----------|------|------------|
+| useProducts | `src/hooks/useProducts.ts:12` | Datenabruf |
+| ProductCard | `src/components/ProductCard.tsx:34` | Anzeige |
+| CartService | `src/services/cart.ts:45` | Warenkorb-Logik |
 
 ---
 
-## Template for New Endpoints
+## Template für neue Endpoints
 
 ```markdown
 ## /api/v1/[endpoint]
@@ -55,11 +55,11 @@ grep -rn "/api/v1/endpoint" src/ --include="*.ts*"
 **Backend:** `backend/routes/[file].ts`
 **Types:** `shared/types/[Type].ts`
 
-| Consumer | Path | Usage |
-|----------|------|-------|
-| [Name] | `[path:line]` | [Purpose] |
+| Consumer | Pfad | Verwendung |
+|----------|------|------------|
+| [Name] | `[pfad:zeile]` | [Zweck] |
 
-### Check when changing
+### Prüfen bei Änderung
 
-- [ ] [Specific checkpoints]
+- [ ] [Spezifische Prüfpunkte]
 ```

@@ -2,9 +2,9 @@
 
 # CC_GodMode
 
-### *"What happens when an AI system is used to improve itself?"*
+### *"Was passiert, wenn ein KI-System genutzt wird, um sich selbst zu verbessern?"*
 
-**You're looking at the answer.**
+**Du betrachtest die Antwort.**
 
 [![Version](https://img.shields.io/badge/Version-5.8.0-blue)](./CHANGELOG.md)
 [![State of the Art](https://img.shields.io/badge/2026%20Compliance-93%25-green)](./reports/)
@@ -15,79 +15,79 @@
 
 ---
 
-## The Story
+## Die Geschichte
 
-It started simple: One developer, mass sleep deprivation, and a vision.
+Es begann einfach: Ein Entwickler, massiver Schlafmangel und eine Vision.
 
-**Phase 1:** Manual labor. Researching best practices. Reading docs. Testing prompts. Failing. Iterating. Building agent after agent. Workflow after workflow. Week after week.
+**Phase 1:** Manuelle Arbeit. Best Practices recherchieren. Dokumentation lesen. Prompts testen. Scheitern. Iterieren. Agent nach Agent bauen. Workflow nach Workflow. Woche für Woche.
 
-**Phase 2:** The system works. 7 specialized AI agents orchestrating themselves. Features get built. Bugs get fixed. Documentation writes itself. *"This is pretty good,"* I thought.
+**Phase 2:** Das System funktioniert. 7 spezialisierte KI-Agenten orchestrieren sich selbst. Features werden gebaut. Bugs werden gefixt. Dokumentation schreibt sich selbst. *"Das ist ziemlich gut,"* dachte ich.
 
-**Phase 3:** January 6th, 2026. A thought: *"What if I use the system... to improve the system?"*
+**Phase 3:** 6. Januar 2026. Ein Gedanke: *"Was wäre, wenn ich das System nutze... um das System zu verbessern?"*
 
-I gave it one prompt. The orchestrator delegated to the research team. Analyzed its own architecture. Found inefficiencies. Proposed improvements. Implemented them. Validated itself. Documented the changes.
+Ich gab ihm einen Prompt. Der Orchestrator delegierte an das Research-Team. Analysierte seine eigene Architektur. Fand Ineffizienzen. Schlug Verbesserungen vor. Implementierte sie. Validierte sich selbst. Dokumentierte die Änderungen.
 
-**The loop closed.**
+**Der Kreis schloss sich.**
 
-**Phase 4:** You're reading this README. An AI wrote parts of it. An AI will improve it. The experiment continues.
+**Phase 4:** Du liest dieses README. Eine KI hat Teile davon geschrieben. Eine KI wird es verbessern. Das Experiment geht weiter.
 
 ---
 
-## What Is This?
+## Was ist das?
 
-**CC_GodMode** transforms Claude Code into a self-orchestrating development team.
+**CC_GodMode** verwandelt Claude Code in ein selbst-orchestrierendes Entwicklungsteam.
 
-**You say WHAT. The AI figures out HOW.**
+**Du sagst WAS. Die KI findet heraus WIE.**
 
 ```
-You: "I need user authentication with JWT"
+Du: "Ich brauche Benutzer-Authentifizierung mit JWT"
 
 Orchestrator:
-  → Analyzes request
-  → Determines version (5.5.0)
-  → Creates report folder
-  → Delegates to @architect for design
-  → Delegates to @api-guardian for API impact
-  → Delegates to @builder for implementation
-  → @validator checks code quality
-  → @tester checks UX quality
-  → @scribe documents everything
-  → @github-manager creates PR
+  → Analysiert Anfrage
+  → Bestimmt Version (5.5.0)
+  → Erstellt Report-Ordner
+  → Delegiert an @architect für Design
+  → Delegiert an @api-guardian für API-Impact
+  → Delegiert an @builder für Implementierung
+  → @validator prüft Code-Qualität
+  → @tester prüft UX-Qualität
+  → @scribe dokumentiert alles
+  → @github-manager erstellt PR
 
-You: *drinks coffee*
+Du: *trinkt Kaffee*
 ```
 
-The difference?
+Der Unterschied?
 
-| Without CC_GodMode | With CC_GodMode |
+| Ohne CC_GodMode | Mit CC_GodMode |
 |:---|:---|
-| You: "Design the feature" | You: "Build Feature X" |
-| You: "Now implement it" | ☕ |
-| You: "Check the types" | ☕ |
-| You: "Update the consumers" | ☕ |
-| You: "Write the docs" | ☕ |
-| You: "Did I forget something?" | AI: "Done. Here's the report." |
+| Du: "Designe das Feature" | Du: "Baue Feature X" |
+| Du: "Jetzt implementiere es" | ☕ |
+| Du: "Prüfe die Typen" | ☕ |
+| Du: "Update die Consumer" | ☕ |
+| Du: "Schreibe die Docs" | ☕ |
+| Du: "Habe ich etwas vergessen?" | KI: "Fertig. Hier ist der Bericht." |
 
 ---
 
-## The Agents
+## Die Agenten
 
-7 specialists. Each with their own expertise. Each knowing exactly what they do—and what they don't.
+7 Spezialisten. Jeder mit eigener Expertise. Jeder weiß genau, was er tut—und was nicht.
 
-| Agent | Role | Specialty |
+| Agent | Rolle | Spezialgebiet |
 |:------|:-----|:----------|
-| `@architect` | System Architect | High-level design, module structure, tech decisions |
-| `@api-guardian` | API Lifecycle Expert | Breaking changes, consumer impact, contract validation |
-| `@builder` | Senior Developer | Implementation, following @architect's specifications |
-| `@validator` | Code Quality Gate | TypeScript, unit tests, security, consumer verification |
-| `@tester` | UX Quality Gate | E2E tests, visual regression, accessibility, performance |
-| `@scribe` | Technical Writer | Documentation, changelog, version management |
-| `@github-manager` | GitHub Manager | Issues, PRs, releases, CI/CD orchestration |
+| `@architect` | System Architekt | High-Level-Design, Modulstruktur, Tech-Entscheidungen |
+| `@api-guardian` | API-Lifecycle-Experte | Breaking Changes, Consumer-Impact, Contract-Validierung |
+| `@builder` | Senior Entwickler | Implementierung nach @architects Spezifikationen |
+| `@validator` | Code Quality Gate | TypeScript, Unit-Tests, Sicherheit, Consumer-Verifikation |
+| `@tester` | UX Quality Gate | E2E-Tests, Visual Regression, Accessibility, Performance |
+| `@scribe` | Technical Writer | Dokumentation, Changelog, Versions-Management |
+| `@github-manager` | GitHub Manager | Issues, PRs, Releases, CI/CD-Orchestrierung |
 
 **Dual Quality Gates:**
 
 ```
-                    @builder completes
+                    @builder fertig
                            │
            ┌───────────────┴───────────────┐
            ▼                               ▼
@@ -103,17 +103,17 @@ The difference?
            │                               │
            └───────────────┬───────────────┘
                            ▼
-                   Both gates passed?
-                   → Continue to @scribe
+                   Beide Gates bestanden?
+                   → Weiter zu @scribe
 ```
 
 ---
 
-## The Architecture
+## Die Architektur
 
 ```
-~/.claude/                          ← RUNTIME (What Claude loads)
-├── agents/                         ← 7 agents, globally available
+~/.claude/                          ← RUNTIME (Was Claude lädt)
+├── agents/                         ← 7 Agenten, global verfügbar
 │   ├── architect.md
 │   ├── api-guardian.md
 │   ├── builder.md
@@ -121,39 +121,39 @@ The difference?
 │   ├── tester.md
 │   ├── scribe.md
 │   └── github-manager.md
-├── scripts/                        ← Hook scripts
+├── scripts/                        ← Hook-Scripts
 │   └── check-api-impact.js
-├── templates/                      ← Project templates
+├── templates/                      ← Projekt-Templates
 │   ├── CLAUDE-ORCHESTRATOR.md
 │   └── CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md
-└── settings.json                   ← Hooks configuration
+└── settings.json                   ← Hooks-Konfiguration
 ```
 
 ```
-your-project/                       ← YOUR PROJECT
-├── CLAUDE.md                       ← Orchestrator (auto-loaded!)
-├── VERSION                         ← Single source of truth
-├── CHANGELOG.md                    ← Version history
-└── reports/                        ← Agent outputs
-    └── v5.1.0/                     ← Grouped by version
+your-project/                       ← DEIN PROJEKT
+├── CLAUDE.md                       ← Orchestrator (wird automatisch geladen!)
+├── VERSION                         ← Single Source of Truth
+├── CHANGELOG.md                    ← Versions-Historie
+└── reports/                        ← Agenten-Outputs
+    └── v5.1.0/                     ← Gruppiert nach Version
         ├── 00-architect-report.md
         └── ...
 ```
 
-**The trick:** `CLAUDE.md` is automatically loaded by Claude Code. No copy-paste. No activation. Just... works.
+**Der Trick:** `CLAUDE.md` wird automatisch von Claude Code geladen. Kein Copy-Paste. Keine Aktivierung. Funktioniert einfach.
 
 ---
 
-## Agent Architecture
+## Agenten-Architektur
 
-CC_GodMode uses a **dual-location model** for agents:
+CC_GodMode nutzt ein **Dual-Location-Modell** für Agenten:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    AGENT DUAL-LOCATION MODEL                         │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│   GitHub Repository                    Your System                   │
+│   GitHub Repository                    Dein System                   │
 │   ════════════════                    ════════════                   │
 │                                                                      │
 │   CC_GodMode/                         ~/.claude/                     │
@@ -164,30 +164,31 @@ CC_GodMode uses a **dual-location model** for agents:
 │       └── ...                             └── ...                   │
 │                                                                      │
 │   📦 SOURCE                            🚀 RUNTIME                    │
-│   • Version controlled                 • Actually loaded by Claude   │
-│   • Templates for Git                  • System-wide available       │
-│   • Update here, reinstall             • Used during workflows       │
+│   • Versionskontrolliert              • Wird tatsächlich von Claude │
+│   • Templates für Git                    geladen                    │
+│   • Hier updaten, dann neu             • Systemweit verfügbar       │
+│     installieren                       • Während Workflows genutzt  │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Why this design?**
-- **Source** (`/agents/`): Tracked in Git, shareable, updatable
-- **Runtime** (`~/.claude/agents/`): Where Claude Code actually looks for agents
+**Warum dieses Design?**
+- **Source** (`/agents/`): Im Git getrackt, teilbar, updatebar
+- **Runtime** (`~/.claude/agents/`): Wo Claude Code tatsächlich nach Agenten sucht
 
-**Update flow:**
-1. Modify agent in `/agents/` (source)
-2. Run installation script
-3. Changes copied to `~/.claude/agents/` (runtime)
-4. Claude Code uses updated agents
+**Update-Flow:**
+1. Agent in `/agents/` modifizieren (Source)
+2. Installations-Script ausführen
+3. Änderungen nach `~/.claude/agents/` kopiert (Runtime)
+4. Claude Code nutzt aktualisierte Agenten
 
 ---
 
-## The Workflows
+## Die Workflows
 
-The Orchestrator selects the right workflow automatically:
+Der Orchestrator wählt automatisch den richtigen Workflow:
 
-**New Feature:**
+**Neues Feature:**
 ```
 @architect → @builder → (@validator ∥ @tester) → @scribe
 ```
@@ -197,7 +198,7 @@ The Orchestrator selects the right workflow automatically:
 @builder → (@validator ∥ @tester)
 ```
 
-**API Change (Critical!):**
+**API-Änderung (Kritisch!):**
 ```
 @architect → @api-guardian → @builder → (@validator ∥ @tester) → @scribe
 ```
@@ -207,7 +208,7 @@ The Orchestrator selects the right workflow automatically:
 @architect → @builder → (@validator ∥ @tester)
 ```
 
-**Note:** Since v5.6.0, quality gates run in PARALLEL (∥ symbol) for 40% faster validation.
+**Hinweis:** Seit v5.6.0 laufen Quality Gates PARALLEL (∥ Symbol) für 40% schnellere Validierung.
 
 **Release:**
 ```
@@ -216,139 +217,141 @@ The Orchestrator selects the right workflow automatically:
 
 ---
 
-## The Hook
+## Der Hook
 
-The secret ingredient: A PostToolUse hook that runs after every file change.
+Die Geheimzutat: Ein PostToolUse-Hook, der nach jeder Dateiänderung läuft.
 
 ```
-Developer changes: shared/types/User.ts
+Entwickler ändert: shared/types/User.ts
                           │
                           ▼
               ┌───────────────────────┐
-              │  check-api-impact.js  │  ← AUTOMATICALLY
+              │  check-api-impact.js  │  ← AUTOMATISCH
               │                       │
-              │  • Detects API change │
-              │  • Analyzes diff      │
-              │  • Finds consumers    │
-              │  • Warns about breaks │
+              │  • Erkennt API-Änderung│
+              │  • Analysiert Diff     │
+              │  • Findet Consumer     │
+              │  • Warnt vor Breaks    │
               └───────────────────────┘
                           │
                           ▼
 ╔═══════════════════════════════════════════════════════════╗
 ║  ⚠️  API/TYPE FILE CHANGE DETECTED                         ║
 ║                                                            ║
-║  📁 File: shared/types/User.ts                             ║
-║  🔴 BREAKING: Removed field 'email'                        ║
-║  📍 5 consumers found                                      ║
+║  📁 Datei: shared/types/User.ts                            ║
+║  🔴 BREAKING: Feld 'email' entfernt                        ║
+║  📍 5 Consumer gefunden                                    ║
 ║                                                            ║
-║  ⚡ @api-guardian MUST be called!                          ║
+║  ⚡ @api-guardian MUSS aufgerufen werden!                  ║
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
-Nothing gets forgotten. The hook remembers for you.
+Nichts wird vergessen. Der Hook erinnert für dich.
 
 ---
 
 ## Installation
 
-### One-Shot Install (Recommended)
+### One-Shot Install (Empfohlen)
 
-> One prompt. Claude installs everything.
+> Ein Prompt. Claude installiert alles.
 
-**Step 1:** Start Claude with permissions:
+**Schritt 1:** Starte Claude mit Berechtigungen:
 ```bash
 claude --dangerously-skip-permissions
 ```
 
-**Step 2:** Copy the entire content from [`CC-GodMode-Prompts/CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) and paste it.
+**Schritt 2:** Kopiere den gesamten Inhalt aus [`CC-GodMode-Prompts/CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) und füge ihn ein.
 
-**Step 3:** Watch. Claude will:
-- Clone the repository
-- Install 7 agents globally
-- Set up hook scripts
-- Install Memory MCP Server
-- Configure and verify
+**Schritt 3:** Zusehen. Claude wird:
+- Das Repository klonen
+- 7 Agenten global installieren
+- Hook-Scripts einrichten
+- Memory MCP Server installieren
+- Konfigurieren und verifizieren
 
-**Why `--dangerously-skip-permissions`?** 30+ file operations. Without it, you'd confirm each one manually.
+**Warum `--dangerously-skip-permissions`?** 30+ Dateioperationen. Ohne würdest du jede einzelne manuell bestätigen.
 
-### Manual Install
+### Manuelle Installation
 
-See [`CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) for step-by-step instructions.
+Siehe [`CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) für Schritt-für-Schritt-Anleitung.
 
 ---
 
-## Prompt Files
+## Prompt-Dateien
 
-CC_GodMode includes ready-to-use prompts for different scenarios:
+CC_GodMode enthält sofort nutzbare Prompts für verschiedene Szenarien:
 
-| Prompt File | Purpose | When to Use |
+| Prompt-Datei | Zweck | Wann verwenden |
 |-------------|---------|-------------|
-| [`CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) | One-shot installation | First-time setup with `--dangerously-skip-permissions` |
-| [`CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) | Step-by-step installation | When you prefer manual control |
-| [`CCGM_Prompt_ProjectSetup.md`](./CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md) | Inject orchestrator into project | Adding CC_GodMode to existing project's CLAUDE.md |
-| [`CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md) | **CRITICAL** Context recovery | After `/compact`, long sessions, or **every fresh session** |
+| [`CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) | One-Shot-Installation | Erstmaliges Setup mit `--dangerously-skip-permissions` |
+| [`CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) | Schritt-für-Schritt-Installation | Wenn du manuelle Kontrolle bevorzugst |
+| [`CCGM_Prompt_ProjectSetup.md`](./CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md) | Orchestrator in Projekt einfügen | CC_GodMode zu bestehendem Projekt hinzufügen |
+| [`CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md) | **KRITISCH** Kontext-Wiederherstellung | Nach `/compact`, langen Sessions oder **jeder neuen Session** |
 
-### When to Use Which Prompt
+### Wann welchen Prompt verwenden
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                         PROMPT DECISION TREE                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  Is CC_GodMode installed globally (~/.claude/)?                             │
+│  Ist CC_GodMode global installiert (~/.claude/)?                            │
 │     │                                                                       │
-│     ├── NO → Use CCGM_Prompt_Install.md (one-time setup)                   │
+│     ├── NEIN → Nutze CCGM_Prompt_Install.md (einmalig)                     │
 │     │                                                                       │
-│     └── YES → Does your project have CLAUDE.md?                            │
+│     └── JA → Hat dein Projekt CLAUDE.md?                                   │
 │                  │                                                          │
-│                  ├── NO → Copy CCGM_Prompt_ProjectSetup.md into CLAUDE.md  │
+│                  ├── NEIN → Kopiere CCGM_Prompt_ProjectSetup.md in         │
+│                  │           CLAUDE.md                                      │
 │                  │                                                          │
-│                  └── YES → Is this a fresh/new session?                    │
+│                  └── JA → Ist dies eine neue/frische Session?              │
 │                              │                                              │
-│                              └── YES → Use CCGM_Prompt_Restart.md          │
-│                                        (CRITICAL - Do this EVERY TIME!)    │
+│                              └── JA → Nutze CCGM_Prompt_Restart.md         │
+│                                        (KRITISCH - JEDES MAL machen!)      │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### CRITICAL: The Restart Prompt
+### KRITISCH: Der Restart-Prompt
 
-**Why is `CCGM_Prompt_Restart.md` so important?**
+**Warum ist `CCGM_Prompt_Restart.md` so wichtig?**
 
-Claude Code does NOT automatically remember orchestrator mode between sessions. Even if:
-- CC_GodMode is installed globally
-- Your project has CLAUDE.md configured
-- Everything worked perfectly yesterday
+Claude Code erinnert sich NICHT automatisch an den Orchestrator-Modus zwischen Sessions. Auch wenn:
+- CC_GodMode global installiert ist
+- Dein Projekt CLAUDE.md konfiguriert hat
+- Gestern alles perfekt funktionierte
 
-**You MUST use the Restart Prompt when:**
-1. Starting a **new/fresh Claude Code session**
-2. After using **`/compact`** (context summarization)
-3. After **long sessions** where Claude seems to "forget"
-4. When Claude **starts implementing instead of delegating**
+**Du MUSST den Restart-Prompt nutzen wenn:**
+1. Du eine **neue/frische Claude Code Session** startest
+2. Nach Nutzung von **`/compact`** (Kontext-Zusammenfassung)
+3. Nach **langen Sessions**, wo Claude zu "vergessen" scheint
+4. Wenn Claude **implementiert statt zu delegieren**
 
-**Signs you need the Restart Prompt:**
-- Claude writes code instead of calling agents
-- Claude forgets to call @api-guardian for API changes
-- Claude skips quality gates (@validator or @tester)
-- Claude pushes without asking permission
+**Anzeichen dass du den Restart-Prompt brauchst:**
+- Claude schreibt Code statt Agenten aufzurufen
+- Claude vergisst @api-guardian für API-Änderungen aufzurufen
+- Claude überspringt Quality Gates (@validator oder @tester)
+- Claude pusht ohne zu fragen
+- Claude schreibt Reports in falschen Ordner (sollte `reports/v[VERSION]/` sein)
 
-### Quick Reference
+### Kurzreferenz
 
-| Scenario | Action |
+| Szenario | Aktion |
 |----------|--------|
-| **First time ever** | `CCGM_Prompt_Install.md` |
-| **New project (CC_GodMode already installed)** | Copy `CCGM_Prompt_ProjectSetup.md` into CLAUDE.md |
-| **Every new session** | Paste `CCGM_Prompt_Restart.md` |
-| **After /compact** | Paste `CCGM_Prompt_Restart.md` |
-| **Claude seems confused** | Paste `CCGM_Prompt_Restart.md` |
+| **Erstmals überhaupt** | `CCGM_Prompt_Install.md` |
+| **Neues Projekt (CC_GodMode bereits installiert)** | Kopiere `CCGM_Prompt_ProjectSetup.md` in CLAUDE.md |
+| **Jede neue Session** | Füge `CCGM_Prompt_Restart.md` ein |
+| **Nach /compact** | Füge `CCGM_Prompt_Restart.md` ein |
+| **Claude wirkt verwirrt** | Füge `CCGM_Prompt_Restart.md` ein |
 
-**TL;DR:** Install once, restart every session.
+**TL;DR:** Einmal installieren, jede Session neu starten.
 
 ---
 
-## Activate in Your Project
+## In deinem Projekt aktivieren
 
-After installation, for each project:
+Nach der Installation für jedes Projekt:
 
 **macOS / Linux:**
 ```bash
@@ -364,29 +367,29 @@ Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.
 claude
 ```
 
-The CLAUDE.md is auto-loaded. Orchestrator mode is active.
+Die CLAUDE.md wird automatisch geladen. Orchestrator-Modus ist aktiv.
 
 ---
 
-## MCP Servers
+## MCP Server
 
-Enhanced capabilities through Model Context Protocol:
+Erweiterte Fähigkeiten durch Model Context Protocol:
 
-| Server | Agent | Purpose | Required? |
+| Server | Agent | Zweck | Erforderlich? |
 |:-------|:------|:--------|:----------|
-| **memory** | All | Persistent knowledge | ✅ Installed |
-| **playwright** | @tester | Browser automation, E2E | Recommended |
-| **github** | @github-manager | Issues, PRs, Releases | Recommended |
-| **lighthouse** | @tester | Performance audits | Optional |
-| **a11y** | @tester | Accessibility testing | Optional |
+| **memory** | Alle | Persistentes Wissen | ✅ Installiert |
+| **playwright** | @tester | Browser-Automation, E2E | Empfohlen |
+| **github** | @github-manager | Issues, PRs, Releases | Empfohlen |
+| **lighthouse** | @tester | Performance-Audits | Optional |
+| **a11y** | @tester | Accessibility-Testing | Optional |
 
 ```bash
-# Install recommended MCPs
+# Empfohlene MCPs installieren
 claude mcp add playwright -- npx @playwright/mcp@latest
 claude mcp add lighthouse -- npx lighthouse-mcp
 claude mcp add a11y -- npx a11y-mcp
 
-# GitHub MCP (requires token)
+# GitHub MCP (benötigt Token)
 export GITHUB_TOKEN="your_token"
 claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
   -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN \
@@ -395,78 +398,78 @@ claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
 
 ---
 
-## The Rules
+## Die Regeln
 
-1. **Version-First** — Determine version BEFORE any work starts
-2. **@architect is the Gate** — No feature starts without design
-3. **@api-guardian is MANDATORY** — For any API change
-4. **Dual Quality Gates** — Both @validator AND @tester must pass
-5. **No Skipping** — Every agent in workflow executes
-6. **Reports in reports/vX.X.X/** — Organized by version
-7. **NEVER push without permission** — Applies to ALL agents
-
----
-
-## Documentation
-
-CC_GodMode includes comprehensive documentation for understanding and extending the system:
-
-### Core Documentation
-- **[CHANGELOG.md](./CHANGELOG.md)** - Full version history and evolution of the system
-- **[AGENT_ARCHITECTURE.md](./docs/AGENT_ARCHITECTURE.md)** - Understanding the dual-location model
-- **[AGENT_MODEL_SELECTION.md](./docs/AGENT_MODEL_SELECTION.md)** - Cost optimization and ROI analysis
-
-### Policy Documents (NEW in v5.7.0)
-- **[REPORT_TEMPLATES.md](./docs/templates/REPORT_TEMPLATES.md)** - Standardized formats for all 7 agents
-- **[CONTEXT_SCOPE_POLICY.md](./docs/policies/CONTEXT_SCOPE_POLICY.md)** - Agent boundaries and responsibilities
-- **[SECURITY_TOOLING_POLICY.md](./docs/policies/SECURITY_TOOLING_POLICY.md)** - Tool access control matrix
-
-These documents transform implicit knowledge into explicit contracts, making the system more maintainable and predictable.
+1. **Version-First** — Version bestimmen BEVOR Arbeit beginnt
+2. **@architect ist das Gate** — Kein Feature startet ohne Design
+3. **@api-guardian ist PFLICHT** — Für jede API-Änderung
+4. **Dual Quality Gates** — Sowohl @validator ALS AUCH @tester müssen bestehen
+5. **Kein Überspringen** — Jeder Agent im Workflow wird ausgeführt
+6. **Reports in reports/vX.X.X/** — Nach Version organisiert
+7. **NIEMALS pushen ohne Berechtigung** — Gilt für ALLE Agenten
 
 ---
 
-## Context Recovery
+## Dokumentation
 
-Claude Code's `/compact` can cause memory loss. When the orchestrator starts implementing instead of delegating:
+CC_GodMode enthält umfassende Dokumentation zum Verständnis und zur Erweiterung des Systems:
 
-1. Open [`CC-GodMode-Prompts/CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md)
-2. Copy the restart prompt
-3. Paste into chat
-4. Orchestrator mode restored
+### Kern-Dokumentation
+- **[CHANGELOG.md](./CHANGELOG.md)** - Vollständige Versions-Historie und Evolution des Systems
+- **[AGENT_ARCHITECTURE.md](./docs/AGENT_ARCHITECTURE.md)** - Verständnis des Dual-Location-Modells
+- **[AGENT_MODEL_SELECTION.md](./docs/AGENT_MODEL_SELECTION.md)** - Kostenoptimierung und ROI-Analyse
 
-**Signs you need restart:**
-- Claude writes code instead of calling agents
-- Claude forgets @api-guardian for API changes
-- Claude skips quality gates (@validator or @tester)
-- Claude pushes without permission
-- Claude writes reports to wrong folder (should be `reports/v[VERSION]/`)
+### Policy-Dokumente (NEU in v5.7.0)
+- **[REPORT_TEMPLATES.md](./docs/templates/REPORT_TEMPLATES.md)** - Standardisierte Formate für alle 7 Agenten
+- **[CONTEXT_SCOPE_POLICY.md](./docs/policies/CONTEXT_SCOPE_POLICY.md)** - Agenten-Grenzen und Verantwortlichkeiten
+- **[SECURITY_TOOLING_POLICY.md](./docs/policies/SECURITY_TOOLING_POLICY.md)** - Tool-Zugriffskontroll-Matrix
+
+Diese Dokumente verwandeln implizites Wissen in explizite Verträge und machen das System wartbarer und vorhersagbarer.
+
+---
+
+## Kontext-Wiederherstellung
+
+Claude Codes `/compact` kann Gedächtnisverlust verursachen. Wenn der Orchestrator anfängt zu implementieren statt zu delegieren:
+
+1. Öffne [`CC-GodMode-Prompts/CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md)
+2. Kopiere den Restart-Prompt
+3. Füge in Chat ein
+4. Orchestrator-Modus wiederhergestellt
+
+**Anzeichen dass du Restart brauchst:**
+- Claude schreibt Code statt Agenten aufzurufen
+- Claude vergisst @api-guardian für API-Änderungen
+- Claude überspringt Quality Gates (@validator oder @tester)
+- Claude pusht ohne Berechtigung
+- Claude schreibt Reports in falschen Ordner (sollte `reports/v[VERSION]/` sein)
 
 ---
 
 ## FAQ
 
-**Q: Why 7 agents?**
-A: Separation of concerns. Each agent has ONE job. No overlap. No confusion.
+**F: Warum 7 Agenten?**
+A: Separation of Concerns. Jeder Agent hat EINEN Job. Keine Überschneidungen. Keine Verwirrung.
 
-**Q: What's the difference between @validator and @tester?**
-A: @validator = code quality (TypeScript, tests, security). @tester = UX quality (E2E, visual, a11y, perf).
+**F: Was ist der Unterschied zwischen @validator und @tester?**
+A: @validator = Code-Qualität (TypeScript, Tests, Sicherheit). @tester = UX-Qualität (E2E, Visual, A11y, Perf).
 
-**Q: Can I skip @tester?**
-A: For backend-only changes, yes. For anything UI-related, no.
+**F: Kann ich @tester überspringen?**
+A: Für reine Backend-Änderungen, ja. Für alles UI-bezogene, nein.
 
-**Q: Can agents push without my permission?**
-A: No. "NEVER git push without permission" is enforced across all agents.
+**F: Können Agenten ohne meine Berechtigung pushen?**
+A: Nein. "NIEMALS git push ohne Berechtigung" ist über alle Agenten hinweg durchgesetzt.
 
-**Q: Is this just... AI improving AI?**
-A: Yes. That's the unsettling part. And the fascinating part. Same thing, really.
+**F: Ist das einfach nur... KI verbessert KI?**
+A: Ja. Das ist der beunruhigende Teil. Und der faszinierende Teil. Eigentlich dasselbe.
 
 ---
 
-## The Meta
+## Das Meta
 
-This README was partly written by an AI.
-The system that wrote it will improve it.
-The loop continues.
+Dieses README wurde teilweise von einer KI geschrieben.
+Das System, das es geschrieben hat, wird es verbessern.
+Der Kreis geht weiter.
 
 ---
 
@@ -474,30 +477,30 @@ The loop continues.
 
 **CC_GodMode v5.8.0**
 
-- Meta-decision logic for intelligent workflow adaptation
-- Governance features (DECISIONS.md ADR log, RARE Matrix)
-- Domain-pack architecture for industry-specific validation
-- Three-tier escalation mechanism for error recovery
-- State-of-the-Art 2026 compliance: 93%
-- 7 specialized agents with clear boundaries
-- Dual quality gates (40% faster since v5.6.0)
-- Hook-based API detection
-- Version-first workflow
+- Meta-Decision-Logik für intelligente Workflow-Anpassung
+- Governance-Features (DECISIONS.md ADR-Log, RARE-Matrix)
+- Domain-Pack-Architektur für branchenspezifische Validierung
+- Dreistufiger Eskalations-Mechanismus für Fehler-Recovery
+- State-of-the-Art 2026 Compliance: 93%
+- 7 spezialisierte Agenten mit klaren Grenzen
+- Dual Quality Gates (40% schneller seit v5.6.0)
+- Hook-basierte API-Erkennung
+- Version-First-Workflow
 
-See [CHANGELOG.md](./CHANGELOG.md) for the full story.
+Siehe [CHANGELOG.md](./CHANGELOG.md) für die vollständige Geschichte.
 
 ---
 
 ## Credits
 
 **Dennis Westermann** ([www.dennis-westermann.de](https://www.dennis-westermann.de))
-*Years of suffering, distilled into this repo. Now the repo improves itself. Was it worth it?*
+*Jahre des Leidens, destilliert in dieses Repo. Jetzt verbessert sich das Repo selbst. War es das wert?*
 
 ---
 
-## License
+## Lizenz
 
-**Proprietary License** — Private use permitted. Commercial use requires permission.
+**Proprietary License** — Private Nutzung erlaubt. Kommerzielle Nutzung erfordert Berechtigung.
 
 Copyright (c) 2025 Dennis Westermann
 
@@ -505,10 +508,10 @@ Copyright (c) 2025 Dennis Westermann
 
 <div align="center">
 
-**Made with mass sleep deprivation**
+**Erstellt mit massivem Schlafmangel**
 
-*The experiment continues.*
+*Das Experiment geht weiter.*
 
-⭐ Star if you're not too unsettled ⭐
+⭐ Star wenn du nicht zu beunruhigt bist ⭐
 
 </div>

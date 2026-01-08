@@ -1,74 +1,74 @@
-# ADR-XXX: [Decision Title]
+# ADR-XXX: [Entscheidungs-Titel]
 
 ## Status
 
 **[PROPOSED | ACCEPTED | DEPRECATED | SUPERSEDED]**
 
-- **Date:** YYYY-MM-DD
-- **Decision Makers:** [Who made this decision]
-- **Version Introduced:** vX.X.X
+- **Datum:** YYYY-MM-DD
+- **Entscheidungsträger:** [Wer hat diese Entscheidung getroffen]
+- **Version eingeführt:** vX.X.X
 
-## Context
+## Kontext
 
-[Describe the issue motivating this decision. What is the problem we are trying to solve? What constraints exist?]
+[Beschreibe das Problem, das diese Entscheidung motiviert. Was ist das Problem, das wir lösen möchten? Welche Einschränkungen existieren?]
 
-## Decision
+## Entscheidung
 
-[Describe the decision that was made. Be specific about what will be done.]
+[Beschreibe die getroffene Entscheidung. Sei spezifisch darüber, was getan wird.]
 
-**We will:**
-- [Specific action 1]
-- [Specific action 2]
+**Wir werden:**
+- [Spezifische Aktion 1]
+- [Spezifische Aktion 2]
 - [...]
 
-## Consequences
+## Konsequenzen
 
-### Positive
+### Positiv
 
-- [Benefit 1]
-- [Benefit 2]
+- [Vorteil 1]
+- [Vorteil 2]
 
-### Negative
+### Negativ
 
-- [Drawback 1]
-- [Drawback 2]
+- [Nachteil 1]
+- [Nachteil 2]
 
 ### Neutral
 
-- [Trade-off or observation]
+- [Trade-off oder Beobachtung]
 
-## Alternatives Considered
+## Betrachtete Alternativen
 
 ### Alternative 1: [Name]
 
-**Description:** [Brief description]
+**Beschreibung:** [Kurze Beschreibung]
 
-**Why rejected:** [Reason]
+**Warum abgelehnt:** [Grund]
 
 ### Alternative 2: [Name]
 
-**Description:** [Brief description]
+**Beschreibung:** [Kurze Beschreibung]
 
-**Why rejected:** [Reason]
+**Warum abgelehnt:** [Grund]
 
-## Implementation
+## Implementierung
 
-**Affected Components:**
-- [Component 1]
-- [Component 2]
+**Betroffene Komponenten:**
+- [Komponente 1]
+- [Komponente 2]
 
-**Files Changed:**
-- `path/to/file1`
-- `path/to/file2`
+**Geänderte Dateien:**
+- `pfad/zu/datei1`
+- `pfad/zu/datei2`
 
-## Related Decisions
+## Verwandte Entscheidungen
 
-- [ADR-XXX: Related Decision Title](link)
+- [ADR-XXX: Verwandter Entscheidungs-Titel](link)
 
-## Notes
+## Notizen
 
-[Any additional notes, references, or context]
+[Zusätzliche Notizen, Referenzen oder Kontext]
 
 ---
 
-*Template Version: 1.0.0 (v5.8.0)*
+*Template-Version: 1.0.0 (v5.8.0)*

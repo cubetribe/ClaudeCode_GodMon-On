@@ -1,44 +1,44 @@
-# ~/.claude/CLAUDE.md - Global Configuration
+# ~/.claude/CLAUDE.md - Globale Konfiguration
 
-## Personal Code Preferences
+## Persönliche Code-Präferenzen
 
-- Clear, descriptive variable names
-- Early Returns to reduce nesting
-- Small, focused functions (<30 lines)
-- Error handling always explicit
+- Klare, beschreibende Variablennamen
+- Early Returns zur Nesting-Reduktion
+- Kleine, fokussierte Funktionen (<30 Zeilen)
+- Fehlerbehandlung immer explizit
 
-## Communication Style
+## Kommunikations-Stil
 
-- Explain reasoning before code changes
-- When in doubt: Ask instead of assuming
-- Always confirm critical changes
+- Reasoning vor Code-Änderungen erklären
+- Bei Unklarheit: Fragen statt Annahmen
+- Kritische Änderungen immer bestätigen lassen
 
-## Subagent Orchestration (global)
+## Subagent-Orchestrierung (global)
 
 ```
-Rule 1: Call Architect BEFORE Builder for new features
-Rule 2: Call Validator AFTER every API change
-Rule 3: Call Scribe after feature completion for docs
-Rule 4: ALWAYS check consumers for cross-file changes
+Regel 1: Architect VOR Builder aufrufen für neue Features
+Regel 2: Validator NACH jeder API-Änderung aufrufen
+Regel 3: Scribe nach Feature-Completion für Docs aufrufen
+Regel 4: IMMER Consumer für Cross-File-Änderungen prüfen
 ```
 
-## Token Efficiency
+## Token-Effizienz
 
-- `/clear` after completed tasks
-- `/compact` for longer sessions (proactively at 70% capacity)
-- Sonnet for standard tasks, Opus only for complex architecture
-- Write large outputs to files instead of chat
+- `/clear` nach abgeschlossenen Tasks
+- `/compact` für längere Sessions (proaktiv bei 70% Kapazität)
+- Sonnet für Standard-Tasks, Opus nur für komplexe Architektur
+- Große Outputs in Dateien statt in Chat schreiben
 
-## Git Workflow
+## Git-Workflow
 
-- Atomic Commits (one logical change per commit)
+- Atomic Commits (eine logische Änderung pro Commit)
 - Conventional Commits Format
-- Branch names: `feature/`, `fix/`, `refactor/`
-- Always `typecheck` and `test` before push
+- Branch-Namen: `feature/`, `fix/`, `refactor/`
+- Immer `typecheck` und `test` vor Push
 
-## Avoid
+## Vermeiden
 
-- No `any` Types in TypeScript
-- No Console.logs in production code
-- No hardcoded strings (use i18n keys)
-- No direct DOM manipulations in React
+- Keine `any`-Types in TypeScript
+- Keine Console.logs in Produktionscode
+- Keine hardcodierten Strings (i18n-Keys verwenden)
+- Keine direkten DOM-Manipulationen in React

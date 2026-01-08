@@ -1,192 +1,192 @@
-# Contributing to CC_GodMode 🤝
+# Beitragen zu CC_GodMode 🤝
 
-First of all: **Thank you!** Being here means you either:
-- a) Found a bug
-- b) Have a brilliant idea
-- c) Got lost
+Zunächst einmal: **Danke!** Hier zu sein bedeutet, dass du entweder:
+- a) Einen Bug gefunden hast
+- b) Eine brillante Idee hast
+- c) Dich verlaufen hast
 
-For all three cases: Welcome!
+Für alle drei Fälle: Willkommen!
 
 ---
 
-## 🐛 Reporting Bugs
+## 🐛 Bugs melden
 
-1. **Check first** if the bug hasn't already been reported (search Issues)
-2. **Open an Issue** with:
-   - What you expected
-   - What happened instead
-   - Your environment (OS, Claude Code version, Node version)
-   - Steps to reproduce
-3. **Bonus points** for screenshots or logs
+1. **Prüfe zuerst** ob der Bug nicht bereits gemeldet wurde (durchsuche Issues)
+2. **Öffne ein Issue** mit:
+   - Was du erwartet hast
+   - Was stattdessen passiert ist
+   - Deine Umgebung (OS, Claude Code Version, Node Version)
+   - Schritte zur Reproduktion
+3. **Bonuspunkte** für Screenshots oder Logs
 
 ### Template:
 
 ```markdown
-**What should happen:**
-The @validator should find all consumers.
+**Was passieren sollte:**
+Der @validator sollte alle Consumer finden.
 
-**What happens instead:**
-It finds only half of them and then takes a lunch break.
+**Was stattdessen passiert:**
+Er findet nur die Hälfte und macht dann Mittagspause.
 
-**Environment:**
+**Umgebung:**
 - macOS 14.x
 - Claude Code 1.x.x
 - Node 20.x
 
-**Steps to reproduce:**
+**Schritte zur Reproduktion:**
 1. ...
 2. ...
-3. Despair
+3. Verzweifeln
 ```
 
 ---
 
-## 💡 Feature Requests
+## 💡 Feature-Anfragen
 
-Do you have an idea how CC_GodMode can become even better?
+Hast du eine Idee wie CC_GodMode noch besser werden kann?
 
-1. **Open an Issue** with the label `enhancement`
-2. Describe:
-   - The problem you want to solve
-   - Your proposed solution
-   - Alternatives you've considered
+1. **Öffne ein Issue** mit dem Label `enhancement`
+2. Beschreibe:
+   - Das Problem das du lösen möchtest
+   - Deine vorgeschlagene Lösung
+   - Alternativen die du erwogen hast
 
-No idea is too wild. Except maybe "Claude should also make me coffee". That doesn't work (yet).
+Keine Idee ist zu verrückt. Außer vielleicht "Claude sollte mir auch Kaffee machen". Das funktioniert (noch) nicht.
 
 ---
 
-## 🔧 Contributing Code
+## 🔧 Code beitragen
 
 ### Setup
 
 ```bash
-# Fork the repo on GitHub
-# Then:
-git clone https://github.com/YOUR-USERNAME/ClaudeCode_GodMode-On.git
+# Forke das Repo auf GitHub
+# Dann:
+git clone https://github.com/DEIN-BENUTZERNAME/ClaudeCode_GodMode-On.git
 cd ClaudeCode_GodMode-On
 ```
 
-### Create a branch
+### Branch erstellen
 
 ```bash
-git checkout -b feature/my-brilliant-idea
-# or
-git checkout -b fix/that-annoying-bug
+git checkout -b feature/meine-brillante-idee
+# oder
+git checkout -b fix/dieser-nervige-bug
 ```
 
-### Make changes
+### Änderungen vornehmen
 
-- Stick to the existing code style
-- Test your changes
-- Write meaningful commit messages
+- Halte dich an den bestehenden Code-Stil
+- Teste deine Änderungen
+- Schreibe aussagekräftige Commit-Messages
 
-### Commit Message Format
+### Commit-Message-Format
 
 ```
-type(scope): short description
+typ(scope): kurze Beschreibung
 
-Longer description if necessary.
+Längere Beschreibung falls nötig.
 
-Types: feat, fix, docs, style, refactor, test, chore
+Typen: feat, fix, docs, style, refactor, test, chore
 ```
 
-**Examples:**
+**Beispiele:**
 ```
-feat(agents): add @reviewer agent for code reviews
-fix(hooks): handle files with spaces in path
-docs(readme): add troubleshooting section
+feat(agents): @reviewer Agent für Code-Reviews hinzugefügt
+fix(hooks): Dateien mit Leerzeichen im Pfad behandeln
+docs(readme): Troubleshooting-Sektion hinzugefügt
 ```
 
-### Create a Pull Request
+### Pull Request erstellen
 
-1. Push your branch: `git push origin feature/my-brilliant-idea`
-2. Open a Pull Request on GitHub
-3. Describe your changes
-4. Wait for review (I try to be quick, promise)
+1. Pushe deinen Branch: `git push origin feature/meine-brillante-idee`
+2. Öffne einen Pull Request auf GitHub
+3. Beschreibe deine Änderungen
+4. Warte auf Review (ich versuche schnell zu sein, versprochen)
 
 ---
 
-## 📁 Project Structure
+## 📁 Projektstruktur
 
 ```
 CC_GodMode/
-├── agents/           # The subagents
-├── scripts/          # Automation scripts
-├── templates/        # Project templates
-├── config/           # Configuration files
-├── reports/          # Generated reports (ignored in .gitignore)
-└── docs/             # Additional documentation
+├── agents/           # Die Subagenten
+├── scripts/          # Automatisierungs-Scripts
+├── templates/        # Projekt-Templates
+├── config/           # Konfigurationsdateien
+├── reports/          # Generierte Reports (in .gitignore ignoriert)
+└── docs/             # Zusätzliche Dokumentation
 ```
 
-### Where does what go?
+### Wo kommt was hin?
 
-| Change | File/Folder |
+| Änderung | Datei/Ordner |
 |--------|-------------|
-| New agent | `agents/name.md` |
-| New script | `scripts/name.js` |
-| New template | `templates/name.template` |
-| Documentation | `README.md` or `docs/` |
+| Neuer Agent | `agents/name.md` |
+| Neues Script | `scripts/name.js` |
+| Neues Template | `templates/name.template` |
+| Dokumentation | `README.md` oder `docs/` |
 
 ---
 
-## 🎨 Code Style
+## 🎨 Code-Stil
 
-### Markdown (Agents, Docs)
+### Markdown (Agenten, Docs)
 
-- Use `##` for main sections
-- Code blocks with language annotation (```bash, ```typescript)
-- Tables for structured data
-- Emojis are allowed (but don't overdo it)
+- Nutze `##` für Hauptabschnitte
+- Code-Blöcke mit Sprach-Annotation (```bash, ```typescript)
+- Tabellen für strukturierte Daten
+- Emojis sind erlaubt (aber nicht übertreiben)
 
 ### JavaScript (Scripts)
 
-- Use ES6+ features
-- Comments for complex logic
-- Don't forget error handling
-- No external dependencies (only Node built-ins)
+- Nutze ES6+ Features
+- Kommentare für komplexe Logik
+- Vergiss nicht die Fehlerbehandlung
+- Keine externen Dependencies (nur Node Built-ins)
 
 ---
 
-## 🧪 Testing
+## 🧪 Testen
 
-Before creating a PR:
+Vor dem Erstellen eines PR:
 
-1. **Test the installation** (YOLO and Safe Mode)
-2. **Test the agents** in a real project
-3. **Test the hooks** with different file paths
+1. **Teste die Installation** (YOLO und Safe Mode)
+2. **Teste die Agenten** in einem echten Projekt
+3. **Teste die Hooks** mit verschiedenen Dateipfaden
 
-### Quick Test Checklist
+### Quick Test Checkliste
 
-- [ ] Installation runs through
-- [ ] Agents are recognized
-- [ ] Hooks trigger for API files
-- [ ] Reports land in `reports/`
-- [ ] Nothing explodes
+- [ ] Installation läuft durch
+- [ ] Agenten werden erkannt
+- [ ] Hooks triggern für API-Dateien
+- [ ] Reports landen in `reports/`
+- [ ] Nichts explodiert
 
 ---
 
-## 🙋 Questions?
+## 🙋 Fragen?
 
-- Open an Issue with the label `question`
-- Or write to me directly (see README for contact)
+- Öffne ein Issue mit dem Label `question`
+- Oder schreib mir direkt (siehe README für Kontakt)
 
 ---
 
 ## 📜 Code of Conduct
 
-Be nice. That's basically it.
+Sei nett. Das ist im Grunde alles.
 
-More specifically:
-- Respect other contributors
-- Constructive criticism is welcome, jerk behavior is not
-- We're all here to learn
+Genauer gesagt:
+- Respektiere andere Beitragende
+- Konstruktive Kritik ist willkommen, Arschloch-Verhalten nicht
+- Wir sind alle hier um zu lernen
 
 ---
 
 <div align="center">
 
-**Thanks for contributing!** 🎉
+**Danke fürs Beitragen!** 🎉
 
-*"Alone you can write code. Together you can also understand it."*
+*"Alleine kannst du Code schreiben. Zusammen kannst du ihn auch verstehen."*
 
 </div>

@@ -1,118 +1,118 @@
-# CLAUDE.md - React/Node.js Project
+# CLAUDE.md - React/Node.js Projekt
 
-## Project Stack
+## Projekt-Stack
 
 - **Frontend:** React 18 + TypeScript + Vite
 - **Backend:** Node.js + Express + TypeScript
 - **Database:** PostgreSQL + Prisma
 - **Testing:** Vitest (Unit), Playwright (E2E)
 
-## Directory Structure
+## Verzeichnisstruktur
 
 ```
 src/
-├── api/           # API Client and Services
-├── components/    # React Components
+├── api/           # API-Client und Services
+├── components/    # React-Komponenten
 ├── hooks/         # Custom React Hooks
-├── pages/         # Route Components
-├── types/         # Frontend-specific Types
-├── utils/         # Helper Functions
+├── pages/         # Route-Komponenten
+├── types/         # Frontend-spezifische Types
+├── utils/         # Helper-Funktionen
 
 shared/
-├── types/         # Shared TypeScript Types (Frontend + Backend)
+├── types/         # Geteilte TypeScript-Types (Frontend + Backend)
 
 backend/
-├── routes/        # Express Routers
-├── services/      # Business Logic
-├── middleware/    # Express Middleware
+├── routes/        # Express-Router
+├── services/      # Business-Logik
+├── middleware/    # Express-Middleware
 
 docs/
-├── API_CONSUMERS.md    # ⚠️ REQUIRED: Consumer Registry
-├── architecture.md     # System Architecture
-├── DEPENDENCY_GRAPH.md # Module Dependencies
+├── API_CONSUMERS.md    # ⚠️ ERFORDERLICH: Consumer-Registry
+├── architecture.md     # System-Architektur
+├── DEPENDENCY_GRAPH.md # Modul-Abhängigkeiten
 
 reports/
-├── *-report.md    # Agent reports (created during workflow)
+├── *-report.md    # Agenten-Reports (erstellt während Workflow)
 ```
 
-## Commands
+## Befehle
 
 ```bash
-npm run dev              # Start dev server
-npm run build            # Production build
-npm run typecheck        # Check TypeScript
-npm run test             # Unit tests
-npm run test:e2e         # E2E tests
+npm run dev              # Dev-Server starten
+npm run build            # Production-Build
+npm run typecheck        # TypeScript prüfen
+npm run test             # Unit-Tests
+npm run test:e2e         # E2E-Tests
 npm run lint             # ESLint
-npm run deps:graph       # Generate dependency graph
+npm run deps:graph       # Dependency-Graph generieren
 npm run generate:api-types  # OpenAPI → TypeScript
 ```
 
-## Code Conventions
+## Code-Konventionen
 
-- Functional Components only (no Classes)
-- Prefer Named Exports
+- Nur Functional Components (keine Klassen)
+- Named Exports bevorzugen
 - Strict TypeScript (`strict: true`)
-- 2 Spaces Indentation
-- Single Quotes for Strings
+- 2 Spaces Einrückung
+- Single Quotes für Strings
 
-## Subagent Orchestration
+## Subagent-Orchestrierung
 
-### Available Agents
+### Verfügbare Agenten
 
-| Agent | Task | Called For |
+| Agent | Aufgabe | Aufgerufen für |
 |-------|------|------------|
-| `@architect` | High-level design | New modules, tech decisions |
-| `@api-guardian` | API lifecycle | ANY API/Type changes |
-| `@builder` | Implementation | Code writing |
-| `@validator` | Code quality gate | TypeScript, unit tests, security |
-| `@tester` | UX quality gate | E2E, visual regression, a11y, performance |
-| `@scribe` | Documentation | Docs updates |
-| `@github-manager` | Project management | Issues, PRs, Releases |
+| `@architect` | High-Level-Design | Neue Module, Tech-Entscheidungen |
+| `@api-guardian` | API-Lifecycle | JEDE API-/Type-Änderung |
+| `@builder` | Implementierung | Code schreiben |
+| `@validator` | Code-Quality-Gate | TypeScript, Unit-Tests, Security |
+| `@tester` | UX-Quality-Gate | E2E, Visual Regression, A11y, Performance |
+| `@scribe` | Dokumentation | Docs-Updates |
+| `@github-manager` | Projektmanagement | Issues, PRs, Releases |
 
-### Orchestration Rules
+### Orchestrierungs-Regeln
 
 ```
-Rule 1: @architect BEFORE @builder for new features
-Rule 2: @api-guardian BEFORE @builder for API changes
-Rule 3: @validator AFTER every implementation (code quality)
-Rule 4: @tester AFTER @validator for UI changes (UX quality)
-Rule 5: @scribe after feature completion
-Rule 6: @github-manager for Issues, PRs, Releases
+Regel 1: @architect VOR @builder für neue Features
+Regel 2: @api-guardian VOR @builder für API-Änderungen
+Regel 3: @validator NACH jeder Implementierung (Code-Qualität)
+Regel 4: @tester NACH @validator für UI-Änderungen (UX-Qualität)
+Regel 5: @scribe nach Feature-Completion
+Regel 6: @github-manager für Issues, PRs, Releases
 ```
 
 ### Workflows
 
-- **New Feature:** `@architect` → `@builder` → `@validator` → `@tester` → `@scribe`
+- **Neues Feature:** `@architect` → `@builder` → `@validator` → `@tester` → `@scribe`
 - **Bug Fix:** `@builder` → `@validator` → `@tester`
-- **API Change:** `@architect` → `@api-guardian` → `@builder` → `@validator` → `@tester` → `@scribe`
+- **API-Änderung:** `@architect` → `@api-guardian` → `@builder` → `@validator` → `@tester` → `@scribe`
 - **Refactoring:** `@architect` → `@builder` → `@validator` → `@tester`
 - **Release:** `@scribe` → `@github-manager`
 
-## ⚠️ CRITICAL RULE: API Changes
+## ⚠️ KRITISCHE REGEL: API-Änderungen
 
-**For ANY change to `src/api/`, `backend/routes/`, `shared/types/`, or `*.d.ts`:**
+**Für JEDE Änderung an `src/api/`, `backend/routes/`, `shared/types/` oder `*.d.ts`:**
 
-1. **STOP** - Hook will trigger automatically
-2. **Call @api-guardian** for impact analysis
-3. **Receive** consumer file list
-4. **@builder** updates all consumers
-5. **@validator** verifies code quality
-6. **@tester** verifies UX quality (if UI affected)
-7. **@scribe** updates documentation
+1. **STOPP** - Hook triggert automatisch
+2. **@api-guardian aufrufen** für Impact-Analyse
+3. **EMPFANGEN** Consumer-Datei-Liste
+4. **@builder** aktualisiert alle Consumer
+5. **@validator** verifiziert Code-Qualität
+6. **@tester** verifiziert UX-Qualität (falls UI betroffen)
+7. **@scribe** aktualisiert Dokumentation
 
-**You do NOT manually search for consumers - @api-guardian handles this!**
+**Sie suchen NICHT manuell nach Consumern - @api-guardian erledigt das!**
 
-## API Consumer Registry
+## API-Consumer-Registry
 
-Always keep up to date: `docs/API_CONSUMERS.md`
+Immer aktuell halten: `docs/API_CONSUMERS.md`
 
-The `@scribe` agent is responsible for updating this based on `@api-guardian`'s analysis.
+Der `@scribe`-Agent ist verantwortlich für die Aktualisierung basierend auf @api-guardian's Analyse.
 
-## Automatic Hooks
+## Automatische Hooks
 
-The `check-api-impact.js` hook runs on every file change and:
-- Detects API-relevant file changes
-- Analyzes potential breaking changes
-- Lists affected consumers
-- Reminds to call `@api-guardian`
+Der `check-api-impact.js`-Hook läuft bei jeder Dateiänderung und:
+- Erkennt API-relevante Dateiänderungen
+- Analysiert potenzielle Breaking Changes
+- Listet betroffene Consumer auf
+- Erinnert daran, `@api-guardian` aufzurufen

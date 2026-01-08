@@ -1,18 +1,18 @@
 # Architecture Decision Records (ADR)
 
-> **Documenting key architectural and design decisions for CC_GodMode**
+> **Dokumentation wichtiger architektonischer und Design-Entscheidungen für CC_GodMode**
 
-This document captures significant decisions made during the development of CC_GodMode. Each decision is recorded using the ADR (Architecture Decision Record) format to provide context, rationale, and consequences.
+Dieses Dokument erfasst bedeutende Entscheidungen die während der Entwicklung von CC_GodMode getroffen wurden. Jede Entscheidung wird im ADR-Format (Architecture Decision Record) dokumentiert um Kontext, Begründung und Konsequenzen bereitzustellen.
 
 ---
 
-## Decision Index
+## Entscheidungs-Index
 
-| ADR | Title | Status | Version | Date |
+| ADR | Titel | Status | Version | Datum |
 |-----|-------|--------|---------|------|
-| [ADR-001](#adr-001-parallel-quality-gates) | Parallel Quality Gates | ACCEPTED | v5.6.0 | 2025-01-07 |
-| [ADR-002](#adr-002-mcp-health-check-tiers) | MCP Health Check Tiers | ACCEPTED | v5.6.0 | 2025-01-07 |
-| [ADR-003](#adr-003-phase-2-governance-features) | Phase 2 Governance Features | ACCEPTED | v5.8.0 | 2025-01-08 |
+| [ADR-001](#adr-001-parallel-quality-gates) | Parallel Quality Gates | AKZEPTIERT | v5.6.0 | 2025-01-07 |
+| [ADR-002](#adr-002-mcp-health-check-tiers) | MCP Health Check Tiers | AKZEPTIERT | v5.6.0 | 2025-01-07 |
+| [ADR-003](#adr-003-phase-2-governance-features) | Phase 2 Governance Features | AKZEPTIERT | v5.8.0 | 2025-01-08 |
 
 ---
 
@@ -20,99 +20,99 @@ This document captures significant decisions made during the development of CC_G
 
 ### Status
 
-**ACCEPTED**
+**AKZEPTIERT**
 
-- **Date:** 2025-01-07
-- **Decision Makers:** Orchestrator, based on performance analysis
-- **Version Introduced:** v5.6.0
+- **Datum:** 2025-01-07
+- **Entscheidungsträger:** Orchestrator, basierend auf Performance-Analyse
+- **Version eingeführt:** v5.6.0
 
-### Context
+### Kontext
 
-Prior to v5.6.0, the quality validation workflow ran @validator and @tester sequentially:
-- @builder completes
-- @validator runs (4-6 minutes)
-- @tester runs (4-6 minutes)
-- Total: 8-12 minutes
+Vor v5.6.0 lief der Quality-Validierungs-Workflow sequenziell @validator und @tester:
+- @builder fertig
+- @validator läuft (4-6 Minuten)
+- @tester läuft (4-6 Minuten)
+- Gesamt: 8-12 Minuten
 
-This sequential approach was simple but created a bottleneck in the development workflow. Analysis showed that @validator (code quality) and @tester (UX quality) have no dependencies on each other - they both depend only on @builder's output.
+Dieser sequenzielle Ansatz war einfach, erzeugte aber einen Flaschenhals im Entwicklungs-Workflow. Analyse zeigte dass @validator (Code-Qualität) und @tester (UX-Qualität) keine Abhängigkeiten voneinander haben - beide hängen nur von @builders Output ab.
 
-### Decision
+### Entscheidung
 
-**We will run @validator and @tester in parallel after @builder completes.**
+**Wir werden @validator und @tester parallel nach @builders Fertigstellung ausführen.**
 
-**Implementation:**
-- Use parallel Task tool calls to launch both agents simultaneously
-- Implement a sync point that waits for both to complete
-- Use Decision Matrix to coordinate results
-- Provide sequential fallback if parallel execution fails
+**Implementierung:**
+- Nutze parallele Task Tool Calls um beide Agenten gleichzeitig zu starten
+- Implementiere einen Sync Point der wartet bis beide fertig sind
+- Nutze Decision Matrix zur Koordination der Ergebnisse
+- Biete sequenziellen Fallback falls parallele Ausführung fehlschlägt
 
 **Decision Matrix:**
 
-| @validator | @tester | Action |
+| @validator | @tester | Aktion |
 |------------|---------|--------|
-| APPROVED | APPROVED | Proceed to @scribe |
-| APPROVED | BLOCKED | Return to @builder (tester concerns) |
-| BLOCKED | APPROVED | Return to @builder (code concerns) |
-| BLOCKED | BLOCKED | Return to @builder (merged feedback) |
+| APPROVED | APPROVED | Weiter zu @scribe |
+| APPROVED | BLOCKED | Zurück zu @builder (Tester-Bedenken) |
+| BLOCKED | APPROVED | Zurück zu @builder (Code-Bedenken) |
+| BLOCKED | BLOCKED | Zurück zu @builder (zusammengeführtes Feedback) |
 
-### Consequences
+### Konsequenzen
 
-#### Positive
+#### Positiv
 
-- **40% faster quality validation** (8-12min reduced to 5-7min)
-- No change to quality standards - both gates still must pass
-- Better developer experience with faster feedback
-- Parallel execution is more efficient use of resources
+- **40% schnellere Quality-Validierung** (8-12min reduziert auf 5-7min)
+- Keine Änderung der Qualitätsstandards - beide Gates müssen weiterhin bestehen
+- Bessere Entwickler-Erfahrung mit schnellerem Feedback
+- Parallele Ausführung ist effizientere Ressourcen-Nutzung
 
-#### Negative
+#### Negativ
 
-- Slightly more complex orchestration logic
-- Merged feedback when both fail requires careful coordination
-- Sequential fallback adds maintenance overhead
+- Etwas komplexere Orchestrierungs-Logik
+- Zusammengeführtes Feedback wenn beide fehlschlagen erfordert sorgfältige Koordination
+- Sequenzieller Fallback erhöht Wartungsaufwand
 
 #### Neutral
 
-- Overall workflow structure unchanged
-- Individual agent logic unchanged
-- Report format unchanged
+- Gesamt-Workflow-Struktur unverändert
+- Individuelle Agenten-Logik unverändert
+- Report-Format unverändert
 
-### Alternatives Considered
+### Erwogene Alternativen
 
-#### Alternative 1: Keep Sequential Execution
+#### Alternative 1: Sequenzielle Ausführung beibehalten
 
-**Description:** Maintain the existing sequential @validator -> @tester flow.
+**Beschreibung:** Beibehalten des bestehenden sequenziellen @validator -> @tester Flows.
 
-**Why rejected:** Performance analysis showed consistent 40% time waste due to unnecessary sequential waiting.
+**Warum abgelehnt:** Performance-Analyse zeigte konsistente 40% Zeitverschwendung durch unnötiges sequenzielles Warten.
 
-#### Alternative 2: Single Combined Agent
+#### Alternative 2: Einzelner kombinierter Agent
 
-**Description:** Merge @validator and @tester into one "quality" agent.
+**Beschreibung:** @validator und @tester zu einem "quality" Agent zusammenführen.
 
-**Why rejected:** Violates separation of concerns. Code quality (TypeScript, tests, security) and UX quality (E2E, visual, a11y, performance) are distinct domains requiring different expertise.
+**Warum abgelehnt:** Verletzt Separation of Concerns. Code-Qualität (TypeScript, Tests, Sicherheit) und UX-Qualität (E2E, Visual, A11y, Performance) sind unterschiedliche Domänen die unterschiedliche Expertise erfordern.
 
-### Implementation
+### Implementierung
 
-**Affected Components:**
-- Orchestrator workflow coordination
-- Quality gate decision logic
-- Report aggregation
+**Betroffene Komponenten:**
+- Orchestrator Workflow-Koordination
+- Quality Gate Entscheidungs-Logik
+- Report-Aggregation
 
-**Files Changed:**
-- `CLAUDE.md` (workflow documentation)
-- `scripts/parallel-quality-gates.js` (new)
+**Geänderte Dateien:**
+- `CLAUDE.md` (Workflow-Dokumentation)
+- `scripts/parallel-quality-gates.js` (neu)
 
-### Related Decisions
+### Verwandte Entscheidungen
 
 - [ADR-002: MCP Health Check Tiers](#adr-002-mcp-health-check-tiers)
 
-### Notes
+### Notizen
 
-Script location: `scripts/parallel-quality-gates.js`
+Script-Location: `scripts/parallel-quality-gates.js`
 
-Performance metrics collected:
-- Sequential baseline: 8-12 minutes average
-- Parallel execution: 5-7 minutes average
-- Time saved per workflow: 3-5 minutes
+Performance-Metriken gesammelt:
+- Sequenzielle Baseline: 8-12 Minuten Durchschnitt
+- Parallele Ausführung: 5-7 Minuten Durchschnitt
+- Zeitersparnis pro Workflow: 3-5 Minuten
 
 ---
 
@@ -120,120 +120,120 @@ Performance metrics collected:
 
 ### Status
 
-**ACCEPTED**
+**AKZEPTIERT**
 
-- **Date:** 2025-01-07
-- **Decision Makers:** Orchestrator, based on failure analysis
-- **Version Introduced:** v5.6.0
+- **Datum:** 2025-01-07
+- **Entscheidungsträger:** Orchestrator, basierend auf Fehler-Analyse
+- **Version eingeführt:** v5.6.0
 
-### Context
+### Kontext
 
-MCP (Model Context Protocol) servers are external dependencies that agents rely on:
-- @tester requires: Playwright, Lighthouse (optional), A11y (optional)
-- @github-manager requires: GitHub MCP
+MCP (Model Context Protocol) Server sind externe Abhängigkeiten auf die Agenten angewiesen sind:
+- @tester benötigt: Playwright, Lighthouse (optional), A11y (optional)
+- @github-manager benötigt: GitHub MCP
 
-Prior to v5.6.0, MCP failures were discovered mid-workflow, causing:
-- Wasted agent execution time
-- Incomplete workflows requiring restart
-- Poor developer experience
-- No graceful degradation for optional MCPs
+Vor v5.6.0 wurden MCP-Fehler mitten im Workflow entdeckt, was verursachte:
+- Verschwendete Agenten-Ausführungszeit
+- Unvollständige Workflows die Neustart erfordern
+- Schlechte Entwickler-Erfahrung
+- Keine graceful Degradation für optionale MCPs
 
-### Decision
+### Entscheidung
 
-**We will implement a three-tier MCP health check system.**
+**Wir werden ein dreistufiges MCP-Health-Check-System implementieren.**
 
 **Tier 1: Startup Health Check**
-- Runs at session start via SessionStart hook
-- Checks all MCPs defined in configuration
-- Reports status and provides early warning
-- Non-blocking (informational only)
+- Läuft bei Session-Start via SessionStart Hook
+- Prüft alle in Konfiguration definierten MCPs
+- Meldet Status und bietet Frühwarnung
+- Non-blocking (nur informativ)
 
 **Tier 2: Pre-Workflow Check**
-- Runs before each workflow starts
-- Checks MCPs required by the selected workflow
-- BLOCKING for required MCPs (workflow cannot proceed)
-- WARNING for optional MCPs (workflow proceeds with degraded functionality)
+- Läuft vor jedem Workflow-Start
+- Prüft MCPs die vom gewählten Workflow benötigt werden
+- BLOCKING für erforderliche MCPs (Workflow kann nicht fortfahren)
+- WARNING für optionale MCPs (Workflow läuft mit degradierter Funktionalität)
 
 **Tier 3: Agent-Level Check**
-- Each agent checks its required MCPs before execution
-- Fast validation (health already verified at Tier 2)
-- Provides agent-specific error messages
+- Jeder Agent prüft seine benötigten MCPs vor Ausführung
+- Schnelle Validierung (Health bereits in Tier 2 verifiziert)
+- Bietet agenten-spezifische Fehlermeldungen
 
-**MCP Classification:**
-| MCP | Classification | Used By |
+**MCP-Klassifizierung:**
+| MCP | Klassifizierung | Genutzt von |
 |-----|----------------|---------|
-| playwright | REQUIRED | @tester |
-| github | REQUIRED | @github-manager |
+| playwright | ERFORDERLICH | @tester |
+| github | ERFORDERLICH | @github-manager |
 | lighthouse | OPTIONAL | @tester |
 | a11y | OPTIONAL | @tester |
 
-### Consequences
+### Konsequenzen
 
-#### Positive
+#### Positiv
 
-- **95% reduction in mid-workflow MCP failures**
-- Early detection of configuration issues
-- Graceful degradation for optional features
-- Clear error messages at appropriate time
-- Better developer experience
+- **95% Reduktion von Mid-Workflow-MCP-Fehlern**
+- Früherkennung von Konfigurationsproblemen
+- Graceful Degradation für optionale Features
+- Klare Fehlermeldungen zum richtigen Zeitpunkt
+- Bessere Entwickler-Erfahrung
 
-#### Negative
+#### Negativ
 
-- Adds ~8 seconds to session startup (one-time cost)
-- Additional complexity in health check logic
-- Requires maintaining MCP classification matrix
+- Fügt ~8 Sekunden zum Session-Start hinzu (einmalige Kosten)
+- Zusätzliche Komplexität in Health-Check-Logik
+- Erfordert Pflege der MCP-Klassifizierungs-Matrix
 
 #### Neutral
 
-- Agents still responsible for MCP interaction
-- Optional MCP features may be unavailable
-- Health check results logged for debugging
+- Agenten weiterhin verantwortlich für MCP-Interaktion
+- Optionale MCP-Features können nicht verfügbar sein
+- Health-Check-Ergebnisse für Debugging geloggt
 
-### Alternatives Considered
+### Erwogene Alternativen
 
-#### Alternative 1: No Health Checks
+#### Alternative 1: Keine Health Checks
 
-**Description:** Let MCPs fail naturally during agent execution.
+**Beschreibung:** MCPs natürlich während Agenten-Ausführung fehlschlagen lassen.
 
-**Why rejected:** Poor developer experience. Mid-workflow failures waste time and require restart.
+**Warum abgelehnt:** Schlechte Entwickler-Erfahrung. Mid-Workflow-Fehler verschwenden Zeit und erfordern Neustart.
 
-#### Alternative 2: Startup Check Only
+#### Alternative 2: Nur Startup Check
 
-**Description:** Check all MCPs at startup, block if any fail.
+**Beschreibung:** Alle MCPs beim Start prüfen, blockieren wenn einer fehlschlägt.
 
-**Why rejected:** Too aggressive. Optional MCPs shouldn't block the entire session.
+**Warum abgelehnt:** Zu aggressiv. Optionale MCPs sollten nicht die gesamte Session blockieren.
 
-#### Alternative 3: Agent-Level Only
+#### Alternative 3: Nur Agent-Level
 
-**Description:** Each agent checks its MCPs just before use.
+**Beschreibung:** Jeder Agent prüft seine MCPs direkt vor Nutzung.
 
-**Why rejected:** Discovers problems too late. Better to know before starting a 20-minute workflow.
+**Warum abgelehnt:** Entdeckt Probleme zu spät. Besser vorher zu wissen bevor man einen 20-Minuten-Workflow startet.
 
-### Implementation
+### Implementierung
 
-**Affected Components:**
-- SessionStart hook
-- Orchestrator workflow initialization
-- Agent MCP validation
+**Betroffene Komponenten:**
+- SessionStart Hook
+- Orchestrator Workflow-Initialisierung
+- Agenten MCP-Validierung
 
-**Files Changed:**
-- `scripts/mcp-health-check.js` (new)
-- `scripts/session-start.js` (enhanced)
-- Agent files (health check integration)
+**Geänderte Dateien:**
+- `scripts/mcp-health-check.js` (neu)
+- `scripts/session-start.js` (erweitert)
+- Agenten-Dateien (Health-Check-Integration)
 
-### Related Decisions
+### Verwandte Entscheidungen
 
 - [ADR-001: Parallel Quality Gates](#adr-001-parallel-quality-gates)
 
-### Notes
+### Notizen
 
-Script location: `scripts/mcp-health-check.js`
+Script-Location: `scripts/mcp-health-check.js`
 
-Health check command: `claude mcp list`
+Health-Check-Befehl: `claude mcp list`
 
-Timeout configuration:
-- Individual MCP check: 5 seconds
-- Full health check: 30 seconds maximum
+Timeout-Konfiguration:
+- Individueller MCP-Check: 5 Sekunden
+- Vollständiger Health Check: maximal 30 Sekunden
 
 ---
 
@@ -241,105 +241,105 @@ Timeout configuration:
 
 ### Status
 
-**ACCEPTED**
+**AKZEPTIERT**
 
-- **Date:** 2025-01-08
-- **Decision Makers:** Orchestrator, based on CLAUDE.md compliance analysis
-- **Version Introduced:** v5.8.0
+- **Datum:** 2025-01-08
+- **Entscheidungsträger:** Orchestrator, basierend auf CLAUDE.md Compliance-Analyse
+- **Version eingeführt:** v5.8.0
 
-### Context
+### Kontext
 
-CC_GodMode v5.6.0 achieved 93% CLAUDE.md compliance. Analysis identified governance gaps:
-- No formal decision logging (decisions made but not recorded)
-- No clear responsibility matrix (who decides what?)
-- No meta-decision logic (when to override standard workflows)
+CC_GodMode v5.6.0 erreichte 93% CLAUDE.md Compliance. Analyse identifizierte Governance-Lücken:
+- Keine formale Entscheidungs-Dokumentation (Entscheidungen getroffen aber nicht aufgezeichnet)
+- Keine klare Verantwortlichkeits-Matrix (wer entscheidet was?)
+- Keine Meta-Decision-Logik (wann Standard-Workflows überschreiben)
 
-These gaps create ambiguity in multi-agent orchestration and make it harder to understand why decisions were made.
+Diese Lücken erzeugen Mehrdeutigkeit in Multi-Agenten-Orchestrierung und machen es schwerer zu verstehen warum Entscheidungen getroffen wurden.
 
-### Decision
+### Entscheidung
 
-**We will implement three governance features in Phase 2.**
+**Wir werden drei Governance-Features in Phase 2 implementieren.**
 
-**Feature #1: Meta-Decision Logic**
-- Extend `analyze-prompt.js` with override rules
-- 5 meta-decision rules for special cases
-- Integrates with existing workflow suggestion system
+**Feature #1: Meta-Decision-Logik**
+- Erweitere `analyze-prompt.js` mit Override-Regeln
+- 5 Meta-Decision-Regeln für Spezialfälle
+- Integration mit bestehendem Workflow-Vorschlags-System
 
 **Feature #3: DECISIONS.md Logging**
-- Create ADR template for consistent decision recording
-- Maintain DECISIONS.md with key architectural decisions
-- Link decisions to versions and affected components
+- Erstelle ADR-Template für konsistente Entscheidungs-Aufzeichnung
+- Pflege DECISIONS.md mit wichtigen architektonischen Entscheidungen
+- Verlinke Entscheidungen mit Versionen und betroffenen Komponenten
 
 **Feature #7: RARE Matrix**
-- Define clear responsibility assignments for all agents
+- Definiere klare Verantwortlichkeits-Zuweisungen für alle Agenten
 - RARE = Responsible / Accountable / Recommends / Executes
-- Document decision types and who handles them
+- Dokumentiere Entscheidungstypen und wer sie behandelt
 
-### Consequences
+### Konsequenzen
 
-#### Positive
+#### Positiv
 
-- **Clear audit trail** for architectural decisions
-- **Explicit responsibility assignments** reduce confusion
-- **Meta-decision logic** handles edge cases automatically
-- Better onboarding for new contributors
-- Improved compliance with documentation standards
+- **Klarer Audit-Trail** für architektonische Entscheidungen
+- **Explizite Verantwortlichkeits-Zuweisungen** reduzieren Verwirrung
+- **Meta-Decision-Logik** behandelt Edge Cases automatisch
+- Besseres Onboarding für neue Beitragende
+- Verbesserte Compliance mit Dokumentations-Standards
 
-#### Negative
+#### Negativ
 
-- Additional documentation maintenance burden
-- Meta-decision rules may need tuning
-- RARE matrix needs updating when agents change
+- Zusätzlicher Dokumentations-Wartungsaufwand
+- Meta-Decision-Regeln könnten Feintuning benötigen
+- RARE Matrix benötigt Updates wenn Agenten sich ändern
 
 #### Neutral
 
-- Core workflow unchanged
-- Agent logic unchanged
-- Performance unchanged
+- Kern-Workflow unverändert
+- Agenten-Logik unverändert
+- Performance unverändert
 
-### Alternatives Considered
+### Erwogene Alternativen
 
-#### Alternative 1: No Governance Documentation
+#### Alternative 1: Keine Governance-Dokumentation
 
-**Description:** Continue with informal decision-making.
+**Beschreibung:** Weiter mit informeller Entscheidungsfindung.
 
-**Why rejected:** Reduces transparency and makes debugging harder.
+**Warum abgelehnt:** Reduziert Transparenz und macht Debugging schwerer.
 
-#### Alternative 2: External Governance Tool
+#### Alternative 2: Externes Governance-Tool
 
-**Description:** Use a separate tool/system for decision tracking.
+**Beschreibung:** Separates Tool/System für Entscheidungs-Tracking nutzen.
 
-**Why rejected:** Adds complexity and external dependency. Markdown-based approach is simpler and version-controlled.
+**Warum abgelehnt:** Fügt Komplexität und externe Abhängigkeit hinzu. Markdown-basierter Ansatz ist einfacher und versionskontrolliert.
 
-#### Alternative 3: Full RACI Matrix
+#### Alternative 3: Vollständige RACI Matrix
 
-**Description:** Use traditional RACI instead of RARE.
+**Beschreibung:** Traditionelles RACI statt RARE nutzen.
 
-**Why rejected:** RACI's "Consulted/Informed" distinction less relevant for agent orchestration. RARE's "Recommends/Executes" better fits agent roles.
+**Warum abgelehnt:** RACIs "Consulted/Informed" Unterscheidung weniger relevant für Agenten-Orchestrierung. RAREs "Recommends/Executes" passt besser zu Agenten-Rollen.
 
-### Implementation
+### Implementierung
 
-**Affected Components:**
-- Documentation structure
-- analyze-prompt.js script
-- Agent responsibility definitions
+**Betroffene Komponenten:**
+- Dokumentations-Struktur
+- analyze-prompt.js Script
+- Agenten-Verantwortlichkeits-Definitionen
 
-**Files Changed:**
-- `templates/adr-template.md` (new)
-- `DECISIONS.md` (new)
-- `docs/policies/RARE_MATRIX.md` (new)
-- `scripts/analyze-prompt.js` (extended)
+**Geänderte Dateien:**
+- `templates/adr-template.md` (neu)
+- `DECISIONS.md` (neu)
+- `docs/policies/RARE_MATRIX.md` (neu)
+- `scripts/analyze-prompt.js` (erweitert)
 
-### Related Decisions
+### Verwandte Entscheidungen
 
 - [ADR-001: Parallel Quality Gates](#adr-001-parallel-quality-gates)
 - [ADR-002: MCP Health Check Tiers](#adr-002-mcp-health-check-tiers)
 
-### Notes
+### Notizen
 
-Phase 2 is part of the v5.8.0 release focusing on governance and compliance improvements.
+Phase 2 ist Teil des v5.8.0 Release mit Fokus auf Governance und Compliance-Verbesserungen.
 
-Meta-Decision Rules implemented:
+Implementierte Meta-Decision-Regeln:
 1. Security Override
 2. Breaking Change Escalation
 3. Performance Critical Path
@@ -348,24 +348,24 @@ Meta-Decision Rules implemented:
 
 ---
 
-## Adding New Decisions
+## Neue Entscheidungen hinzufügen
 
-When making a significant architectural or design decision:
+Beim Treffen einer bedeutenden architektonischen oder Design-Entscheidung:
 
-1. Copy the template from `templates/adr-template.md`
-2. Assign the next ADR number
-3. Fill in all sections
-4. Add entry to the Decision Index table
-5. Link to related decisions if applicable
+1. Kopiere das Template aus `templates/adr-template.md`
+2. Weise die nächste ADR-Nummer zu
+3. Fülle alle Abschnitte aus
+4. Füge Eintrag zur Entscheidungs-Index-Tabelle hinzu
+5. Verlinke zu verwandten Entscheidungen falls zutreffend
 
-**What qualifies as an ADR-worthy decision:**
-- Changes to workflow structure
-- New agent responsibilities
-- Performance optimizations with trade-offs
-- Breaking changes to interfaces
-- New feature architectures
-- Deprecation of existing features
+**Was qualifiziert als ADR-würdige Entscheidung:**
+- Änderungen an Workflow-Struktur
+- Neue Agenten-Verantwortlichkeiten
+- Performance-Optimierungen mit Trade-offs
+- Breaking Changes an Interfaces
+- Neue Feature-Architekturen
+- Deprecation existierender Features
 
 ---
 
-*Document Version: 1.0.0 (v5.8.0)*
+*Dokument-Version: 1.0.0 (v5.8.0)*

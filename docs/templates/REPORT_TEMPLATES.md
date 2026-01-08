@@ -6,21 +6,21 @@
 
 ---
 
-## Overview
+## Übersicht
 
-This document defines standardized report templates for all 7 CC_GodMode agents. Each template includes:
-- **Frontmatter Schema** - YAML metadata for machine-readable parsing
-- **Required Sections** - Core content blocks that must be present
-- **Required Patterns** - Critical regex patterns for validation
-- **Minimum Length** - Character count thresholds for completeness
+Dieses Dokument definiert standardisierte Report-Templates für alle 7 CC_GodMode Agenten. Jedes Template enthält:
+- **Frontmatter Schema** - YAML Metadata für maschinenlesbares Parsing
+- **Required Sections** - Kern-Content-Blöcke, die vorhanden sein müssen
+- **Required Patterns** - Kritische Regex-Pattern für Validierung
+- **Minimum Length** - Character-Count-Schwellenwerte für Vollständigkeit
 
-Reports are validated automatically via the **SubagentStop Hook** which enforces these standards.
+Reports werden automatisch via **SubagentStop Hook** validiert, der diese Standards durchsetzt.
 
 ---
 
 ## Frontmatter Schema (YAML)
 
-All agent reports MUST start with YAML frontmatter in this format:
+Alle Agent-Reports MÜSSEN mit YAML Frontmatter in diesem Format beginnen:
 
 ```yaml
 ---
@@ -47,7 +47,7 @@ task: Design authentication system architecture
 
 ## 1. @architect Report Template
 
-**Purpose:** High-level system design and architectural decisions
+**Purpose:** High-level System Design und architektonische Entscheidungen
 
 **Validation Rules:**
 - Minimum length: 1000 characters
@@ -129,7 +129,7 @@ task: [TASK_DESCRIPTION]
 
 ## 2. @api-guardian Report Template
 
-**Purpose:** API lifecycle management and breaking change detection
+**Purpose:** API Lifecycle Management und Breaking Change Detection
 
 **Validation Rules:**
 - Minimum length: 800 characters
@@ -217,7 +217,7 @@ All consumer files listed above must be updated before completion.
 
 ## 3. @builder Report Template
 
-**Purpose:** Code implementation and quality gate execution
+**Purpose:** Code Implementation und Quality Gate Execution
 
 **Validation Rules:**
 - Minimum length: 500 characters
@@ -290,7 +290,7 @@ Implementation complete. Ready for parallel quality gates.
 
 ## 4. @validator Report Template
 
-**Purpose:** Code quality validation gate
+**Purpose:** Code Quality Validation Gate
 
 **Validation Rules:**
 - Minimum length: 400 characters
@@ -370,7 +370,7 @@ Waiting for @tester validation to complete.
 
 ## 5. @tester Report Template
 
-**Purpose:** UX quality validation gate
+**Purpose:** UX Quality Validation Gate
 
 **Validation Rules:**
 - Minimum length: 400 characters
@@ -462,7 +462,7 @@ Waiting for @validator validation to complete.
 
 ## 6. @scribe Report Template
 
-**Purpose:** Documentation and changelog updates
+**Purpose:** Documentation und Changelog Updates
 
 **Validation Rules:**
 - Minimum length: 300 characters
@@ -534,7 +534,7 @@ Ready for PR creation or release publication.
 
 ## 7. @github-manager Report Template
 
-**Purpose:** GitHub operations (Issues, PRs, Releases)
+**Purpose:** GitHub Operations (Issues, PRs, Releases)
 
 **Validation Rules:**
 - Minimum length: 200 characters
@@ -607,7 +607,7 @@ URL: [Release URL]
 
 ## Validation Integration
 
-All templates are automatically validated by `scripts/validate-agent-output.js` which enforces:
+Alle Templates werden automatisch von `scripts/validate-agent-output.js` validiert, das folgendes durchsetzt:
 
 1. **Required Sections** - Warns if recommended sections are missing
 2. **Required Patterns** - Blocks if critical patterns are absent
@@ -643,14 +643,14 @@ Statistics:
 
 ## Best Practices
 
-### For Agents
+### Für Agenten
 1. **Always include frontmatter** - Makes reports machine-readable
 2. **Use exact heading names** - Validation looks for specific patterns
 3. **Be comprehensive** - Aim for completeness scores above 90%
 4. **Include code blocks** - Use proper markdown formatting
 5. **Link to related files** - Use absolute paths
 
-### For Orchestrator
+### Für Orchestrator
 1. **Validate before handoff** - Check agent output quality before next step
 2. **Monitor completeness scores** - Address low scores proactively
 3. **Review blocked reports** - Investigate validation failures

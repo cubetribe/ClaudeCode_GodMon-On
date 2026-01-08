@@ -1,33 +1,33 @@
-# RARE Responsibility Matrix
+# RARE Verantwortungsmatrix
 
-> **Defining who does what in CC_GodMode orchestration**
+> **Definiert wer was in der CC_GodMode-Orchestrierung tut**
 
 ---
 
-## RARE Definitions
+## RARE-Definitionen
 
-| Role | Symbol | Description |
+| Rolle | Symbol | Beschreibung |
 |------|--------|-------------|
-| **Responsible** | **R** | Does the work. The agent that executes the task and produces the output. |
-| **Accountable** | **A** | Owns the outcome. Makes final decisions and ensures quality. Only ONE per activity. |
-| **Recommends** | **Re** | Provides input and expertise. Consulted for recommendations but doesn't execute. |
-| **Executes** | **E** | Follows instructions. Performs specific sub-tasks as directed by Responsible agent. |
+| **Responsible** | **R** | Führt die Arbeit aus. Der Agent, der die Aufgabe ausführt und das Output produziert. |
+| **Accountable** | **A** | Besitzt das Ergebnis. Trifft finale Entscheidungen und stellt Qualität sicher. Nur EINER pro Aktivität. |
+| **Recommends** | **Re** | Stellt Input und Expertise bereit. Wird konsultiert für Empfehlungen, aber führt nicht aus. |
+| **Executes** | **E** | Folgt Anweisungen. Führt spezifische Unteraufgaben aus, wie vom Responsible-Agenten angeleitet. |
 
-### Key Principles
+### Kernprinzipien
 
-1. **One Accountable per Activity** - Always exactly one A per row
-2. **Responsible Does the Work** - R produces the deliverable
-3. **Recommends Advises** - Re provides expertise without execution
-4. **Executes Follows** - E performs directed sub-tasks
-5. **Orchestrator Coordinates** - Never executes, only orchestrates
+1. **Ein Accountable pro Aktivität** - Immer genau ein A pro Zeile
+2. **Responsible führt die Arbeit aus** - R produziert das Deliverable
+3. **Recommends berät** - Re stellt Expertise ohne Ausführung bereit
+4. **Executes folgt** - E führt angeleitete Unteraufgaben aus
+5. **Orchestrator koordiniert** - Führt niemals aus, nur orchestriert
 
 ---
 
-## Agent Responsibility Matrix
+## Agenten-Verantwortungsmatrix
 
-### Core Development Activities
+### Kern-Entwicklungsaktivitäten
 
-| Activity | Orchestrator | @architect | @api-guardian | @builder | @validator | @tester | @scribe | @github-manager |
+| Aktivität | Orchestrator | @architect | @api-guardian | @builder | @validator | @tester | @scribe | @github-manager |
 |----------|--------------|------------|---------------|----------|------------|---------|---------|-----------------|
 | **System Design** | A | R | Re | - | - | - | - | - |
 | **API Design** | A | R | Re | - | - | - | - | - |
@@ -49,109 +49,109 @@
 | **Issue Processing** | A | - | - | - | - | - | - | R |
 | **Release Management** | A | - | - | - | - | - | Re | R |
 
-### Legend
+### Legende
 
-- **R** = Responsible (does the work)
-- **A** = Accountable (owns outcome, makes decisions)
-- **Re** = Recommends (provides expertise/input)
-- **E** = Executes (performs sub-tasks as directed)
-- **-** = Not involved
-
----
-
-## Decision Type Assignments
-
-### Architecture Decisions
-
-| Decision Type | Primary Owner | Consulted | Informed |
-|--------------|---------------|-----------|----------|
-| Module structure | @architect | Orchestrator | @builder |
-| API contracts | @architect | @api-guardian | @builder, @scribe |
-| Technology choices | @architect | Orchestrator | All agents |
-| Breaking changes | @architect | @api-guardian | All agents |
-| Performance architecture | @architect | @tester | @builder |
-
-### Implementation Decisions
-
-| Decision Type | Primary Owner | Consulted | Informed |
-|--------------|---------------|-----------|----------|
-| Code patterns | @builder | @architect | @validator |
-| Test strategy | @builder | @validator, @tester | - |
-| Refactoring approach | @builder | @architect | @validator |
-| Error handling | @builder | @architect | @validator |
-
-### Quality Decisions
-
-| Decision Type | Primary Owner | Consulted | Informed |
-|--------------|---------------|-----------|----------|
-| Code quality standards | @validator | @architect | @builder |
-| Test coverage requirements | @validator | @tester | @builder |
-| Security policies | @validator | Orchestrator | All agents |
-| Accessibility standards | @tester | @architect | @builder |
-| Performance thresholds | @tester | @architect | @builder |
-
-### Documentation Decisions
-
-| Decision Type | Primary Owner | Consulted | Informed |
-|--------------|---------------|-----------|----------|
-| Doc structure | @scribe | @architect | All agents |
-| API documentation | @scribe | @api-guardian | @builder |
-| CHANGELOG format | @scribe | Orchestrator | All agents |
-| Version naming | @scribe | Orchestrator | All agents |
-
-### Release Decisions
-
-| Decision Type | Primary Owner | Consulted | Informed |
-|--------------|---------------|-----------|----------|
-| Release timing | @github-manager | Orchestrator | All agents |
-| PR strategy | @github-manager | Orchestrator | @scribe |
-| Issue triage | @github-manager | Orchestrator | Relevant agents |
-| CI/CD configuration | @github-manager | @builder | All agents |
+- **R** = Responsible (führt die Arbeit aus)
+- **A** = Accountable (besitzt Ergebnis, trifft Entscheidungen)
+- **Re** = Recommends (stellt Expertise/Input bereit)
+- **E** = Executes (führt Unteraufgaben aus wie angewiesen)
+- **-** = Nicht beteiligt
 
 ---
 
-## Orchestrator Responsibilities
+## Entscheidungstyp-Zuweisungen
 
-The Orchestrator (CLAUDE.md) has unique responsibilities that span all workflows:
+### Architektur-Entscheidungen
 
-### Coordination Responsibilities
+| Entscheidungstyp | Primärer Besitzer | Konsultiert | Informiert |
+|--------------|---------------|-----------|----------|
+| Modul-Struktur | @architect | Orchestrator | @builder |
+| API-Contracts | @architect | @api-guardian | @builder, @scribe |
+| Technologie-Auswahl | @architect | Orchestrator | Alle Agenten |
+| Breaking Changes | @architect | @api-guardian | Alle Agenten |
+| Performance-Architektur | @architect | @tester | @builder |
 
-| Responsibility | Description |
+### Implementierungs-Entscheidungen
+
+| Entscheidungstyp | Primärer Besitzer | Konsultiert | Informiert |
+|--------------|---------------|-----------|----------|
+| Code-Patterns | @builder | @architect | @validator |
+| Test-Strategie | @builder | @validator, @tester | - |
+| Refactoring-Ansatz | @builder | @architect | @validator |
+| Error Handling | @builder | @architect | @validator |
+
+### Qualitäts-Entscheidungen
+
+| Entscheidungstyp | Primärer Besitzer | Konsultiert | Informiert |
+|--------------|---------------|-----------|----------|
+| Code-Qualitätsstandards | @validator | @architect | @builder |
+| Test-Coverage-Anforderungen | @validator | @tester | @builder |
+| Security-Policies | @validator | Orchestrator | Alle Agenten |
+| Accessibility-Standards | @tester | @architect | @builder |
+| Performance-Schwellenwerte | @tester | @architect | @builder |
+
+### Dokumentations-Entscheidungen
+
+| Entscheidungstyp | Primärer Besitzer | Konsultiert | Informiert |
+|--------------|---------------|-----------|----------|
+| Doc-Struktur | @scribe | @architect | Alle Agenten |
+| API-Dokumentation | @scribe | @api-guardian | @builder |
+| CHANGELOG-Format | @scribe | Orchestrator | Alle Agenten |
+| Versions-Benennung | @scribe | Orchestrator | Alle Agenten |
+
+### Release-Entscheidungen
+
+| Entscheidungstyp | Primärer Besitzer | Konsultiert | Informiert |
+|--------------|---------------|-----------|----------|
+| Release-Timing | @github-manager | Orchestrator | Alle Agenten |
+| PR-Strategie | @github-manager | Orchestrator | @scribe |
+| Issue-Triage | @github-manager | Orchestrator | Relevante Agenten |
+| CI/CD-Konfiguration | @github-manager | @builder | Alle Agenten |
+
+---
+
+## Orchestrator-Verantwortlichkeiten
+
+Der Orchestrator (CLAUDE.md) hat einzigartige Verantwortlichkeiten, die alle Workflows umfassen:
+
+### Koordinations-Verantwortlichkeiten
+
+| Verantwortlichkeit | Beschreibung |
 |----------------|-------------|
-| **Workflow Selection** | Analyze user request, choose appropriate workflow |
-| **Agent Sequencing** | Determine agent order based on dependencies |
-| **Version Management** | Set target version before work starts |
-| **Report Folder Creation** | Create `reports/vX.X.X/` for each workflow |
-| **Gate Enforcement** | Ensure quality gates pass before proceeding |
-| **Conflict Resolution** | Merge feedback when multiple agents have concerns |
-| **Meta-Decision Application** | Apply override rules for special cases |
+| **Workflow-Auswahl** | User-Request analysieren, passenden Workflow wählen |
+| **Agenten-Sequenzierung** | Agenten-Reihenfolge basierend auf Abhängigkeiten bestimmen |
+| **Versions-Management** | Zielversion setzen, bevor Arbeit beginnt |
+| **Report-Ordner-Erstellung** | `reports/vX.X.X/` für jeden Workflow erstellen |
+| **Gate-Durchsetzung** | Sicherstellen, dass Quality Gates bestehen, bevor fortgefahren wird |
+| **Konflikt-Resolution** | Feedback zusammenführen, wenn mehrere Agenten Bedenken haben |
+| **Meta-Entscheidungs-Anwendung** | Override-Regeln für Spezialfälle anwenden |
 
-### Escalation Responsibilities
+### Eskalations-Verantwortlichkeiten
 
-| Situation | Orchestrator Action |
+| Situation | Orchestrator-Aktion |
 |-----------|---------------------|
-| Security concern detected | Escalate to @validator, halt workflow |
-| Breaking API change | Route through @api-guardian (mandatory) |
-| Both quality gates fail | Merge feedback, return to @builder |
-| MCP health check fails | Apply graceful degradation or halt |
-| Ambiguous user request | Request clarification before proceeding |
+| Sicherheitsbedenken erkannt | An @validator eskalieren, Workflow anhalten |
+| Breaking API Change | Durch @api-guardian routen (obligatorisch) |
+| Beide Quality Gates schlagen fehl | Feedback zusammenführen, zu @builder zurück |
+| MCP Health Check schlägt fehl | Graceful Degradation anwenden oder anhalten |
+| Unklarer User-Request | Klarstellung anfordern, bevor fortgefahren wird |
 
-### Accountability Matrix
+### Accountability-Matrix
 
-| Area | Orchestrator Role |
+| Bereich | Orchestrator-Rolle |
 |------|-------------------|
-| Workflow correctness | **Accountable** |
-| Agent output quality | Monitors, agents are Responsible |
-| Documentation completeness | Monitors, @scribe is Responsible |
-| Version consistency | **Accountable** |
-| Push permission | **Accountable** (must ask user) |
+| Workflow-Korrektheit | **Accountable** |
+| Agenten-Output-Qualität | Überwacht, Agenten sind Responsible |
+| Dokumentations-Vollständigkeit | Überwacht, @scribe ist Responsible |
+| Versions-Konsistenz | **Accountable** |
+| Push-Erlaubnis | **Accountable** (muss User fragen) |
 
 ---
 
-## Parallel Quality Gates Diagram
+## Parallele Quality Gates Diagramm
 
 ```
-                          @builder completes
+                          @builder abgeschlossen
                                   |
                                   v
               +-------------------+-------------------+
@@ -160,11 +160,11 @@ The Orchestrator (CLAUDE.md) has unique responsibilities that span all workflows
     +------------------+                   +------------------+
     |    @validator    |                   |     @tester      |
     |------------------|                   |------------------|
-    | R: Code Quality  |                   | R: UX Quality    |
-    | - TypeScript     |                   | - E2E Tests      |
-    | - Unit Tests     |                   | - Visual Match   |
+    | R: Code-Qualität |                   | R: UX-Qualität   |
+    | - TypeScript     |                   | - E2E-Tests      |
+    | - Unit-Tests     |                   | - Visual Match   |
     | - Security       |                   | - A11y           |
-    | - Consumers      |                   | - Performance    |
+    | - Consumer       |                   | - Performance    |
     +------------------+                   +------------------+
               |                                       |
               v                                       v
@@ -177,33 +177,33 @@ The Orchestrator (CLAUDE.md) has unique responsibilities that span all workflows
                                   v
                     +---------------------------+
                     |      SYNC POINT           |
-                    | Orchestrator coordinates  |
+                    | Orchestrator koordiniert  |
                     +---------------------------+
                                   |
               +-------------------+-------------------+
               |                   |                   |
               v                   v                   v
-     Both APPROVED        One BLOCKED         Both BLOCKED
+     Beide APPROVED        Einer BLOCKED         Beide BLOCKED
               |                   |                   |
               v                   v                   v
          @scribe           @builder              @builder
-                       (single concern)      (merged feedback)
+                       (einzelnes Anliegen)  (gemerged Feedback)
 ```
 
 ### Decision Matrix Detail
 
-| @validator Result | @tester Result | Orchestrator Action | Responsibility |
+| @validator Ergebnis | @tester Ergebnis | Orchestrator-Aktion | Verantwortlichkeit |
 |-------------------|----------------|---------------------|----------------|
-| APPROVED | APPROVED | Proceed to @scribe | @scribe: R, Orchestrator: A |
-| APPROVED | BLOCKED | Return to @builder with tester feedback | @builder: R, @tester: Re |
-| BLOCKED | APPROVED | Return to @builder with validator feedback | @builder: R, @validator: Re |
-| BLOCKED | BLOCKED | Merge feedback, return to @builder | @builder: R, Both: Re |
+| APPROVED | APPROVED | Weiter zu @scribe | @scribe: R, Orchestrator: A |
+| APPROVED | BLOCKED | Zurück zu @builder mit tester Feedback | @builder: R, @tester: Re |
+| BLOCKED | APPROVED | Zurück zu @builder mit validator Feedback | @builder: R, @validator: Re |
+| BLOCKED | BLOCKED | Feedback zusammenführen, zurück zu @builder | @builder: R, Beide: Re |
 
 ---
 
-## Workflow-Specific RARE Assignments
+## Workflow-spezifische RARE-Zuweisungen
 
-### Feature Workflow
+### Feature-Workflow
 
 ```
 User Request
@@ -212,17 +212,17 @@ User Request
 @architect (R: Design, A: Orchestrator)
      |
      v
-@builder (R: Implementation, A: Orchestrator)
+@builder (R: Implementierung, A: Orchestrator)
      |
-     +---> @validator (R: Code Quality) ----+
+     +---> @validator (R: Code-Qualität) ----+
      |                                       |
-     +---> @tester (R: UX Quality) ---------+
+     +---> @tester (R: UX-Qualität) ---------+
                                              |
                                              v
-                                    @scribe (R: Documentation)
+                                    @scribe (R: Dokumentation)
 ```
 
-### API Change Workflow
+### API-Änderungs-Workflow
 
 ```
 User Request
@@ -231,51 +231,51 @@ User Request
 @architect (R: API Design, A: Orchestrator)
      |
      v
-@api-guardian (R: Impact Analysis, A: Orchestrator)  <-- MANDATORY
+@api-guardian (R: Impact Analysis, A: Orchestrator)  <-- OBLIGATORISCH
      |
      v
-@builder (R: Implementation, A: Orchestrator)
+@builder (R: Implementierung, A: Orchestrator)
      |
-     +---> @validator (R: Code Quality + Consumers) --+
+     +---> @validator (R: Code-Qualität + Consumer) --+
      |                                                 |
-     +---> @tester (R: UX Quality) -------------------+
+     +---> @tester (R: UX-Qualität) -------------------+
                                                        |
                                                        v
-                                              @scribe (R: Documentation)
+                                              @scribe (R: Dokumentation)
 ```
 
-### Bug Fix Workflow
+### Bug-Fix-Workflow
 
 ```
 User Request
      |
      v
-@builder (R: Fix Implementation, A: Orchestrator)
+@builder (R: Fix-Implementierung, A: Orchestrator)
      |
-     +---> @validator (R: Regression Check) --+
+     +---> @validator (R: Regression-Check) --+
      |                                         |
-     +---> @tester (R: Fix Verification) -----+
+     +---> @tester (R: Fix-Verifikation) -----+
                                                |
                                                v
-                                           (Complete)
+                                           (Abgeschlossen)
 ```
 
 ---
 
-## Updating This Matrix
+## Aktualisierung dieser Matrix
 
-When to update:
-- New agent added
-- Agent responsibilities change
-- New workflow introduced
-- Decision type ownership changes
+Wann aktualisieren:
+- Neuer Agent hinzugefügt
+- Agenten-Verantwortlichkeiten ändern sich
+- Neuer Workflow eingeführt
+- Entscheidungstyp-Besitz ändert sich
 
-Update process:
-1. Propose changes via @architect
-2. Update this document
-3. Update CLAUDE.md if workflow affected
-4. Create ADR entry in DECISIONS.md
+Aktualisierungsprozess:
+1. Änderungen über @architect vorschlagen
+2. Dieses Dokument aktualisieren
+3. CLAUDE.md aktualisieren, falls Workflow betroffen
+4. ADR-Eintrag in DECISIONS.md erstellen
 
 ---
 
-*Document Version: 1.0.0 (v5.8.0)*
+*Dokument-Version: 1.0.0 (v5.8.0)*

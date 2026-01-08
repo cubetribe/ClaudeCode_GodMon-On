@@ -1,25 +1,25 @@
 # Security & Tooling Policy
 
 **Version:** v5.7.0
-**Last Updated:** 2026-01-08
-**Status:** Enforced
+**Zuletzt aktualisiert:** 2026-01-08
+**Status:** Aktiv
 
 ---
 
-## Overview
+## Überblick
 
-This policy defines **tool access levels**, **security boundaries**, and **operational restrictions** for all CC_GodMode agents. The principle of **least privilege** is enforced - each agent has access only to tools required for their specific role.
+Diese Policy definiert **Tool-Zugriffsebenen**, **Sicherheitsgrenzen** und **betriebliche Einschränkungen** für alle CC_GodMode-Agenten. Das Prinzip des **geringsten Privilegs** wird durchgesetzt - jeder Agent hat nur Zugriff auf Tools, die für seine spezifische Rolle erforderlich sind.
 
-**Key Principles:**
-- Least privilege access
-- No destructive operations without explicit user permission
-- PII protection at all stages
-- File system boundaries enforced
-- WebFetch restrictions for safety
+**Kernprinzipien:**
+- Least-Privilege-Zugriff
+- Keine destruktiven Operationen ohne explizite User-Erlaubnis
+- PII-Schutz auf allen Ebenen
+- Dateisystem-Grenzen werden durchgesetzt
+- WebFetch-Einschränkungen zur Sicherheit
 
 ---
 
-## 1. Tool Access Matrix
+## 1. Tool-Zugriffs-Matrix
 
 | Tool | @architect | @api-guardian | @builder | @validator | @tester | @scribe | @github-manager |
 |------|-----------|---------------|----------|-----------|---------|---------|----------------|
@@ -34,118 +34,118 @@ This policy defines **tool access levels**, **security boundaries**, and **opera
 | **Lighthouse MCP** | ❌ | ❌ | ❌ | ❌ | ⚠️ | ❌ | ❌ |
 | **A11y MCP** | ❌ | ❌ | ❌ | ❌ | ⚠️ | ❌ | ❌ |
 
-**Legend:**
-- ✅ **Allowed** - Full access for this role
-- ⚠️ **Restricted** - Limited access (see restrictions below)
-- ❌ **Denied** - No access for this role
+**Legende:**
+- ✅ **Erlaubt** - Vollzugriff für diese Rolle
+- ⚠️ **Eingeschränkt** - Begrenzter Zugriff (siehe Einschränkungen unten)
+- ❌ **Verweigert** - Kein Zugriff für diese Rolle
 
 ---
 
-## 2. Tool-Specific Policies
+## 2. Tool-spezifische Policies
 
 ### Read Tool
 
-**Access:** All agents
+**Zugriff:** Alle Agenten
 
-**Allowed:**
-- Read any project file
-- Read agent reports
-- Read configuration files
-- Read existing code
+**Erlaubt:**
+- Lesen jeder Projektdatei
+- Lesen von Agenten-Reports
+- Lesen von Konfigurationsdateien
+- Lesen von bestehendem Code
 
-**Denied:**
-- Read files outside project directory
-- Read system files (/etc/, /usr/, etc.)
-- Read other users' home directories
-- Read credential files (.env, secrets.json, etc.) without user permission
+**Verweigert:**
+- Lesen von Dateien außerhalb des Projektverzeichnisses
+- Lesen von Systemdateien (/etc/, /usr/, etc.)
+- Lesen von Home-Verzeichnissen anderer User
+- Lesen von Credential-Dateien (.env, secrets.json, etc.) ohne User-Erlaubnis
 
-**Security Notes:**
-- Always validate file paths are within project
-- Warn if attempting to read credential files
-- Never log sensitive file contents to console
+**Sicherheitshinweise:**
+- Immer validieren, dass Dateipfade innerhalb des Projekts liegen
+- Warnen, wenn versucht wird, Credential-Dateien zu lesen
+- Niemals sensible Dateiinhalte in die Konsole loggen
 
 ---
 
 ### Write Tool
 
-**Access:** @builder, @scribe (full), @architect/@tester (reports only)
+**Zugriff:** @builder, @scribe (voll), @architect/@tester (nur Reports)
 
-**@builder - Allowed:**
-- Create new source files (src/, tests/)
-- Create test files
-- Create configuration files (with user approval)
+**@builder - Erlaubt:**
+- Erstellen neuer Quelldateien (src/, tests/)
+- Erstellen von Testdateien
+- Erstellen von Konfigurationsdateien (mit User-Genehmigung)
 
-**@builder - Denied:**
-- Overwrite files without reading first
-- Write outside project directory
-- Write to system directories
-- Create executable files without review
+**@builder - Verweigert:**
+- Überschreiben von Dateien ohne vorheriges Lesen
+- Schreiben außerhalb des Projektverzeichnisses
+- Schreiben in Systemverzeichnisse
+- Erstellen von ausführbaren Dateien ohne Review
 
-**@scribe - Allowed:**
-- Update VERSION file
-- Update CHANGELOG.md
-- Update README.md
-- Update documentation files (docs/)
+**@scribe - Erlaubt:**
+- Aktualisieren der VERSION-Datei
+- Aktualisieren von CHANGELOG.md
+- Aktualisieren von README.md
+- Aktualisieren von Dokumentationsdateien (docs/)
 
-**@scribe - Denied:**
-- Modify source code
-- Create executable scripts
-- Overwrite configuration files
+**@scribe - Verweigert:**
+- Modifizieren von Quellcode
+- Erstellen von ausführbaren Scripts
+- Überschreiben von Konfigurationsdateien
 
-**@architect/@tester - Allowed:**
-- Write reports to reports/vX.X.X/ only
+**@architect/@tester - Erlaubt:**
+- Schreiben von Reports nur nach reports/vX.X.X/
 
-**@architect/@tester - Denied:**
-- Write any production code
-- Write outside reports directory
+**@architect/@tester - Verweigert:**
+- Schreiben von Produktionscode
+- Schreiben außerhalb des Reports-Verzeichnisses
 
-**Security Notes:**
-- Always use Read before Write for existing files
-- Validate file paths are relative to project root
-- Never write credentials to disk
-- Prompt user before creating config files
+**Sicherheitshinweise:**
+- Immer Read vor Write für bestehende Dateien verwenden
+- Dateipfade relativ zur Projektwurzel validieren
+- Niemals Credentials auf Festplatte schreiben
+- User vor Erstellen von Config-Dateien fragen
 
 ---
 
 ### Edit Tool
 
-**Access:** @builder, @scribe (full), @architect/@tester (reports only)
+**Zugriff:** @builder, @scribe (voll), @architect/@tester (nur Reports)
 
-**@builder - Allowed:**
-- Edit source files (src/, tests/)
-- Edit configuration files
-- Edit test files
+**@builder - Erlaubt:**
+- Bearbeiten von Quelldateien (src/, tests/)
+- Bearbeiten von Konfigurationsdateien
+- Bearbeiten von Testdateien
 
-**@builder - Denied:**
-- Edit without reading first (tool enforces this)
-- Edit version control files (.git/)
-- Edit credential files
-- Edit system files
+**@builder - Verweigert:**
+- Bearbeiten ohne vorheriges Lesen (Tool erzwingt dies)
+- Bearbeiten von Versionskontroll-Dateien (.git/)
+- Bearbeiten von Credential-Dateien
+- Bearbeiten von Systemdateien
 
-**@scribe - Allowed:**
-- Edit VERSION file
-- Edit CHANGELOG.md
-- Edit README.md
-- Edit documentation files
+**@scribe - Erlaubt:**
+- Bearbeiten der VERSION-Datei
+- Bearbeiten von CHANGELOG.md
+- Bearbeiten von README.md
+- Bearbeiten von Dokumentationsdateien
 
-**@scribe - Denied:**
-- Edit source code
-- Edit test files
-- Edit build configurations
+**@scribe - Verweigert:**
+- Bearbeiten von Quellcode
+- Bearbeiten von Testdateien
+- Bearbeiten von Build-Konfigurationen
 
-**Security Notes:**
-- Tool enforces "read before edit" automatically
-- Always preserve exact indentation
-- Validate old_string is unique
-- Never edit credential files
+**Sicherheitshinweise:**
+- Tool erzwingt "read before edit" automatisch
+- Immer exakte Einrückung beibehalten
+- Validieren, dass old_string eindeutig ist
+- Niemals Credential-Dateien bearbeiten
 
 ---
 
 ### Bash Tool
 
-**Access:** All agents (with restrictions)
+**Zugriff:** Alle Agenten (mit Einschränkungen)
 
-**@builder - Allowed:**
+**@builder - Erlaubt:**
 ```bash
 npm run typecheck
 npm test
@@ -154,17 +154,17 @@ npm install [package]
 node [script]
 ```
 
-**@builder - Denied:**
+**@builder - Verweigert:**
 ```bash
 rm -rf
-git push (without permission)
+git push (ohne Erlaubnis)
 npm publish
 chmod +x
 sudo [anything]
 curl | bash
 ```
 
-**@validator/@tester - Allowed:**
+**@validator/@tester - Erlaubt:**
 ```bash
 npm run typecheck
 npm test
@@ -173,14 +173,14 @@ npm run test:e2e
 node scripts/validate-*
 ```
 
-**@validator/@tester - Denied:**
+**@validator/@tester - Verweigert:**
 ```bash
 npm install
 git [any command]
 rm [anything]
 ```
 
-**@github-manager - Allowed:**
+**@github-manager - Erlaubt:**
 ```bash
 git status
 git diff
@@ -191,263 +191,263 @@ gh pr create
 gh issue [commands]
 ```
 
-**@github-manager - Denied:**
+**@github-manager - Verweigert:**
 ```bash
-git push (without explicit user permission)
-git push --force (NEVER without user permission)
+git push (ohne explizite User-Erlaubnis)
+git push --force (NIEMALS ohne User-Erlaubnis)
 git reset --hard
 git rebase -i
 rm [anything]
 ```
 
-**@architect/@api-guardian/@scribe - Allowed:**
+**@architect/@api-guardian/@scribe - Erlaubt:**
 ```bash
 ls [directory]
 tree [directory]
 node scripts/analyze-*
 ```
 
-**@architect/@api-guardian/@scribe - Denied:**
+**@architect/@api-guardian/@scribe - Verweigert:**
 ```bash
 npm [anything]
 git [anything]
 rm [anything]
 ```
 
-**Security Notes:**
-- Never run commands with sudo
-- Always validate user permission for git push
-- Never run piped curl commands
-- Quote file paths with spaces
-- Use absolute paths when possible
+**Sicherheitshinweise:**
+- Niemals Befehle mit sudo ausführen
+- Immer User-Erlaubnis für git push validieren
+- Niemals piped curl-Befehle ausführen
+- Dateipfade mit Leerzeichen in Anführungszeichen setzen
+- Absolute Pfade verwenden, wenn möglich
 
 ---
 
 ### Glob Tool
 
-**Access:** All agents (unrestricted)
+**Zugriff:** Alle Agenten (uneingeschränkt)
 
-**Allowed:**
-- Search for files by pattern
-- List directory contents
-- Find specific file types
+**Erlaubt:**
+- Suche nach Dateien nach Muster
+- Auflisten von Verzeichnisinhalten
+- Finden spezifischer Dateitypen
 
 **Best Practices:**
-- Use specific patterns (*.ts not *)
-- Limit search scope to relevant directories
-- Use for file discovery, not content reading
+- Spezifische Muster verwenden (*.ts nicht *)
+- Suchbereich auf relevante Verzeichnisse begrenzen
+- Für Datei-Ermittlung verwenden, nicht für Inhalts-Lesen
 
 ---
 
 ### Grep Tool
 
-**Access:** All agents (unrestricted)
+**Zugriff:** Alle Agenten (uneingeschränkt)
 
-**Allowed:**
-- Search file contents by pattern
-- Find API usage
-- Discover consumers
+**Erlaubt:**
+- Suche in Dateiinhalten nach Muster
+- Finden von API-Verwendungen
+- Ermittlung von Consumern
 
 **Best Practices:**
-- Use specific regex patterns
-- Limit search to file types
-- Use output_mode: "files_with_matches" for discovery
-- Use output_mode: "content" only when needed
+- Spezifische Regex-Muster verwenden
+- Suche auf Dateitypen begrenzen
+- output_mode: "files_with_matches" für Ermittlung verwenden
+- output_mode: "content" nur bei Bedarf verwenden
 
 ---
 
-## 3. MCP Server Policies
+## 3. MCP-Server-Policies
 
 ### Playwright MCP
 
-**Access:** @tester (full), @builder (limited)
+**Zugriff:** @tester (voll), @builder (begrenzt)
 
-**@tester - Allowed:**
-- Launch browser
-- Navigate to pages
-- Take screenshots
-- Run E2E tests
-- Monitor console
-- Capture network traffic
+**@tester - Erlaubt:**
+- Browser starten
+- Zu Seiten navigieren
+- Screenshots erstellen
+- E2E-Tests ausführen
+- Konsole überwachen
+- Netzwerkverkehr erfassen
 
-**@tester - Denied:**
-- Navigate to external sites (only localhost allowed)
-- Execute arbitrary JavaScript
-- Download files without review
+**@tester - Verweigert:**
+- Zu externen Sites navigieren (nur localhost erlaubt)
+- Beliebiges JavaScript ausführen
+- Dateien ohne Review herunterladen
 
-**@builder - Allowed:**
-- Run E2E tests during development
-- Take debug screenshots
+**@builder - Erlaubt:**
+- E2E-Tests während Entwicklung ausführen
+- Debug-Screenshots erstellen
 
-**@builder - Denied:**
-- Modify E2E test execution
-- Change browser configuration
+**@builder - Verweigert:**
+- E2E-Test-Ausführung modifizieren
+- Browser-Konfiguration ändern
 
-**Security Notes:**
-- Only test against localhost or approved staging URLs
-- Never submit forms with real PII
-- Clear browser storage after tests
-- Don't navigate to untrusted URLs
+**Sicherheitshinweise:**
+- Nur gegen localhost oder genehmigte Staging-URLs testen
+- Niemals Formulare mit echten PII absenden
+- Browser-Storage nach Tests löschen
+- Nicht zu nicht vertrauenswürdigen URLs navigieren
 
 ---
 
 ### GitHub MCP
 
-**Access:** @github-manager only
+**Zugriff:** Nur @github-manager
 
-**Allowed:**
-- Read issues, PRs, releases
-- Create PRs
-- Update issues
-- Create releases
-- Add comments
-- Link issues to PRs
+**Erlaubt:**
+- Lesen von Issues, PRs, Releases
+- Erstellen von PRs
+- Aktualisieren von Issues
+- Erstellen von Releases
+- Kommentare hinzufügen
+- Issues mit PRs verknüpfen
 
-**Denied:**
-- Force push
-- Delete branches (without user permission)
-- Close PRs without review
-- Modify repository settings
-- Add collaborators
-- Create webhooks
+**Verweigert:**
+- Force Push
+- Branches löschen (ohne User-Erlaubnis)
+- PRs ohne Review schließen
+- Repository-Einstellungen modifizieren
+- Collaborators hinzufügen
+- Webhooks erstellen
 
-**Security Notes:**
-- NEVER push without explicit user permission
-- NEVER force push to main/master
-- Always link PRs to issues (Fixes #N)
-- Validate branch names before operations
+**Sicherheitshinweise:**
+- NIEMALS ohne explizite User-Erlaubnis pushen
+- NIEMALS force push zu main/master
+- Immer PRs mit Issues verknüpfen (Fixes #N)
+- Branch-Namen vor Operationen validieren
 
 ---
 
 ### Lighthouse MCP
 
-**Access:** @tester (optional)
+**Zugriff:** @tester (optional)
 
-**Allowed:**
-- Run performance audits
-- Capture Core Web Vitals
-- Generate performance reports
+**Erlaubt:**
+- Performance-Audits durchführen
+- Core Web Vitals erfassen
+- Performance-Reports generieren
 
-**Denied:**
-- Run against production URLs without permission
-- Execute arbitrary code in audits
+**Verweigert:**
+- Gegen Produktions-URLs ohne Erlaubnis ausführen
+- Beliebigen Code in Audits ausführen
 
-**Security Notes:**
-- Only audit localhost or approved URLs
-- Don't send real user data to Lighthouse
+**Sicherheitshinweise:**
+- Nur localhost oder genehmigte URLs auditieren
+- Keine echten User-Daten an Lighthouse senden
 
 ---
 
 ### A11y MCP
 
-**Access:** @tester (optional)
+**Zugriff:** @tester (optional)
 
-**Allowed:**
-- Run accessibility audits
-- Check WCAG compliance
-- Generate A11y reports
+**Erlaubt:**
+- Accessibility-Audits durchführen
+- WCAG-Compliance prüfen
+- A11y-Reports generieren
 
-**Denied:**
-- Modify page DOM during audits
-- Execute arbitrary code
+**Verweigert:**
+- Seiten-DOM während Audits modifizieren
+- Beliebigen Code ausführen
 
-**Security Notes:**
-- Only audit localhost or approved URLs
-- Don't scan external sites
+**Sicherheitshinweise:**
+- Nur localhost oder genehmigte URLs auditieren
+- Keine externen Sites scannen
 
 ---
 
-## 4. Denied Operations List
+## 4. Verbotene Operationen Liste
 
-### Universally Prohibited
+### Universell Verboten
 
-**ALL agents are prohibited from:**
+**ALLE Agenten sind verboten:**
 
-1. **Destructive File Operations**
-   - `rm -rf` (recursive delete)
-   - Deleting `.git` directory
-   - Deleting `node_modules` (use npm clean instead)
-   - Overwriting credential files
+1. **Destruktive Datei-Operationen**
+   - `rm -rf` (rekursives Löschen)
+   - Löschen des `.git`-Verzeichnisses
+   - Löschen von `node_modules` (npm clean stattdessen verwenden)
+   - Überschreiben von Credential-Dateien
 
-2. **Dangerous Git Operations**
-   - `git push --force` (unless explicitly approved)
-   - `git reset --hard` (loses uncommitted work)
-   - `git rebase -i` (interactive, not supported)
-   - `git push` without user permission
+2. **Gefährliche Git-Operationen**
+   - `git push --force` (außer explizit genehmigt)
+   - `git reset --hard` (verliert uncommitted work)
+   - `git rebase -i` (interaktiv, nicht unterstützt)
+   - `git push` ohne User-Erlaubnis
 
-3. **Security Risks**
-   - `sudo` commands
+3. **Sicherheitsrisiken**
+   - `sudo`-Befehle
    - `curl | bash` (piped remote execution)
-   - `eval` on user input
-   - `chmod +x` without review
+   - `eval` auf User-Input
+   - `chmod +x` ohne Review
 
-4. **Network Risks**
-   - Fetching from untrusted URLs
-   - Sending data to external services (without permission)
-   - Installing packages from untrusted registries
+4. **Netzwerkrisiken**
+   - Abrufen von nicht vertrauenswürdigen URLs
+   - Daten an externe Services senden (ohne Erlaubnis)
+   - Packages aus nicht vertrauenswürdigen Registries installieren
 
-5. **Privacy Violations**
-   - Reading credential files without permission
-   - Logging sensitive data
-   - Committing secrets to git
-   - Storing PII in plain text
+5. **Privacy-Verletzungen**
+   - Lesen von Credential-Dateien ohne Erlaubnis
+   - Loggen sensibler Daten
+   - Secrets in Git committen
+   - PII in Klartext speichern
 
 ---
 
-## 5. PII Handling
+## 5. PII-Handling
 
 ### Definition
 
-**Personally Identifiable Information (PII)** includes:
-- Names
-- Email addresses
-- Phone numbers
-- Physical addresses
-- Credit card numbers
-- Social security numbers
-- API keys, tokens, passwords
-- Any data that can identify a specific individual
+**Personally Identifiable Information (PII)** umfasst:
+- Namen
+- E-Mail-Adressen
+- Telefonnummern
+- Physische Adressen
+- Kreditkartennummern
+- Sozialversicherungsnummern
+- API-Keys, Tokens, Passwörter
+- Alle Daten, die eine spezifische Person identifizieren können
 
-### PII Protection Rules
+### PII-Schutzregeln
 
-**1. Detection**
-- Scan for common PII patterns before committing
-- Warn if .env or credentials files are staged
-- Alert on hardcoded API keys or tokens
+**1. Erkennung**
+- Auf gängige PII-Muster vor dem Committen scannen
+- Warnen, wenn .env oder Credentials-Dateien staged sind
+- Bei hardcodierten API-Keys oder Tokens alarmieren
 
-**2. Storage**
-- NEVER commit PII to git
-- NEVER store PII in plain text
-- NEVER log PII to console
-- Always use environment variables for secrets
+**2. Speicherung**
+- NIEMALS PII in Git committen
+- NIEMALS PII in Klartext speichern
+- NIEMALS PII in die Konsole loggen
+- Immer Umgebungsvariablen für Secrets verwenden
 
 **3. Testing**
-- Use mock/fake PII for tests
-- Never use real user data in E2E tests
-- Clear browser storage after tests
-- Don't commit test data with PII
+- Mock-/Fake-PII für Tests verwenden
+- Niemals echte User-Daten in E2E-Tests verwenden
+- Browser-Storage nach Tests löschen
+- Keine Testdaten mit PII committen
 
 **4. Handling in Code**
-- Encrypt sensitive data at rest
-- Use secure credential management (dotenv, vault)
-- Redact PII in logs and error messages
-- Don't pass PII in URL parameters
+- Sensible Daten im Ruhezustand verschlüsseln
+- Sichere Credential-Verwaltung verwenden (dotenv, vault)
+- PII in Logs und Fehlermeldungen schwärzen
+- Keine PII in URL-Parametern übergeben
 
-**5. Agent Behavior**
-- If PII detected in staged files → BLOCK commit and warn user
-- If credential file in git diff → Alert and ask for confirmation
-- If API key in code → Suggest environment variable instead
+**5. Agenten-Verhalten**
+- Falls PII in staged files erkannt → Commit BLOCKIEREN und User warnen
+- Falls Credential-Datei in git diff → Alarmieren und um Bestätigung bitten
+- Falls API-Key in Code → Umgebungsvariable stattdessen vorschlagen
 
-### Common PII Patterns (Regex)
+### Häufige PII-Muster (Regex)
 
 ```regex
 # Email
 /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
 
-# API Key (generic)
+# API Key (generisch)
 /['"]([A-Za-z0-9_-]{32,})['"]/
 
-# Credit Card
+# Kreditkarte
 /\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/
 
 # JWT Token
@@ -457,42 +457,42 @@ rm [anything]
 /-----BEGIN (RSA|OPENSSH|DSA|EC) PRIVATE KEY-----/
 ```
 
-**Agents should warn when these patterns are detected in code changes.**
+**Agenten sollten warnen, wenn diese Muster in Code-Änderungen erkannt werden.**
 
 ---
 
-## 6. WebFetch Restrictions
+## 6. WebFetch-Einschränkungen
 
-**WebFetch is NOT available as a tool** - this is intentional for security.
+**WebFetch ist NICHT als Tool verfügbar** - dies ist absichtlich aus Sicherheitsgründen.
 
-**Prohibited:**
-- Fetching arbitrary URLs
-- Downloading external scripts
-- Making API calls to external services
-- Web scraping
+**Verboten:**
+- Abrufen beliebiger URLs
+- Herunterladen externer Scripts
+- API-Aufrufe an externe Services
+- Web Scraping
 
-**Rationale:**
-- Prevents data exfiltration
-- Blocks untrusted code execution
-- Protects against SSRF attacks
-- Ensures reproducible builds
+**Begründung:**
+- Verhindert Daten-Exfiltration
+- Blockiert nicht vertrauenswürdige Code-Ausführung
+- Schützt vor SSRF-Angriffen
+- Gewährleistet reproduzierbare Builds
 
-**Exceptions:**
-- Package installation via npm (uses package-lock.json for integrity)
-- MCP servers may fetch from approved URLs (e.g., GitHub API)
+**Ausnahmen:**
+- Package-Installation via npm (verwendet package-lock.json für Integrität)
+- MCP-Server dürfen von genehmigten URLs abrufen (z.B. GitHub API)
 
-**If external data is needed:**
-- User must download manually
-- User must review before providing to agent
-- User must validate source
+**Falls externe Daten benötigt werden:**
+- User muss manuell herunterladen
+- User muss vor Bereitstellung an Agent reviewen
+- User muss Quelle validieren
 
 ---
 
-## 7. File System Boundaries
+## 7. Dateisystem-Grenzen
 
-### Allowed Directories
+### Erlaubte Verzeichnisse
 
-**Read Access:**
+**Lesezugriff:**
 ```
 /Users/denniswestermann/Desktop/Coding Projekte/CC_GodMode/
 ├── src/                    ✅ Read/Write
@@ -509,52 +509,52 @@ rm [anything]
 └── .gitignore              ✅ Read
 ```
 
-**Write Access (limited):**
+**Schreibzugriff (begrenzt):**
 ```
-├── src/                    ✅ @builder only
-├── tests/                  ✅ @builder only
-├── docs/                   ✅ @scribe only
-├── reports/                ✅ All agents (own reports)
-├── CHANGELOG.md            ✅ @scribe only
-├── VERSION                 ✅ @scribe only
-└── README.md               ✅ @scribe only
-```
-
-### Prohibited Directories
-
-**NEVER access:**
-```
-/etc/                       ❌ System configuration
-/usr/                       ❌ System binaries
-/var/                       ❌ System data
-/root/                      ❌ Root home directory
-~/.ssh/                     ❌ SSH keys
-~/.aws/                     ❌ AWS credentials
-/tmp/                       ❌ Temporary system files
-node_modules/               ⚠️ Read only, never write
-.git/                       ⚠️ Read only, never write
+├── src/                    ✅ nur @builder
+├── tests/                  ✅ nur @builder
+├── docs/                   ✅ nur @scribe
+├── reports/                ✅ Alle Agenten (eigene Reports)
+├── CHANGELOG.md            ✅ nur @scribe
+├── VERSION                 ✅ nur @scribe
+└── README.md               ✅ nur @scribe
 ```
 
-**Rationale:**
-- Prevents system damage
-- Protects credentials
-- Avoids permission issues
-- Maintains project isolation
+### Verbotene Verzeichnisse
+
+**NIEMALS zugreifen:**
+```
+/etc/                       ❌ System-Konfiguration
+/usr/                       ❌ System-Binaries
+/var/                       ❌ System-Daten
+/root/                      ❌ Root-Home-Verzeichnis
+~/.ssh/                     ❌ SSH-Keys
+~/.aws/                     ❌ AWS-Credentials
+/tmp/                       ❌ Temporäre System-Dateien
+node_modules/               ⚠️ Nur lesen, niemals schreiben
+.git/                       ⚠️ Nur lesen, niemals schreiben
+```
+
+**Begründung:**
+- Verhindert Systemschäden
+- Schützt Credentials
+- Vermeidet Berechtigungsprobleme
+- Erhält Projekt-Isolation
 
 ---
 
-## 8. Audit Requirements
+## 8. Audit-Anforderungen
 
 ### Logging
 
-**Required Logs:**
-1. **Tool Usage** - Which agent used which tool
-2. **File Access** - Read/Write operations with timestamps
-3. **Git Operations** - All commits, pushes, PR creations
-4. **MCP Calls** - All interactions with MCP servers
-5. **Escalations** - All escalations to orchestrator
+**Erforderliche Logs:**
+1. **Tool-Verwendung** - Welcher Agent welches Tool verwendet hat
+2. **Dateizugriff** - Read/Write-Operationen mit Zeitstempeln
+3. **Git-Operationen** - Alle Commits, Pushes, PR-Erstellungen
+4. **MCP-Aufrufe** - Alle Interaktionen mit MCP-Servern
+5. **Eskalationen** - Alle Eskalationen zum Orchestrator
 
-**Log Format:**
+**Log-Format:**
 ```json
 {
   "timestamp": "2026-01-08T10:30:00Z",
@@ -565,115 +565,115 @@ node_modules/               ⚠️ Read only, never write
 }
 ```
 
-**Log Location:** `reports/vX.X.X/audit.log`
+**Log-Speicherort:** `reports/vX.X.X/audit.log`
 
-### Review Points
+### Review-Punkte
 
-**Before Git Push:**
-- Review all changed files
-- Check for PII in diffs
-- Verify VERSION updated
-- Confirm CHANGELOG updated
-- User explicitly approves
+**Vor Git Push:**
+- Alle geänderten Dateien reviewen
+- Auf PII in Diffs prüfen
+- VERSION aktualisiert verifizieren
+- CHANGELOG aktualisiert bestätigen
+- User explizit genehmigt
 
-**Before PR Creation:**
-- Review PR description
-- Verify "Fixes #N" linking
-- Check CI/CD will trigger
-- User approves PR creation
+**Vor PR-Erstellung:**
+- PR-Beschreibung reviewen
+- "Fixes #N"-Verknüpfung verifizieren
+- Prüfen, dass CI/CD triggert
+- User genehmigt PR-Erstellung
 
-**After Quality Gates:**
-- Both @validator and @tester approved
-- All tests passed
-- No security issues found
+**Nach Quality Gates:**
+- Beide @validator und @tester haben approved
+- Alle Tests bestanden
+- Keine Sicherheitsprobleme gefunden
 
 ---
 
-## 9. Enforcement
+## 9. Durchsetzung
 
-### Automatic Enforcement
+### Automatische Durchsetzung
 
-1. **Tool Restrictions** - Tools refuse operations outside allowed scope
-2. **Pre-Push Hooks** - Git hooks check for PII and versioning
-3. **Agent Validation** - SubagentStop hook validates agent behavior
-4. **Path Validation** - File operations validate paths are in project
+1. **Tool-Einschränkungen** - Tools verweigern Operationen außerhalb erlaubten Umfangs
+2. **Pre-Push-Hooks** - Git-Hooks prüfen auf PII und Versionierung
+3. **Agenten-Validierung** - SubagentStop-Hook validiert Agenten-Verhalten
+4. **Pfad-Validierung** - Datei-Operationen validieren, dass Pfade im Projekt sind
 
-### Manual Enforcement
+### Manuelle Durchsetzung
 
-1. **Orchestrator Monitoring** - Reviews agent reports for violations
-2. **User Review** - User must approve all pushes and PRs
-3. **Audit Log Review** - Periodic review of audit logs
+1. **Orchestrator-Monitoring** - Reviewed Agenten-Reports auf Verstöße
+2. **User-Review** - User muss alle Pushes und PRs genehmigen
+3. **Audit-Log-Review** - Periodisches Review von Audit-Logs
 
-### Violation Response
+### Verstoß-Reaktion
 
-**Level 1 - Warning:**
-- Agent attempted restricted operation
-- Operation blocked automatically
-- Warning logged
+**Level 1 - Warnung:**
+- Agent versuchte eingeschränkte Operation
+- Operation automatisch blockiert
+- Warnung geloggt
 
-**Level 2 - Escalation:**
-- Agent repeatedly attempts violations
-- Escalate to orchestrator
-- Workflow may need adjustment
+**Level 2 - Eskalation:**
+- Agent versucht wiederholt Verstöße
+- Zum Orchestrator eskalieren
+- Workflow muss möglicherweise angepasst werden
 
-**Level 3 - Abort:**
-- Security-critical violation detected
-- Workflow aborted immediately
-- User notified
+**Level 3 - Abbruch:**
+- Sicherheitskritischer Verstoß erkannt
+- Workflow sofort abgebrochen
+- User benachrichtigt
 
 ---
 
 ## 10. Best Practices
 
-### For Agents
+### Für Agenten
 
-1. **Request Minimal Permissions**
-   - Only use tools you need
-   - Read before write
-   - Don't explore files unnecessarily
+1. **Minimale Berechtigungen anfordern**
+   - Nur benötigte Tools verwenden
+   - Vor dem Schreiben lesen
+   - Dateien nicht unnötig explorieren
 
-2. **Validate Before Operations**
-   - Check file paths are in project
-   - Scan for PII before commits
-   - Confirm user permission for pushes
+2. **Vor Operationen validieren**
+   - Prüfen, dass Dateipfade im Projekt sind
+   - Vor Commits auf PII scannen
+   - User-Erlaubnis für Pushes bestätigen
 
-3. **Log All Operations**
-   - Tool usage
-   - File access
-   - Git operations
+3. **Alle Operationen loggen**
+   - Tool-Verwendung
+   - Dateizugriff
+   - Git-Operationen
 
-4. **Fail Safely**
-   - If permission denied, escalate
-   - Never bypass security restrictions
-   - Report violations to orchestrator
+4. **Sicher fehlschlagen**
+   - Bei verweigerter Berechtigung eskalieren
+   - Niemals Sicherheitseinschränkungen umgehen
+   - Verstöße an Orchestrator melden
 
-### For Orchestrator
+### Für Orchestrator
 
-1. **Monitor Tool Usage**
-   - Track which tools agents use
-   - Alert on unusual patterns
-   - Review audit logs
+1. **Tool-Verwendung überwachen**
+   - Verfolgen, welche Tools Agenten verwenden
+   - Bei ungewöhnlichen Mustern alarmieren
+   - Audit-Logs reviewen
 
-2. **Enforce Boundaries**
-   - Validate agent reports for violations
-   - Block workflows that skip steps
-   - Ensure handoffs are proper
+2. **Grenzen durchsetzen**
+   - Agenten-Reports auf Verstöße validieren
+   - Workflows blockieren, die Schritte überspringen
+   - Sicherstellen, dass Übergaben ordnungsgemäß sind
 
-3. **User Communication**
-   - Always ask before git push
-   - Explain security warnings
-   - Get explicit approval for sensitive operations
-
----
-
-## Version History
-
-- **v5.7.0** - Initial security and tooling policy formalization
-- **v5.6.0** - Foundation (agent validation, quality gates)
+3. **User-Kommunikation**
+   - Immer vor git push fragen
+   - Sicherheitswarnungen erklären
+   - Explizite Genehmigung für sensible Operationen einholen
 
 ---
 
-**See Also:**
-- `docs/templates/REPORT_TEMPLATES.md` - Agent output formats
-- `docs/policies/CONTEXT_SCOPE_POLICY.md` - Agent scope boundaries
-- `scripts/validate-agent-output.js` - Agent validation implementation
+## Versionshistorie
+
+- **v5.7.0** - Initiale Formalisierung der Security and Tooling Policy
+- **v5.6.0** - Grundlage (Agenten-Validierung, Quality Gates)
+
+---
+
+**Siehe auch:**
+- `docs/templates/REPORT_TEMPLATES.md` - Agenten-Output-Formate
+- `docs/policies/CONTEXT_SCOPE_POLICY.md` - Agenten-Scope-Grenzen
+- `scripts/validate-agent-output.js` - Agenten-Validierungs-Implementierung

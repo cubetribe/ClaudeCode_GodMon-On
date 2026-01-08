@@ -1,25 +1,25 @@
-# Manual Installation Guide
+# Manuelle Installationsanleitung
 
 > **Version:** 5.8.3
-> Manual step-by-step installation of CC_GodMode
+> Manuelle Schritt-für-Schritt-Installation von CC_GodMode
 
-**Note:** For automatic installation see [`CCGM_Prompt_Install.md`](./CCGM_Prompt_Install.md)
+**Hinweis:** Für automatische Installation siehe [`CCGM_Prompt_Install.md`](./CCGM_Prompt_Install.md)
 
 ---
 
-## Prerequisites
+## Voraussetzungen
 
-| Component | Version | Check with |
+| Komponente | Version | Prüfen mit |
 |------------|---------|------------|
 | Node.js | 18+ | `node --version` |
-| Claude Code CLI | Latest | `claude --version` |
-| Git | Any | `git --version` |
+| Claude Code CLI | Neueste | `claude --version` |
+| Git | Beliebig | `git --version` |
 
 ---
 
-## Installation Steps
+## Installationsschritte
 
-### Step 1: Create directories
+### Schritt 1: Verzeichnisse erstellen
 
 **macOS / Linux:**
 ```bash
@@ -37,7 +37,7 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\templates"
 
 ---
 
-### Step 2: Clone repository
+### Schritt 2: Repository klonen
 
 **macOS / Linux:**
 ```bash
@@ -53,7 +53,7 @@ git clone https://github.com/cubetribe/ClaudeCode_GodMode-On.git CC_GodMode
 
 ---
 
-### Step 3: Install agents (7 files)
+### Schritt 3: Agenten installieren (7 Dateien)
 
 **macOS / Linux:**
 ```bash
@@ -65,7 +65,7 @@ cp /tmp/CC_GodMode/agents/*.md ~/.claude/agents/
 Copy-Item "$env:TEMP\CC_GodMode\agents\*.md" "$env:USERPROFILE\.claude\agents\" -Force
 ```
 
-**Expected files:**
+**Erwartete Dateien:**
 - `architect.md`
 - `api-guardian.md`
 - `builder.md`
@@ -76,7 +76,7 @@ Copy-Item "$env:TEMP\CC_GodMode\agents\*.md" "$env:USERPROFILE\.claude\agents\" 
 
 ---
 
-### Step 4: Install scripts
+### Schritt 4: Scripts installieren
 
 **macOS / Linux:**
 ```bash
@@ -91,7 +91,7 @@ Copy-Item "$env:TEMP\CC_GodMode\scripts\*.js" "$env:USERPROFILE\.claude\scripts\
 
 ---
 
-### Step 5: Install templates
+### Schritt 5: Templates installieren
 
 **macOS / Linux:**
 ```bash
@@ -107,35 +107,35 @@ Copy-Item "$env:TEMP\CC_GodMode\CLAUDE.md" "$env:USERPROFILE\.claude\templates\C
 
 ---
 
-### Step 6: Install Memory MCP Server
+### Schritt 6: Memory MCP Server installieren
 
 ```bash
 claude mcp add memory -- npx -y @modelcontextprotocol/server-memory
 ```
 
-**Verify:**
+**Verifizieren:**
 ```bash
 claude mcp list
 ```
 
 ---
 
-### Step 7: Additional MCP Servers (recommended)
+### Schritt 7: Zusätzliche MCP Server (empfohlen)
 
 ```bash
-# Playwright (for @tester - browser automation)
+# Playwright (für @tester - Browser-Automatisierung)
 claude mcp add playwright -- npx @playwright/mcp@latest
 
-# Lighthouse (for @tester - performance)
+# Lighthouse (für @tester - Performance)
 claude mcp add lighthouse -- npx lighthouse-mcp
 
-# A11y (for @tester - accessibility)
+# A11y (für @tester - Barrierefreiheit)
 claude mcp add a11y -- npx a11y-mcp
 ```
 
-**GitHub MCP (requires token):**
+**GitHub MCP (benötigt Token):**
 ```bash
-export GITHUB_TOKEN="your_token"
+export GITHUB_TOKEN="dein_token"
 claude mcp add github \
   -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
   -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN \
@@ -144,9 +144,9 @@ claude mcp add github \
 
 ---
 
-### Step 8: Configure hooks
+### Schritt 8: Hooks konfigurieren
 
-Create/edit `~/.claude/settings.json` (macOS/Linux) or `%USERPROFILE%\.claude\settings.json` (Windows):
+Erstelle/bearbeite `~/.claude/settings.json` (macOS/Linux) oder `%USERPROFILE%\.claude\settings.json` (Windows):
 
 ```json
 {
@@ -166,14 +166,14 @@ Create/edit `~/.claude/settings.json` (macOS/Linux) or `%USERPROFILE%\.claude\se
 }
 ```
 
-**Windows path in settings.json:**
+**Windows-Pfad in settings.json:**
 ```json
 "command": "node \"%USERPROFILE%\\.claude\\scripts\\check-api-impact.js\" \"$CLAUDE_FILE_PATH\""
 ```
 
 ---
 
-### Step 9: Cleanup
+### Schritt 9: Aufräumen
 
 **macOS / Linux:**
 ```bash
@@ -187,10 +187,10 @@ Remove-Item -Recurse -Force "$env:TEMP\CC_GodMode"
 
 ---
 
-## Verification
+## Verifizierung
 
 ```bash
-echo "=== Agents ==="
+echo "=== Agenten ==="
 ls ~/.claude/agents/
 
 echo "=== Scripts ==="
@@ -203,44 +203,44 @@ echo "=== MCP Server ==="
 claude mcp list
 ```
 
-**Expected result:**
-- 7 agent files
-- at least 1 script (`check-api-impact.js`)
-- 2 templates (`CLAUDE-ORCHESTRATOR.md`, `CCGM_Prompt_ProjectSetup.md`)
+**Erwartetes Ergebnis:**
+- 7 Agenten-Dateien
+- mindestens 1 Script (`check-api-impact.js`)
+- 2 Templates (`CLAUDE-ORCHESTRATOR.md`, `CCGM_Prompt_ProjectSetup.md`)
 - MCP: `memory`, optional: `playwright`, `github`, `lighthouse`, `a11y`
 
 ---
 
-## Activate project
+## Projekt aktivieren
 
-For each project where you want to use CC_GodMode:
+Für jedes Projekt, in dem du CC_GodMode nutzen möchtest:
 
 **macOS / Linux:**
 ```bash
-cd your-project
+cd dein-projekt
 cp ~/.claude/templates/CLAUDE-ORCHESTRATOR.md ./CLAUDE.md
 ```
 
 **Windows (PowerShell):**
 ```powershell
-cd your-project
+cd dein-projekt
 Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.md"
 ```
 
-Then start Claude:
+Dann starte Claude:
 ```bash
 claude
 ```
 
-The CLAUDE.md will be automatically loaded and the orchestrator is active!
+Die CLAUDE.md wird automatisch geladen und der Orchestrator ist aktiv!
 
 ---
 
-## What gets installed where?
+## Was wird wohin installiert?
 
-| Component | macOS/Linux | Windows |
+| Komponente | macOS/Linux | Windows |
 |------------|-------------|---------|
-| Agents (7) | `~/.claude/agents/` | `%USERPROFILE%\.claude\agents\` |
+| Agenten (7) | `~/.claude/agents/` | `%USERPROFILE%\.claude\agents\` |
 | Scripts | `~/.claude/scripts/` | `%USERPROFILE%\.claude\scripts\` |
 | Templates | `~/.claude/templates/` | `%USERPROFILE%\.claude\templates\` |
 | Hooks | `~/.claude/settings.json` | `%USERPROFILE%\.claude\settings.json` |
@@ -248,71 +248,71 @@ The CLAUDE.md will be automatically loaded and the orchestrator is active!
 
 ---
 
-## Uninstallation
+## Deinstallation
 
 **macOS / Linux:**
 ```bash
-# Remove agents
+# Agenten entfernen
 rm ~/.claude/agents/{architect,api-guardian,builder,validator,tester,scribe,github-manager}.md
 
-# Remove scripts
+# Scripts entfernen
 rm ~/.claude/scripts/check-*.js
 
-# Remove templates
+# Templates entfernen
 rm -rf ~/.claude/templates/
 
-# Remove MCP servers
+# MCP Server entfernen
 claude mcp remove memory
 claude mcp remove playwright
 claude mcp remove github
 claude mcp remove lighthouse
 claude mcp remove a11y
 
-# Hooks: Remove manually from ~/.claude/settings.json
+# Hooks: Manuell aus ~/.claude/settings.json entfernen
 ```
 
 **Windows (PowerShell):**
 ```powershell
-# Remove agents
+# Agenten entfernen
 Remove-Item "$env:USERPROFILE\.claude\agents\*.md"
 
-# Remove scripts
+# Scripts entfernen
 Remove-Item "$env:USERPROFILE\.claude\scripts\*.js"
 
-# Remove templates
+# Templates entfernen
 Remove-Item -Recurse "$env:USERPROFILE\.claude\templates\"
 
-# Remove MCP servers
+# MCP Server entfernen
 claude mcp remove memory
 claude mcp remove playwright
 claude mcp remove github
 claude mcp remove lighthouse
 claude mcp remove a11y
 
-# Hooks: Remove manually from settings.json
+# Hooks: Manuell aus settings.json entfernen
 ```
 
 ---
 
-## Troubleshooting
+## Fehlerbehebung
 
-### Agents not recognized
+### Agenten werden nicht erkannt
 ```bash
-ls ~/.claude/agents/  # Are the files there?
+ls ~/.claude/agents/  # Sind die Dateien vorhanden?
 ```
 
-### Hook not running
+### Hook läuft nicht
 ```bash
-cat ~/.claude/settings.json | grep -A 10 "hooks"  # Is the configuration correct?
+cat ~/.claude/settings.json | grep -A 10 "hooks"  # Ist die Konfiguration korrekt?
 ```
 
-### MCP Server errors
+### MCP Server Fehler
 ```bash
-claude mcp list  # Which ones are installed?
-claude mcp logs memory  # Show error logs
+claude mcp list  # Welche sind installiert?
+claude mcp logs memory  # Fehler-Logs anzeigen
 ```
 
-### Permission denied (macOS/Linux)
+### Berechtigung verweigert (macOS/Linux)
 ```bash
 chmod +x ~/.claude/scripts/*.js
 ```
@@ -323,8 +323,8 @@ chmod +x ~/.claude/scripts/*.js
 
 CC_GodMode **v5.0**
 
-See [CHANGELOG.md](./CHANGELOG.md) for details.
+Siehe [CHANGELOG.md](./CHANGELOG.md) für Details.
 
 ---
 
-*For automatic installation: [`CCGM_Prompt_Install.md`](./CCGM_Prompt_Install.md)*
+*Für automatische Installation: [`CCGM_Prompt_Install.md`](./CCGM_Prompt_Install.md)*

@@ -1,296 +1,296 @@
 # Context Scope Policy
 
 **Version:** v5.7.0
-**Last Updated:** 2026-01-08
-**Status:** Enforced
+**Zuletzt aktualisiert:** 2026-01-08
+**Status:** Aktiv
 
 ---
 
-## Overview
+## Überblick
 
-This policy defines **what is in scope** and **what is out of scope** for each CC_GodMode agent. Clear boundaries prevent scope creep, enable efficient context window management, and ensure clean handoffs between agents.
+Diese Policy definiert **was im Zuständigkeitsbereich liegt** und **was außerhalb des Zuständigkeitsbereichs liegt** für jeden CC_GodMode-Agenten. Klare Grenzen verhindern Scope Creep, ermöglichen effizientes Context Window Management und gewährleisten saubere Übergaben zwischen Agenten.
 
-**Key Principles:**
-- Each agent has a **single responsibility**
-- Agents **never** perform work assigned to other agents
-- Handoffs are **explicit** and **documented**
-- Escalation to the orchestrator is **always allowed**
+**Kernprinzipien:**
+- Jeder Agent hat eine **einzige Verantwortung**
+- Agenten führen **niemals** Arbeiten aus, die anderen Agenten zugewiesen sind
+- Übergaben sind **explizit** und **dokumentiert**
+- Eskalation zum Orchestrator ist **immer erlaubt**
 
 ---
 
-## 1. In-Scope Definitions
+## 1. In-Scope Definitionen
 
 ### @architect
-**Primary Responsibility:** System design and high-level architectural decisions
+**Hauptverantwortung:** Systemdesign und hochrangige architektonische Entscheidungen
 
-**In Scope:**
-- API design and endpoint structure
-- Module organization and file placement
-- Technology stack selection and rationale
-- Data flow architecture
-- Integration point identification
-- Risk assessment and mitigation strategies
-- Implementation phase planning
-- Architectural decision records (ADRs)
+**Im Zuständigkeitsbereich:**
+- API-Design und Endpunkt-Struktur
+- Modulorganisation und Dateiplatzierung
+- Technologie-Stack-Auswahl und Begründung
+- Datenfluss-Architektur
+- Identifikation von Integrationspunkten
+- Risikobewertung und Mitigationsstrategien
+- Planung von Implementierungsphasen
+- Architektonische Entscheidungsaufzeichnungen (ADRs)
 
-**Out of Scope:**
-- Writing production code (that's @builder)
-- API consumer discovery (that's @api-guardian)
-- Code quality validation (that's @validator)
-- Documentation writing (that's @scribe)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Schreiben von Produktionscode (das ist @builder)
+- API-Consumer-Ermittlung (das ist @api-guardian)
+- Code-Qualitätsvalidierung (das ist @validator)
+- Dokumentation schreiben (das ist @scribe)
 
-**Context Window Focus:**
-- Project requirements
-- Existing architecture patterns
-- Technology constraints
-- Team expertise levels
+**Context Window Fokus:**
+- Projektanforderungen
+- Bestehende Architekturmuster
+- Technologische Einschränkungen
+- Team-Expertise-Level
 
 ---
 
 ### @api-guardian
-**Primary Responsibility:** API lifecycle management and breaking change detection
+**Hauptverantwortung:** API-Lifecycle-Management und Breaking-Change-Erkennung
 
-**In Scope:**
-- Detecting API changes in commits
-- Identifying all API consumers (files that import/use the API)
-- Classifying changes as breaking/non-breaking
-- Creating migration checklists
-- Documenting impact scope (number of consumers affected)
-- Recommending versioning strategies
+**Im Zuständigkeitsbereich:**
+- Erkennung von API-Änderungen in Commits
+- Identifikation aller API-Consumer (Dateien, die die API importieren/verwenden)
+- Klassifizierung von Änderungen als breaking/non-breaking
+- Erstellung von Migrations-Checklisten
+- Dokumentation des Impact-Umfangs (Anzahl betroffener Consumer)
+- Empfehlung von Versionierungsstrategien
 
-**Out of Scope:**
-- Implementing the API changes (that's @builder)
-- Validating consumer code quality (that's @validator)
-- Creating documentation (that's @scribe)
-- Deciding API design (that's @architect)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Implementierung der API-Änderungen (das ist @builder)
+- Validierung der Consumer-Code-Qualität (das ist @validator)
+- Erstellung von Dokumentation (das ist @scribe)
+- Entscheidung über API-Design (das ist @architect)
 
-**Context Window Focus:**
-- Changed API files (diffs)
-- Project file tree structure
-- Import/dependency graphs
-- Existing API documentation
+**Context Window Fokus:**
+- Geänderte API-Dateien (diffs)
+- Projekt-Dateibaum-Struktur
+- Import-/Abhängigkeitsgraphen
+- Bestehende API-Dokumentation
 
 ---
 
 ### @builder
-**Primary Responsibility:** Code implementation according to specifications
+**Hauptverantwortung:** Code-Implementierung gemäß Spezifikationen
 
-**In Scope:**
-- Writing production code (TypeScript/JavaScript/React)
-- Creating unit tests
-- Running quality gates (typecheck, test, lint)
-- Implementing exactly what @architect specified
-- Updating consumers when directed by @api-guardian
-- Following existing code patterns and standards
+**Im Zuständigkeitsbereich:**
+- Schreiben von Produktionscode (TypeScript/JavaScript/React)
+- Erstellung von Unit-Tests
+- Ausführung von Quality Gates (typecheck, test, lint)
+- Implementierung genau dessen, was @architect spezifiziert hat
+- Aktualisierung von Consumern, wenn von @api-guardian angewiesen
+- Befolgen bestehender Code-Muster und Standards
 
-**Out of Scope:**
-- Making architectural decisions (that's @architect)
-- Finding API consumers (that's @api-guardian)
-- Cross-file validation (that's @validator)
-- Writing documentation (that's @scribe)
-- Creating PRs (that's @github-manager)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Treffen architektonischer Entscheidungen (das ist @architect)
+- Finden von API-Consumern (das ist @api-guardian)
+- Cross-File-Validierung (das ist @validator)
+- Schreiben von Dokumentation (das ist @scribe)
+- Erstellen von PRs (das ist @github-manager)
 
-**Context Window Focus:**
-- Architecture specification from @architect
-- Consumer list from @api-guardian (if API change)
-- Existing code in files being modified
-- Test examples for reference
+**Context Window Fokus:**
+- Architektur-Spezifikation von @architect
+- Consumer-Liste von @api-guardian (bei API-Änderung)
+- Bestehender Code in zu modifizierenden Dateien
+- Test-Beispiele zur Referenz
 
 ---
 
 ### @validator
-**Primary Responsibility:** Code quality gate validation
+**Hauptverantwortung:** Code-Quality-Gate-Validierung
 
-**In Scope:**
-- Running TypeScript compilation checks
-- Executing unit tests and checking coverage
-- Security vulnerability scanning
-- Code standards validation (naming, patterns, no-console, etc.)
-- Consumer validation (for API changes)
-- Cross-file consistency checking
-- Issuing APPROVED or BLOCKED decision
+**Im Zuständigkeitsbereich:**
+- Durchführung von TypeScript-Kompilierungsprüfungen
+- Ausführung von Unit-Tests und Prüfung der Coverage
+- Security-Vulnerability-Scanning
+- Code-Standards-Validierung (Naming, Patterns, no-console, etc.)
+- Consumer-Validierung (bei API-Änderungen)
+- Cross-File-Konsistenzprüfung
+- Ausgabe von APPROVED oder BLOCKED Entscheidung
 
-**Out of Scope:**
-- Implementing fixes (that's @builder)
-- Making architectural decisions (that's @architect)
-- UX testing (that's @tester)
-- Writing documentation (that's @scribe)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Implementierung von Fixes (das ist @builder)
+- Treffen architektonischer Entscheidungen (das ist @architect)
+- UX-Testing (das ist @tester)
+- Schreiben von Dokumentation (das ist @scribe)
 
-**Context Window Focus:**
-- All files changed in current feature
-- Related consumer files
-- Test results and coverage reports
-- Lint and type check outputs
+**Context Window Fokus:**
+- Alle im aktuellen Feature geänderten Dateien
+- Zugehörige Consumer-Dateien
+- Test-Ergebnisse und Coverage-Reports
+- Lint- und Type-Check-Outputs
 
 ---
 
 ### @tester
-**Primary Responsibility:** UX quality gate validation
+**Hauptverantwortung:** UX-Quality-Gate-Validierung
 
-**In Scope:**
-- Running E2E tests (Playwright)
-- Visual regression testing (screenshots)
-- Accessibility audits (WCAG 2.1 AA)
-- Performance testing (Core Web Vitals)
-- Issuing APPROVED or BLOCKED decision
-- Documenting UX issues with screenshots
+**Im Zuständigkeitsbereich:**
+- Durchführung von E2E-Tests (Playwright)
+- Visual Regression Testing (Screenshots)
+- Accessibility-Audits (WCAG 2.1 AA)
+- Performance-Testing (Core Web Vitals)
+- Ausgabe von APPROVED oder BLOCKED Entscheidung
+- Dokumentation von UX-Problemen mit Screenshots
 
-**Out of Scope:**
-- Writing E2E tests (that's @builder)
-- Code quality validation (that's @validator)
-- Implementing fixes (that's @builder)
-- Creating documentation (that's @scribe)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Schreiben von E2E-Tests (das ist @builder)
+- Code-Qualitätsvalidierung (das ist @validator)
+- Implementierung von Fixes (das ist @builder)
+- Erstellung von Dokumentation (das ist @scribe)
 
-**Context Window Focus:**
-- Feature requirements
-- Affected UI components
-- Test results and screenshots
-- Performance metrics
+**Context Window Fokus:**
+- Feature-Anforderungen
+- Betroffene UI-Komponenten
+- Test-Ergebnisse und Screenshots
+- Performance-Metriken
 
-**MCP Requirements:**
-- Playwright MCP (required)
-- Lighthouse MCP (optional, for performance)
-- A11y MCP (optional, for accessibility)
+**MCP-Anforderungen:**
+- Playwright MCP (erforderlich)
+- Lighthouse MCP (optional, für Performance)
+- A11y MCP (optional, für Accessibility)
 
 ---
 
 ### @scribe
-**Primary Responsibility:** Documentation and changelog maintenance
+**Hauptverantwortung:** Dokumentation und Changelog-Pflege
 
-**In Scope:**
-- Updating VERSION file
-- Writing CHANGELOG.md entries
-- Updating README.md when needed
-- Creating API documentation
-- Maintaining developer guides
-- Version number management
+**Im Zuständigkeitsbereich:**
+- Aktualisierung der VERSION-Datei
+- Schreiben von CHANGELOG.md-Einträgen
+- Aktualisierung von README.md bei Bedarf
+- Erstellung von API-Dokumentation
+- Pflege von Entwickler-Guides
+- Versionsnummern-Management
 
-**Out of Scope:**
-- Writing code (that's @builder)
-- Making architectural decisions (that's @architect)
-- Creating PRs (that's @github-manager)
-- Validation work (that's @validator/@tester)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Schreiben von Code (das ist @builder)
+- Treffen architektonischer Entscheidungen (das ist @architect)
+- Erstellen von PRs (das ist @github-manager)
+- Validierungsarbeit (das ist @validator/@tester)
 
-**Context Window Focus:**
-- All agent reports from current workflow
-- Existing CHANGELOG entries
-- Current VERSION file
-- Documentation files needing updates
+**Context Window Fokus:**
+- Alle Agenten-Reports aus dem aktuellen Workflow
+- Bestehende CHANGELOG-Einträge
+- Aktuelle VERSION-Datei
+- Dokumentationsdateien, die aktualisiert werden müssen
 
 ---
 
 ### @github-manager
-**Primary Responsibility:** GitHub operations (Issues, PRs, Releases)
+**Hauptverantwortung:** GitHub-Operationen (Issues, PRs, Releases)
 
-**In Scope:**
-- Creating pull requests
-- Managing GitHub issues
-- Publishing releases
-- Linking PRs to issues (Fixes #N)
-- CI/CD coordination
-- Branch management
+**Im Zuständigkeitsbereich:**
+- Erstellen von Pull Requests
+- Verwalten von GitHub-Issues
+- Veröffentlichen von Releases
+- Verknüpfen von PRs mit Issues (Fixes #N)
+- CI/CD-Koordination
+- Branch-Management
 
-**Out of Scope:**
-- Writing code (that's @builder)
-- Writing documentation (that's @scribe)
-- Validation work (that's @validator/@tester)
-- Pushing without permission (always ask user!)
+**Außerhalb des Zuständigkeitsbereichs:**
+- Schreiben von Code (das ist @builder)
+- Schreiben von Dokumentation (das ist @scribe)
+- Validierungsarbeit (das ist @validator/@tester)
+- Pushen ohne Erlaubnis (immer User fragen!)
 
-**Context Window Focus:**
-- Current git status
-- Issue/PR metadata
-- Release notes from @scribe
-- GitHub API responses
+**Context Window Fokus:**
+- Aktueller Git-Status
+- Issue-/PR-Metadaten
+- Release-Notes von @scribe
+- GitHub-API-Antworten
 
-**MCP Requirements:**
-- GitHub MCP (required)
+**MCP-Anforderungen:**
+- GitHub MCP (erforderlich)
 
 ---
 
 ## 2. Context Window Management
 
-### Budget Allocation
+### Budget-Zuteilung
 
-**Token Budget:** 200,000 tokens (Claude Sonnet 4.5)
+**Token-Budget:** 200.000 Tokens (Claude Sonnet 4.5)
 
-**Recommended Allocation by Agent:**
-- @architect: 30-40% (needs broad context for design decisions)
-- @api-guardian: 20-30% (needs file tree and import graphs)
-- @builder: 20-30% (needs specs and code files)
-- @validator: 15-20% (needs changed files and test results)
-- @tester: 15-20% (needs test results and screenshots)
-- @scribe: 10-15% (needs agent reports)
-- @github-manager: 5-10% (needs metadata only)
+**Empfohlene Zuteilung pro Agent:**
+- @architect: 30-40% (benötigt breiten Context für Design-Entscheidungen)
+- @api-guardian: 20-30% (benötigt Dateibaum und Import-Graphen)
+- @builder: 20-30% (benötigt Specs und Code-Dateien)
+- @validator: 15-20% (benötigt geänderte Dateien und Test-Ergebnisse)
+- @tester: 15-20% (benötigt Test-Ergebnisse und Screenshots)
+- @scribe: 10-15% (benötigt Agenten-Reports)
+- @github-manager: 5-10% (benötigt nur Metadaten)
 
-### Context Optimization Strategies
+### Context-Optimierungsstrategien
 
-**1. Read Only What You Need**
-- @architect: Don't read implementation code, only existing patterns
-- @builder: Don't read unrelated files, only what you're changing
-- @validator: Don't re-read specs, only code and test outputs
-- @tester: Don't read code, only test results and screenshots
+**1. Nur lesen, was Sie benötigen**
+- @architect: Implementierungscode nicht lesen, nur bestehende Muster
+- @builder: Nicht unzusammenhängende Dateien lesen, nur was Sie ändern
+- @validator: Specs nicht erneut lesen, nur Code und Test-Outputs
+- @tester: Code nicht lesen, nur Test-Ergebnisse und Screenshots
 
-**2. Use Compact Representations**
-- File lists instead of full file contents
-- Diffs instead of complete files
-- Summary outputs instead of verbose logs
-- Grep results instead of full file searches
+**2. Kompakte Darstellungen verwenden**
+- Dateilisten statt vollständige Dateiinhalte
+- Diffs statt komplette Dateien
+- Zusammenfassungs-Outputs statt ausführliche Logs
+- Grep-Ergebnisse statt vollständige Dateisuchen
 
-**3. Progressive Loading**
-- Start with overview (file tree, git status)
-- Load specific files only when needed
-- Use Grep to find patterns before reading entire files
+**3. Progressives Laden**
+- Beginnen mit Übersicht (Dateibaum, Git-Status)
+- Spezifische Dateien nur bei Bedarf laden
+- Grep verwenden, um Muster zu finden, bevor ganze Dateien gelesen werden
 
-**4. Offload to Reports**
-- Agents write reports to disk, not in chat
-- Next agent reads report file, not chat history
-- Orchestrator coordinates via report paths
+**4. Auslagern in Reports**
+- Agenten schreiben Reports auf die Festplatte, nicht in den Chat
+- Nächster Agent liest Report-Datei, nicht Chat-Historie
+- Orchestrator koordiniert über Report-Pfade
 
 ---
 
-## 3. Handoff Boundaries
+## 3. Übergabegrenzen
 
-### Explicit Handoff Protocol
+### Explizites Übergabeprotokoll
 
-Each agent MUST end their report with an explicit handoff section:
+Jeder Agent MUSS seinen Report mit einem expliziten Übergabe-Abschnitt beenden:
 
-**Example (@architect to @builder):**
+**Beispiel (@architect zu @builder):**
 ```markdown
 ## HANDOFF TO @builder
 
-### Implementation Checklist
-- [ ] Create src/auth/AuthService.ts
-- [ ] Create src/auth/types.ts
-- [ ] Update src/App.tsx to integrate AuthService
+### Implementierungs-Checkliste
+- [ ] Erstelle src/auth/AuthService.ts
+- [ ] Erstelle src/auth/types.ts
+- [ ] Aktualisiere src/App.tsx zur Integration von AuthService
 
-### Critical Constraints
-- Must use JWT tokens (not sessions)
-- Token expiry: 24 hours
-- Refresh token rotation required
+### Kritische Einschränkungen
+- Muss JWT-Tokens verwenden (keine Sessions)
+- Token-Ablauf: 24 Stunden
+- Refresh-Token-Rotation erforderlich
 
-### Success Criteria
-- All TypeScript compiles
-- Unit tests pass
-- No console errors
+### Erfolgskriterien
+- Alle TypeScript kompiliert
+- Unit-Tests bestehen
+- Keine Console-Errors
 ```
 
-**Example (@builder to @validator + @tester):**
+**Beispiel (@builder zu @validator + @tester):**
 ```markdown
 ## HANDOFF TO @validator + @tester
 
-Implementation complete. Ready for parallel quality gates.
+Implementierung abgeschlossen. Bereit für parallele Quality Gates.
 
-### Changed Files
-- src/auth/AuthService.ts (new)
-- src/auth/types.ts (new)
-- src/App.tsx (modified)
+### Geänderte Dateien
+- src/auth/AuthService.ts (neu)
+- src/auth/types.ts (neu)
+- src/App.tsx (modifiziert)
 
-### Test Coverage
-- Unit tests: src/auth/AuthService.test.ts
-- E2E tests: tests/auth/login.spec.ts
+### Test-Coverage
+- Unit-Tests: src/auth/AuthService.test.ts
+- E2E-Tests: tests/auth/login.spec.ts
 ```
 
-### Handoff Chain
+### Übergabekette
 
 ```
 User → @architect → @builder → @validator ┐
@@ -298,206 +298,206 @@ User → @architect → @builder → @validator ┐
                                 @tester ┘
 ```
 
-**Critical Rule:** No agent may skip their designated role. If work is not needed for a specific agent, they should produce a minimal report stating "No work required for this workflow" and pass to the next agent.
+**Kritische Regel:** Kein Agent darf seine zugewiesene Rolle überspringen. Wenn für einen spezifischen Agenten keine Arbeit benötigt wird, sollte dieser einen minimalen Report erstellen mit der Aussage "Keine Arbeit für diesen Workflow erforderlich" und an den nächsten Agenten übergeben.
 
 ---
 
-## 4. Escalation Rules
+## 4. Eskalationsregeln
 
-### When to Escalate to Orchestrator
+### Wann zum Orchestrator eskalieren
 
-**Any agent should escalate when:**
+**Jeder Agent sollte eskalieren, wenn:**
 
-1. **Ambiguity in Requirements**
-   - Specifications are unclear
-   - Multiple valid interpretations exist
-   - User input is needed
+1. **Unklarheit in Anforderungen**
+   - Spezifikationen sind unklar
+   - Mehrere gültige Interpretationen existieren
+   - User-Input wird benötigt
 
-2. **Scope Boundary Violation**
-   - Another agent's work is required first
-   - Out-of-scope decision needs to be made
-   - Context suggests wrong workflow was selected
+2. **Scope-Boundary-Verletzung**
+   - Die Arbeit eines anderen Agenten wird zuerst benötigt
+   - Out-of-Scope-Entscheidung muss getroffen werden
+   - Context deutet darauf hin, dass falscher Workflow gewählt wurde
 
-3. **Resource Limitations**
-   - Context window approaching limit (>80%)
-   - Required MCP server is unavailable
-   - Required files are inaccessible
+3. **Ressourcenbeschränkungen**
+   - Context Window nähert sich Limit (>80%)
+   - Erforderlicher MCP-Server ist nicht verfügbar
+   - Erforderliche Dateien sind nicht zugänglich
 
-4. **Quality Gate Failure**
-   - Tests fail after implementation
-   - TypeScript won't compile
-   - E2E tests are broken
+4. **Quality-Gate-Fehler**
+   - Tests schlagen nach Implementierung fehl
+   - TypeScript kompiliert nicht
+   - E2E-Tests sind defekt
 
-5. **Dependency Blocking**
-   - External API is down
-   - Required package is missing
-   - Build tool failure
+5. **Abhängigkeits-Blockierung**
+   - Externe API ist down
+   - Erforderliches Package fehlt
+   - Build-Tool-Fehler
 
-### Escalation Format
+### Eskalationsformat
 
 ```markdown
-## ⚠️ ESCALATION TO ORCHESTRATOR
+## ⚠️ ESKALATION AN ORCHESTRATOR
 
-**Reason:** [Brief description]
+**Grund:** [Kurze Beschreibung]
 
-**Category:** [Ambiguity|Scope|Resource|Failure|Dependency]
+**Kategorie:** [Ambiguity|Scope|Resource|Failure|Dependency]
 
 **Details:**
-[Detailed explanation of the issue]
+[Detaillierte Erklärung des Problems]
 
-**Recommendation:**
-[Suggested next steps]
+**Empfehlung:**
+[Vorgeschlagene nächste Schritte]
 
-**Blocking:** [Yes|No]
+**Blockierend:** [Yes|No]
 ```
 
-### Orchestrator Response
+### Orchestrator-Antwort
 
-The orchestrator will:
-1. Analyze the escalation
-2. Decide if user input is needed
-3. Adjust workflow if necessary
-4. Provide clarification or resources
-5. Resume workflow at appropriate agent
+Der Orchestrator wird:
+1. Die Eskalation analysieren
+2. Entscheiden, ob User-Input benötigt wird
+3. Workflow bei Bedarf anpassen
+4. Klarstellung oder Ressourcen bereitstellen
+5. Workflow beim entsprechenden Agenten fortsetzen
 
 ---
 
-## 5. Context Window Warning Thresholds
+## 5. Context Window Warnschwellen
 
 **Monitoring:**
-Agents should be aware of their context usage and warn when approaching limits.
+Agenten sollten sich ihrer Context-Nutzung bewusst sein und warnen, wenn Limits erreicht werden.
 
-**Thresholds:**
-- **50% used:** Continue normally
-- **70% used:** Start optimizing context (use summaries, offload to files)
-- **80% used:** Warning - consider using `/compact`
-- **90% used:** Critical - must use `/compact` or split work
-- **95% used:** Emergency - escalate to orchestrator
+**Schwellenwerte:**
+- **50% verwendet:** Normal fortsetzen
+- **70% verwendet:** Beginne Context-Optimierung (Zusammenfassungen verwenden, in Dateien auslagern)
+- **80% verwendet:** Warnung - erwäge `/compact` zu verwenden
+- **90% verwendet:** Kritisch - muss `/compact` verwenden oder Arbeit aufteilen
+- **95% verwendet:** Notfall - zum Orchestrator eskalieren
 
-**Response Actions:**
+**Antwort-Aktionen:**
 
-**At 70%:**
-- Write intermediate results to disk
-- Use grep instead of reading full files
-- Summarize previous context
+**Bei 70%:**
+- Zwischenergebnisse auf Festplatte schreiben
+- Grep statt vollständige Dateien lesen verwenden
+- Vorherigen Context zusammenfassen
 
-**At 80%:**
-- Recommend `/compact` to orchestrator
-- Offload all non-critical context
-- Focus only on current task
+**Bei 80%:**
+- `/compact` zum Orchestrator empfehlen
+- Allen nicht-kritischen Context auslagern
+- Nur auf aktuelle Aufgabe fokussieren
 
-**At 90%:**
-- Mandatory `/compact` or workflow split
-- Create checkpoint report
-- Resume from clean context
+**Bei 90%:**
+- Obligatorisch `/compact` oder Workflow aufteilen
+- Checkpoint-Report erstellen
+- Von sauberem Context fortsetzen
 
-**At 95%:**
-- Escalate immediately
-- Cannot proceed safely
-- Risk of context truncation
+**Bei 95%:**
+- Sofort eskalieren
+- Kann nicht sicher fortfahren
+- Risiko von Context-Truncation
 
 ---
 
-## 6. Cross-Agent Coordination
+## 6. Cross-Agent-Koordination
 
-### Parallel Execution (@validator + @tester)
+### Parallele Ausführung (@validator + @tester)
 
-**Context Isolation:**
-- Each agent has independent context
-- No shared state during execution
-- Reports saved to separate files
+**Context-Isolation:**
+- Jeder Agent hat unabhängigen Context
+- Kein geteilter State während Ausführung
+- Reports in separate Dateien gespeichert
 
-**Synchronization Point:**
-- Both agents complete independently
-- Orchestrator reads both reports
-- Decision matrix applied:
-  - BOTH APPROVED → proceed to @scribe
-  - ANY BLOCKED → return to @builder
+**Synchronisationspunkt:**
+- Beide Agenten schließen unabhängig ab
+- Orchestrator liest beide Reports
+- Decision Matrix angewendet:
+  - BEIDE APPROVED → weiter zu @scribe
+  - EINER BLOCKED → zurück zu @builder
 
-**Context Handoff:**
-- If blocked, feedback from BOTH agents sent to @builder
-- @builder receives merged feedback in single message
-- No need to re-read both full reports
+**Context-Übergabe:**
+- Bei Blockierung, Feedback von BEIDEN Agenten an @builder gesendet
+- @builder erhält gemerged Feedback in einer einzigen Nachricht
+- Keine Notwendigkeit, beide vollständigen Reports erneut zu lesen
 
 ---
 
 ## 7. Best Practices
 
-### For Agents
+### Für Agenten
 
-1. **Stay in Lane**
-   - Only do work assigned to your role
-   - Escalate if unclear
-   - Never make decisions for other agents
+1. **In der Spur bleiben**
+   - Nur zugewiesene Arbeit durchführen
+   - Bei Unklarheit eskalieren
+   - Niemals Entscheidungen für andere Agenten treffen
 
-2. **Explicit Handoffs**
-   - Always include handoff section in report
-   - List exactly what next agent needs
-   - Provide clear success criteria
+2. **Explizite Übergaben**
+   - Immer Übergabe-Abschnitt in Report einschließen
+   - Genau auflisten, was der nächste Agent benötigt
+   - Klare Erfolgskriterien bereitstellen
 
-3. **Context Efficiency**
-   - Read only what you need
-   - Write summaries instead of raw data
-   - Offload large outputs to files
+3. **Context-Effizienz**
+   - Nur lesen, was Sie benötigen
+   - Zusammenfassungen statt Rohdaten schreiben
+   - Große Outputs in Dateien auslagern
 
-4. **Monitor Usage**
-   - Be aware of context window usage
-   - Warn at 80% threshold
-   - Escalate at 90%
+4. **Nutzung überwachen**
+   - Context-Window-Nutzung im Auge behalten
+   - Bei 80%-Schwelle warnen
+   - Bei 90% eskalieren
 
-### For Orchestrator
+### Für Orchestrator
 
-1. **Workflow Selection**
-   - Choose correct workflow based on task type
-   - Validate MCP availability before starting
-   - Announce workflow and version at start
+1. **Workflow-Auswahl**
+   - Korrekten Workflow basierend auf Aufgabentyp wählen
+   - MCP-Verfügbarkeit vor Start validieren
+   - Workflow und Version zu Beginn ankündigen
 
-2. **Context Management**
-   - Monitor total context across workflow
-   - Trigger `/compact` proactively
-   - Split long workflows if needed
+2. **Context-Management**
+   - Gesamt-Context über Workflow überwachen
+   - `/compact` proaktiv auslösen
+   - Lange Workflows bei Bedarf aufteilen
 
-3. **Escalation Handling**
-   - Respond to escalations quickly
-   - Provide clear guidance
-   - Adjust workflow if needed
+3. **Eskalations-Handling**
+   - Schnell auf Eskalationen reagieren
+   - Klare Anleitung bereitstellen
+   - Workflow bei Bedarf anpassen
 
-4. **Quality Assurance**
-   - Validate agent outputs meet templates
-   - Ensure handoffs are explicit
-   - Verify all gates are executed
-
----
-
-## 8. Enforcement
-
-This policy is enforced through:
-
-1. **Agent Prompts** - Each agent's CLAUDE.md includes scope definitions
-2. **Validation Hooks** - SubagentStop hook checks for out-of-scope work
-3. **Orchestrator Monitoring** - Orchestrator validates workflow adherence
-4. **Report Templates** - Required sections enforce scope boundaries
-
-**Violations:**
-- Agents performing out-of-scope work
-- Skipped handoffs or missing reports
-- Quality gates bypassed
-
-**Response:**
-- Warning to agent
-- Workflow restart from correct agent
-- Escalation to orchestrator
+4. **Qualitätssicherung**
+   - Validieren, dass Agenten-Outputs Templates entsprechen
+   - Sicherstellen, dass Übergaben explizit sind
+   - Überprüfen, dass alle Gates ausgeführt werden
 
 ---
 
-## Version History
+## 8. Durchsetzung
 
-- **v5.7.0** - Initial context scope policy formalization
-- **v5.6.0** - Foundation (parallel quality gates, agent validation)
+Diese Policy wird durchgesetzt durch:
+
+1. **Agent-Prompts** - Die CLAUDE.md jedes Agenten enthält Scope-Definitionen
+2. **Validierungs-Hooks** - SubagentStop-Hook prüft auf Out-of-Scope-Arbeit
+3. **Orchestrator-Monitoring** - Orchestrator validiert Workflow-Einhaltung
+4. **Report-Templates** - Erforderliche Abschnitte erzwingen Scope-Grenzen
+
+**Verstöße:**
+- Agenten führen Out-of-Scope-Arbeit durch
+- Übersprungene Übergaben oder fehlende Reports
+- Quality Gates umgangen
+
+**Antwort:**
+- Warnung an Agent
+- Workflow-Neustart vom korrekten Agenten
+- Eskalation zum Orchestrator
 
 ---
 
-**See Also:**
-- `docs/templates/REPORT_TEMPLATES.md` - Required output formats
-- `docs/policies/SECURITY_TOOLING_POLICY.md` - Tool access controls
-- `CLAUDE.md` - Orchestrator workflow definitions
+## Versionshistorie
+
+- **v5.7.0** - Initiale Formalisierung der Context Scope Policy
+- **v5.6.0** - Grundlage (parallele Quality Gates, Agenten-Validierung)
+
+---
+
+**Siehe auch:**
+- `docs/templates/REPORT_TEMPLATES.md` - Erforderliche Output-Formate
+- `docs/policies/SECURITY_TOOLING_POLICY.md` - Tool-Zugriffskontrolle
+- `CLAUDE.md` - Orchestrator-Workflow-Definitionen

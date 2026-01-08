@@ -1,20 +1,20 @@
-# Agent Architecture - Local vs Global
+# Agenten-Architektur - Lokal vs Global
 
-> **Understanding the Two-Location Model in CC_GodMode**
-
----
-
-## Overview
-
-CC_GodMode uses a **two-location agent model** where agent files exist in two places:
-1. **Source Location** (`/agents/` in GitHub repo) - Version-controlled source of truth
-2. **Runtime Location** (`~/.claude/agents/` on your machine) - Active agent definitions
-
-This document explains why this architecture exists, how to work with it, and how to troubleshoot common issues.
+> **Das Zwei-Standort-Modell in CC_GodMode verstehen**
 
 ---
 
-## Architecture Diagram
+## Übersicht
+
+CC_GodMode verwendet ein **Zwei-Standort-Agenten-Modell**, bei dem Agenten-Dateien an zwei Orten existieren:
+1. **Quell-Standort** (`/agents/` im GitHub-Repo) - Versionskontrollierte Single Source of Truth
+2. **Laufzeit-Standort** (`~/.claude/agents/` auf deinem Rechner) - Aktive Agenten-Definitionen
+
+Dieses Dokument erklärt, warum diese Architektur existiert, wie man damit arbeitet und wie man häufige Probleme behebt.
+
+---
+
+## Architektur-Diagramm
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -24,9 +24,9 @@ This document explains why this architecture exists, how to work with it, and ho
 │                                                                      │
 │  /agents/                                                            │
 │  ├── architect.md          ← SOURCE OF TRUTH                        │
-│  ├── api-guardian.md       ← Version controlled                     │
-│  ├── builder.md            ← Shared across projects                 │
-│  ├── validator.md          ← Updated via git                        │
+│  ├── api-guardian.md       ← Versionskontrolliert                   │
+│  ├── builder.md            ← Projektübergreifend geteilt            │
+│  ├── validator.md          ← Aktualisiert via git                   │
 │  ├── tester.md                                                       │
 │  ├── scribe.md                                                       │
 │  └── github-manager.md                                               │
@@ -37,13 +37,13 @@ This document explains why this architecture exists, how to work with it, and ho
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        YOUR LOCAL MACHINE                            │
+│                        DEIN LOKALER RECHNER                          │
 │              ~/Desktop/.../CC_GodMode/agents/                        │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│  ✓ You have local copies                                            │
-│  ✓ Can edit for testing                                             │
-│  ✓ Can compare with runtime versions                                │
+│  ✓ Du hast lokale Kopien                                            │
+│  ✓ Kannst zum Testen bearbeiten                                     │
+│  ✓ Kannst mit Laufzeit-Versionen vergleichen                        │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
                                   │
@@ -57,74 +57,74 @@ This document explains why this architecture exists, how to work with it, and ho
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │  /Users/yourname/.claude/agents/                                     │
-│  ├── architect.md          ← ACTIVE RUNTIME                         │
-│  ├── api-guardian.md       ← Claude Code reads from here            │
-│  ├── builder.md            ← Global across ALL projects             │
-│  ├── validator.md          ← Task tool uses these                   │
+│  ├── architect.md          ← AKTIVE LAUFZEIT                        │
+│  ├── api-guardian.md       ← Claude Code liest hiervon              │
+│  ├── builder.md            ← Global für ALLE Projekte               │
+│  ├── validator.md          ← Task tool verwendet diese              │
 │  ├── tester.md                                                       │
 │  ├── scribe.md                                                       │
 │  └── github-manager.md                                               │
 │                                                                      │
-│  When you call: @architect                                           │
-│  Claude Code executes: ~/.claude/agents/architect.md                │
+│  Wenn du aufrufst: @architect                                        │
+│  Claude Code führt aus: ~/.claude/agents/architect.md               │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Why Two Locations?
+## Warum zwei Standorte?
 
-### Source Location (`/agents/` in repo)
+### Quell-Standort (`/agents/` im Repo)
 
-**Purpose:** Version control and distribution
-**Benefits:**
-- Track agent evolution over time via git history
-- Share agent improvements across projects
-- Document agent capabilities for the community
-- Enable collaborative agent development
+**Zweck:** Versionskontrolle und Distribution
+**Vorteile:**
+- Agenten-Evolution im Laufe der Zeit via Git-Historie verfolgen
+- Agenten-Verbesserungen projektübergreifend teilen
+- Agenten-Fähigkeiten für die Community dokumentieren
+- Kollaborative Agenten-Entwicklung ermöglichen
 
-**You interact with these when:**
-- Developing new agent features
-- Reviewing agent changes in PRs
-- Learning how agents work
-- Contributing agent improvements
+**Du interagierst mit diesen wenn:**
+- Du neue Agenten-Features entwickelst
+- Du Agenten-Änderungen in PRs reviewst
+- Du lernst, wie Agenten funktionieren
+- Du Agenten-Verbesserungen beisteuerts
 
-### Runtime Location (`~/.claude/agents/`)
+### Laufzeit-Standort (`~/.claude/agents/`)
 
-**Purpose:** Active execution by Claude Code
-**Benefits:**
-- Global availability across ALL projects
-- No need to duplicate agents per project
-- Single source for Claude Code Task tool
-- Consistent agent behavior everywhere
+**Zweck:** Aktive Ausführung durch Claude Code
+**Vorteile:**
+- Globale Verfügbarkeit über ALLE Projekte hinweg
+- Keine Notwendigkeit, Agenten pro Projekt zu duplizieren
+- Single Source für das Claude Code Task tool
+- Konsistentes Agenten-Verhalten überall
 
-**Claude Code interacts with these when:**
-- You call `@architect` in ANY project
-- Task tool needs to spawn subagent
-- Agent delegation happens automatically
+**Claude Code interagiert mit diesen wenn:**
+- Du `@architect` in JEDEM Projekt aufrufst
+- Das Task tool einen Subagenten spawnen muss
+- Agenten-Delegation automatisch geschieht
 
 ---
 
-## Installation Procedures
+## Installationsverfahren
 
-### First-Time Setup
+### Ersteinrichtung
 
 ```bash
-# 1. Clone CC_GodMode repository
+# 1. CC_GodMode Repository klonen
 git clone https://github.com/user/CC_GodMode.git
 cd CC_GodMode
 
-# 2. Create global agent directory
+# 2. Globales Agenten-Verzeichnis erstellen
 mkdir -p ~/.claude/agents
 
-# 3. Copy agents to global location
+# 3. Agenten in globalen Standort kopieren
 cp agents/*.md ~/.claude/agents/
 
-# 4. Verify installation
+# 4. Installation verifizieren
 ls -la ~/.claude/agents/
 
-# You should see:
+# Du solltest sehen:
 # architect.md
 # api-guardian.md
 # builder.md
@@ -134,37 +134,37 @@ ls -la ~/.claude/agents/
 # github-manager.md
 ```
 
-### Updating Agents
+### Agenten aktualisieren
 
 ```bash
-# When agents are updated in the repository:
+# Wenn Agenten im Repository aktualisiert wurden:
 
-# 1. Pull latest changes
+# 1. Neueste Änderungen pullen
 cd /path/to/CC_GodMode
 git pull origin main
 
-# 2. Re-copy agents to global location
+# 2. Agenten erneut in globalen Standort kopieren
 cp agents/*.md ~/.claude/agents/
 
-# 3. Verify update (check file modification times)
+# 3. Update verifizieren (Datei-Änderungszeiten prüfen)
 ls -lt ~/.claude/agents/
 ```
 
-### Verification
+### Verifizierung
 
 ```bash
-# Check that agents are installed correctly:
+# Prüfen, dass Agenten korrekt installiert sind:
 
-# 1. List global agents
+# 1. Globale Agenten auflisten
 ls -la ~/.claude/agents/
 
-# 2. Check an agent file exists and is readable
+# 2. Prüfen, dass Agenten-Datei existiert und lesbar ist
 cat ~/.claude/agents/architect.md | head -20
 
-# 3. Verify frontmatter is valid
+# 3. Frontmatter verifizieren
 head -6 ~/.claude/agents/architect.md
 
-# Should show:
+# Sollte anzeigen:
 # ---
 # name: architect
 # description: ...
@@ -175,156 +175,156 @@ head -6 ~/.claude/agents/architect.md
 
 ---
 
-## Working with Agents
+## Mit Agenten arbeiten
 
-### Development Workflow
+### Entwicklungs-Workflow
 
 ```bash
-# When developing agent improvements:
+# Bei der Entwicklung von Agenten-Verbesserungen:
 
-# 1. Edit source file
+# 1. Quell-Datei bearbeiten
 vim CC_GodMode/agents/architect.md
 
-# 2. Test locally by copying to runtime
+# 2. Lokal testen durch Kopieren in Laufzeit
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
 
-# 3. Test in any project
+# 3. In beliebigem Projekt testen
 cd ~/some-other-project
-# Call @architect and observe behavior
+# Rufe @architect auf und beobachte das Verhalten
 
-# 4. If good, commit to git
+# 4. Falls gut, zu Git committen
 cd CC_GodMode
 git add agents/architect.md
 git commit -m "feat: improve architect agent"
 ```
 
-### Troubleshooting Agent Behavior
+### Agenten-Verhalten troubleshooten
 
 ```bash
-# If an agent isn't working as expected:
+# Falls ein Agent nicht wie erwartet funktioniert:
 
-# 1. Check which version is active
+# 1. Prüfen, welche Version aktiv ist
 diff CC_GodMode/agents/architect.md ~/.claude/agents/architect.md
 
-# 2. If different, decide which is correct:
+# 2. Falls unterschiedlich, entscheiden welche korrekt ist:
 
-# Option A: Source is correct (update runtime)
+# Option A: Quelle ist korrekt (Laufzeit aktualisieren)
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
 
-# Option B: Runtime is correct (update source)
+# Option B: Laufzeit ist korrekt (Quelle aktualisieren)
 cp ~/.claude/agents/architect.md CC_GodMode/agents/
 cd CC_GodMode && git commit -am "fix: update architect from runtime"
 ```
 
 ---
 
-## Common Issues & Solutions
+## Häufige Probleme & Lösungen
 
-### Issue 1: Agent Not Found
+### Problem 1: Agent nicht gefunden
 
-**Symptoms:**
+**Symptome:**
 ```
 Error: Agent 'architect' not found
 ```
 
-**Solution:**
+**Lösung:**
 ```bash
-# Check if agent file exists
+# Prüfen ob Agenten-Datei existiert
 ls ~/.claude/agents/architect.md
 
-# If not, install it:
+# Falls nicht, installieren:
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
 ```
 
-### Issue 2: Agent Using Old Behavior
+### Problem 2: Agent verwendet altes Verhalten
 
-**Symptoms:**
-- Agent does something that was changed in recent update
-- Agent output doesn't match documentation
+**Symptome:**
+- Agent macht etwas, das in einem kürzlichen Update geändert wurde
+- Agent-Output stimmt nicht mit Dokumentation überein
 
-**Solution:**
+**Lösung:**
 ```bash
-# Update runtime version from source
+# Laufzeit-Version von Quelle aktualisieren
 cp CC_GodMode/agents/*.md ~/.claude/agents/
 
-# Verify update timestamp
+# Update-Zeitstempel verifizieren
 ls -lt ~/.claude/agents/architect.md
 ```
 
-### Issue 3: Local Changes Not Working
+### Problem 3: Lokale Änderungen funktionieren nicht
 
-**Symptoms:**
-- You edited `CC_GodMode/agents/architect.md`
-- But @architect still shows old behavior
+**Symptome:**
+- Du hast `CC_GodMode/agents/architect.md` bearbeitet
+- Aber @architect zeigt immer noch altes Verhalten
 
-**Solution:**
+**Lösung:**
 ```bash
-# You forgot to copy to runtime location!
+# Du hast vergessen, in den Laufzeit-Standort zu kopieren!
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
 
-# Always copy after editing source files
+# Immer nach dem Bearbeiten von Quell-Dateien kopieren
 ```
 
-### Issue 4: Different Behavior Across Projects
+### Problem 4: Unterschiedliches Verhalten zwischen Projekten
 
-**Symptoms:**
-- Agent works differently in project A vs project B
-- Inconsistent agent behavior
+**Symptome:**
+- Agent funktioniert in Projekt A anders als in Projekt B
+- Inkonsistentes Agenten-Verhalten
 
-**Solution:**
+**Lösung:**
 ```bash
-# This should NOT happen (agents are global)
-# Check if you have local agent files overriding global ones
+# Dies sollte NICHT passieren (Agenten sind global)
+# Prüfen ob lokale Agenten-Dateien globale überschreiben
 
-# In each project, check for local agents:
-ls .claude/agents/  # Should NOT exist
+# In jedem Projekt, nach lokalen Agenten suchen:
+ls .claude/agents/  # Sollte NICHT existieren
 
-# If exists, remove local overrides:
+# Falls vorhanden, lokale Überschreibungen entfernen:
 rm -rf .claude/agents/
 
-# Agents should ONLY be in ~/.claude/agents/
+# Agenten sollten NUR in ~/.claude/agents/ sein
 ```
 
 ---
 
 ## Best Practices
 
-### 1. Always Update Both Locations
+### 1. Immer beide Standorte aktualisieren
 
 ```bash
-# After editing agents:
-# ✅ DO THIS:
+# Nach dem Bearbeiten von Agenten:
+# ✅ SO MACHEN:
 vim CC_GodMode/agents/architect.md
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
 git commit -am "feat: improve architect"
 
-# ❌ DON'T DO THIS:
-vim ~/.claude/agents/architect.md  # Changes not version controlled!
+# ❌ NICHT SO MACHEN:
+vim ~/.claude/agents/architect.md  # Änderungen nicht versionskontrolliert!
 ```
 
-### 2. Test Before Committing
+### 2. Vor dem Committen testen
 
 ```bash
-# Test agent changes in runtime before committing:
+# Agenten-Änderungen in Laufzeit testen vor dem Committen:
 cp CC_GodMode/agents/architect.md ~/.claude/agents/
-# Test in various projects...
-# If good:
+# In verschiedenen Projekten testen...
+# Falls gut:
 cd CC_GodMode && git commit -am "feat: tested change"
 ```
 
-### 3. Keep Agents Synchronized
+### 3. Agenten synchronisiert halten
 
 ```bash
-# Periodically check for drift:
+# Periodisch auf Drift prüfen:
 diff -r CC_GodMode/agents/ ~/.claude/agents/
 
-# If differences found, decide which is correct and synchronize
+# Falls Unterschiede gefunden, entscheiden welche korrekt ist und synchronisieren
 ```
 
-### 4. Document Agent Changes
+### 4. Agenten-Änderungen dokumentieren
 
 ```markdown
-# When modifying agents, document in commit message:
+# Bei Modifikation von Agenten, in Commit-Nachricht dokumentieren:
 
 git commit -m "feat(architect): add REQUEST TO ORCHESTRATOR pattern
 
@@ -337,14 +337,14 @@ Resolves: Issue #1"
 
 ---
 
-## Advanced Topics
+## Erweiterte Themen
 
-### Creating New Agents
+### Neue Agenten erstellen
 
 ```bash
-# To add a new agent to the system:
+# Um einen neuen Agenten zum System hinzuzufügen:
 
-# 1. Create in source location
+# 1. Im Quell-Standort erstellen
 cat > CC_GodMode/agents/new-agent.md << 'EOF'
 ---
 name: new-agent
@@ -358,103 +358,103 @@ model: sonnet
 Agent instructions here...
 EOF
 
-# 2. Copy to runtime
+# 2. Zur Laufzeit kopieren
 cp CC_GodMode/agents/new-agent.md ~/.claude/agents/
 
-# 3. Test
-# Call @new-agent in any project
+# 3. Testen
+# Rufe @new-agent in beliebigem Projekt auf
 
-# 4. Commit
+# 4. Committen
 cd CC_GodMode
 git add agents/new-agent.md
 git commit -m "feat: add new-agent for X functionality"
 ```
 
-### Agent Inheritance
+### Agenten-Vererbung
 
-Agents can reference other agents, but they don't inherit configuration.
-Each agent is independent and self-contained.
+Agenten können andere Agenten referenzieren, aber sie erben keine Konfiguration.
+Jeder Agent ist unabhängig und in sich geschlossen.
 
-### Multi-Project Consistency
+### Multi-Projekt-Konsistenz
 
-Because agents are global (`~/.claude/agents/`), they work identically across all projects on your machine. This ensures:
-- Consistent workflow patterns
-- No per-project agent configuration
-- Single source of truth for agent behavior
+Da Agenten global sind (`~/.claude/agents/`), funktionieren sie identisch über alle Projekte auf deinem Rechner. Dies stellt sicher:
+- Konsistente Workflow-Muster
+- Keine projektspezifische Agenten-Konfiguration
+- Single Source of Truth für Agenten-Verhalten
 
 ---
 
-## Rationale for Global Agent Design
+## Begründung für globales Agenten-Design
 
-### Why Global Instead of Local?
+### Warum global statt lokal?
 
-**1. Consistency Across Projects**
-- Same agents, same behavior, everywhere
-- No confusion about which agent version is active
-- Reduces maintenance burden
+**1. Konsistenz über Projekte hinweg**
+- Gleiche Agenten, gleiches Verhalten, überall
+- Keine Verwirrung darüber, welche Agenten-Version aktiv ist
+- Reduziert Wartungsaufwand
 
 **2. Single Source of Truth**
-- One location for Claude Code to read from
-- No ambiguity about which agent file to use
-- Clear update path
+- Ein Standort, von dem Claude Code liest
+- Keine Mehrdeutigkeit darüber, welche Agenten-Datei zu verwenden ist
+- Klarer Update-Pfad
 
-**3. Reduced Duplication**
-- Don't need to copy agents to every project
-- Updates propagate globally
-- Disk space savings
+**3. Reduzierte Duplizierung**
+- Keine Notwendigkeit, Agenten in jedes Projekt zu kopieren
+- Updates propagieren global
+- Speicherplatz-Einsparungen
 
-**4. Easier Maintenance**
-- Update once, affects all projects
-- Clear separation: source vs runtime
-- Git tracks source, runtime is deployment
+**4. Einfachere Wartung**
+- Einmal aktualisieren, betrifft alle Projekte
+- Klare Trennung: Quelle vs. Laufzeit
+- Git verfolgt Quelle, Laufzeit ist Deployment
 
-### When Might You Want Local Agents?
+### Wann könnte man lokale Agenten wollen?
 
-In rare cases, you might want project-specific agent behavior:
-- Experimental agent features for one project
-- Project-specific tool integrations
-- Testing agent changes before global deployment
+In seltenen Fällen könnte man projektspezifisches Agenten-Verhalten wollen:
+- Experimentelle Agenten-Features für ein Projekt
+- Projektspezifische Tool-Integrationen
+- Testen von Agenten-Änderungen vor globalem Deployment
 
-**For these cases:**
+**Für diese Fälle:**
 ```bash
-# Create project-local agent override (use sparingly!)
+# Projektlokale Agenten-Überschreibung erstellen (sparsam verwenden!)
 mkdir -p .claude/agents
 cp ~/.claude/agents/architect.md .claude/agents/
-# Edit .claude/agents/architect.md for project-specific behavior
+# .claude/agents/architect.md für projektspezifisches Verhalten bearbeiten
 
-# Note: This is NOT recommended for normal use
-# It breaks the global consistency model
+# Hinweis: Dies wird für normale Verwendung NICHT empfohlen
+# Es bricht das globale Konsistenz-Modell
 ```
 
 ---
 
-## Summary
+## Zusammenfassung
 
-**Two-Location Model:**
-- **Source** (`/agents/` in repo): Version-controlled, shared, documented
-- **Runtime** (`~/.claude/agents/`): Active execution, global, consistent
+**Zwei-Standort-Modell:**
+- **Quelle** (`/agents/` im Repo): Versionskontrolliert, geteilt, dokumentiert
+- **Laufzeit** (`~/.claude/agents/`): Aktive Ausführung, global, konsistent
 
-**Key Commands:**
+**Schlüssel-Befehle:**
 ```bash
-# Install agents
+# Agenten installieren
 cp CC_GodMode/agents/*.md ~/.claude/agents/
 
-# Update agents
+# Agenten aktualisieren
 cp CC_GodMode/agents/*.md ~/.claude/agents/
 
-# Check sync status
+# Sync-Status prüfen
 diff -r CC_GodMode/agents/ ~/.claude/agents/
 ```
 
-**Remember:**
-- Agents are global and consistent across all projects
-- Source location is for development and version control
-- Runtime location is what Claude Code actually uses
-- Always keep both locations synchronized
+**Beachte:**
+- Agenten sind global und konsistent über alle Projekte
+- Quell-Standort ist für Entwicklung und Versionskontrolle
+- Laufzeit-Standort ist das, was Claude Code tatsächlich verwendet
+- Immer beide Standorte synchronisiert halten
 
 ---
 
-**For more information:**
-- See [AGENT_MODEL_SELECTION.md](./AGENT_MODEL_SELECTION.md) for cost optimization
-- See [CLAUDE.md](../CLAUDE.md) for orchestrator configuration
-- See [agents/](../agents/) for individual agent documentation
+**Für weitere Informationen:**
+- Siehe [AGENT_MODEL_SELECTION.md](./AGENT_MODEL_SELECTION.md) für Kosten-Optimierung
+- Siehe [CLAUDE.md](../CLAUDE.md) für Orchestrator-Konfiguration
+- Siehe [agents/](../agents/) für individuelle Agenten-Dokumentation

@@ -1,30 +1,30 @@
-# Domain Pack Specification
+# Domain Pack Spezifikation
 
 **Version:** v5.8.0
-**Last Updated:** 2026-01-08
-**Status:** Draft
+**Zuletzt aktualisiert:** 2026-01-08
+**Status:** Entwurf
 
 ---
 
-## Overview
+## Überblick
 
-Domain Packs enable customization of CC_GodMode for specific project types, frameworks, or organizational standards. They allow extending or overriding core agent behaviors, validation rules, and workflows without modifying the core system.
+Domain Packs ermöglichen die Anpassung von CC_GodMode für spezifische Projekttypen, Frameworks oder organisatorische Standards. Sie erlauben die Erweiterung oder das Überschreiben von Kern-Agenten-Verhalten, Validierungsregeln und Workflows, ohne das Kernsystem zu modifizieren.
 
-**Key Principles:**
-- **Core remains stable** - Domain packs extend, don't break core
-- **Resolution order is predictable** - Project > Global > Core
-- **Backwards compatible** - Projects without domain packs work normally
-- **Discoverable** - Domain packs self-document their capabilities
+**Kernprinzipien:**
+- **Kern bleibt stabil** - Domain Packs erweitern, brechen nicht den Kern
+- **Auflösungsreihenfolge ist vorhersagbar** - Projekt > Global > Kern
+- **Rückwärtskompatibel** - Projekte ohne Domain Packs funktionieren normal
+- **Erkennbar** - Domain Packs dokumentieren ihre Fähigkeiten selbst
 
 ---
 
-## Architecture
+## Architektur
 
 ```
-Resolution Chain
-================
+Auflösungskette
+===============
 
-    Project Domain Pack          Global Domain Pack           Core Agents
+    Projekt-Domain-Pack          Global-Domain-Pack           Kern-Agenten
     (./domains/{name}/)          (~/.claude/domains/{name}/)  (~/.claude/agents/)
            |                              |                          |
            v                              v                          v
@@ -36,33 +36,33 @@ Resolution Chain
            ^                              ^                          ^
            |                              |                          |
            +------------- resolveAgent(name, domain) ----------------+
-                          Returns first found
+                          Gibt ersten gefundenen zurück
 ```
 
 ---
 
-## Directory Structure
+## Verzeichnisstruktur
 
-### Project-Level Domain Pack
+### Projekt-Ebenen-Domain-Pack
 
 ```
 project-root/
   domains/
     {domain-name}/
-      domain-config.json      # Required: Domain configuration
-      agents/                 # Optional: Agent prompt overrides
+      domain-config.json      # Erforderlich: Domain-Konfiguration
+      agents/                 # Optional: Agenten-Prompt-Overrides
         builder.md
         validator.md
         tester.md
-      validation-rules.json   # Optional: Validation rule extensions
-      hooks/                  # Optional: Domain-specific hooks
+      validation-rules.json   # Optional: Validierungsregel-Erweiterungen
+      hooks/                  # Optional: Domain-spezifische Hooks
         pre-workflow.js
         post-agent-builder.js
-      templates/              # Optional: Report templates
+      templates/              # Optional: Report-Templates
         builder-report.md
 ```
 
-### Global Domain Pack
+### Globaler Domain Pack
 
 ```
 ~/.claude/
@@ -75,15 +75,15 @@ project-root/
 
 ---
 
-## Configuration File
+## Konfigurationsdatei
 
-### domain-config.json (Required)
+### domain-config.json (Erforderlich)
 
 ```json
 {
   "name": "react-native",
   "version": "1.0.0",
-  "description": "Domain pack for React Native mobile development",
+  "description": "Domain Pack für React Native Mobile-Entwicklung",
   "author": "Team Name",
   "license": "MIT",
 
@@ -131,58 +131,58 @@ project-root/
 
 ---
 
-## Agent Override Files
+## Agenten-Override-Dateien
 
-### Extending Core Agents
+### Kern-Agenten erweitern
 
-When an agent file exists in the domain pack, it can either **extend** or **replace** the core agent.
+Wenn eine Agenten-Datei im Domain Pack existiert, kann sie den Kern-Agenten entweder **erweitern** oder **ersetzen**.
 
-**Extending (Recommended):**
+**Erweitern (Empfohlen):**
 ```markdown
-# @builder - React Native Extension
+# @builder - React Native Erweiterung
 
-> Extends core @builder with React Native specifics
+> Erweitert Kern-@builder mit React Native Spezifika
 
 ---
 
-## Additional Responsibilities
+## Zusätzliche Verantwortlichkeiten
 
-- Verify platform-specific code compatibility
-- Run iOS and Android builds
-- Handle native module integration
+- Plattform-spezifische Code-Kompatibilität verifizieren
+- iOS- und Android-Builds ausführen
+- Native-Modul-Integration handhaben
 
-## Platform Considerations
+## Plattform-Überlegungen
 
 ### iOS
-- Check CocoaPods dependencies
-- Verify Xcode version compatibility
+- CocoaPods-Abhängigkeiten prüfen
+- Xcode-Versions-Kompatibilität verifizieren
 
 ### Android
-- Check Gradle configuration
-- Verify Android SDK version
+- Gradle-Konfiguration prüfen
+- Android-SDK-Version verifizieren
 
 ---
 
-## Original Core Responsibilities
+## Ursprüngliche Kern-Verantwortlichkeiten
 
-[All core @builder responsibilities remain in effect]
+[Alle Kern-@builder-Verantwortlichkeiten bleiben gültig]
 ```
 
-**Replacing (Use with caution):**
+**Ersetzen (Mit Vorsicht verwenden):**
 ```markdown
-# @builder - Custom Implementation
+# @builder - Benutzerdefinierte Implementierung
 
-> Replaces core @builder entirely
+> Ersetzt Kern-@builder vollständig
 
-**WARNING:** This agent completely replaces the core builder.
-All core functionality must be re-implemented.
+**WARNUNG:** Dieser Agent ersetzt den Kern-Builder vollständig.
+Alle Kern-Funktionalitäten müssen neu implementiert werden.
 
-[Full agent implementation]
+[Vollständige Agenten-Implementierung]
 ```
 
 ---
 
-## Validation Rules
+## Validierungsregeln
 
 ### validation-rules.json
 
@@ -211,93 +211,93 @@ All core functionality must be re-implemented.
 }
 ```
 
-### Merge Behavior
+### Merge-Verhalten
 
-When `overrides: false` (default):
-- Domain `requiredSections` are **added** to core sections
-- Domain `requiredPatterns` are **added** to core patterns
-- Domain `minLength` **overrides** core minLength (if specified)
+Wenn `overrides: false` (Standard):
+- Domain-`requiredSections` werden zu Kern-Abschnitten **hinzugefügt**
+- Domain-`requiredPatterns` werden zu Kern-Mustern **hinzugefügt**
+- Domain-`minLength` **überschreibt** Kern-minLength (falls angegeben)
 
-When `overrides: true`:
-- Domain rules **completely replace** core rules for that agent
+Wenn `overrides: true`:
+- Domain-Regeln **ersetzen vollständig** Kern-Regeln für diesen Agenten
 
 ---
 
-## Resolution Algorithm
+## Auflösungs-Algorithmus
 
 ```javascript
 function resolveAgent(agentName, domainName) {
-  // 1. Check project domain
+  // 1. Projekt-Domain prüfen
   if (exists(`./domains/${domainName}/agents/${agentName}.md`)) {
     return projectDomainAgent;
   }
 
-  // 2. Check global domain
+  // 2. Globale Domain prüfen
   if (exists(`~/.claude/domains/${domainName}/agents/${agentName}.md`)) {
     return globalDomainAgent;
   }
 
-  // 3. Fall back to core
+  // 3. Zurückfallen auf Kern
   if (exists(`~/.claude/agents/${agentName}.md`)) {
     return coreAgent;
   }
 
-  // 4. Agent not found
+  // 4. Agent nicht gefunden
   return null;
 }
 ```
 
 ---
 
-## Usage
+## Verwendung
 
-### CLI Commands
+### CLI-Befehle
 
 ```bash
-# Discover all domain packs
+# Alle Domain Packs entdecken
 node scripts/domain-pack-loader.js discover
 
-# Resolve agent with domain
+# Agent mit Domain auflösen
 node scripts/domain-pack-loader.js resolve builder react-native
 
-# Validate a domain pack
+# Domain Pack validieren
 node scripts/domain-pack-loader.js validate ./domains/react-native
 
-# List all agents for a domain
+# Alle Agenten für eine Domain auflisten
 node scripts/domain-pack-loader.js list react-native
 ```
 
-### In Orchestrator
+### Im Orchestrator
 
 ```markdown
-# CLAUDE.md orchestrator configuration
+# CLAUDE.md Orchestrator-Konfiguration
 
 domain: react-native
 ```
 
-Or per-workflow:
+Oder pro Workflow:
 ```
 User: "New Feature: Add push notifications --domain=react-native"
 ```
 
 ---
 
-## Creating a Domain Pack
+## Erstellen eines Domain Packs
 
-### Step 1: Create Directory
+### Schritt 1: Verzeichnis erstellen
 
 ```bash
 mkdir -p domains/my-domain/agents
 ```
 
-### Step 2: Create Configuration
+### Schritt 2: Konfiguration erstellen
 
 ```bash
 cat > domains/my-domain/domain-config.json << 'EOF'
 {
   "name": "my-domain",
   "version": "1.0.0",
-  "description": "Custom domain for my project type",
+  "description": "Benutzerdefinierte Domain für meinen Projekttyp",
   "compatibility": {
     "minVersion": "5.8.0"
   },
@@ -307,20 +307,20 @@ cat > domains/my-domain/domain-config.json << 'EOF'
 EOF
 ```
 
-### Step 3: Add Agent Overrides (Optional)
+### Schritt 3: Agenten-Overrides hinzufügen (Optional)
 
 ```bash
-# Create custom builder
+# Benutzerdefinierten Builder erstellen
 cat > domains/my-domain/agents/builder.md << 'EOF'
-# @builder - My Domain Extension
+# @builder - Meine Domain-Erweiterung
 
-## Additional Requirements
-- Custom requirement 1
-- Custom requirement 2
+## Zusätzliche Anforderungen
+- Benutzerdefinierte Anforderung 1
+- Benutzerdefinierte Anforderung 2
 EOF
 ```
 
-### Step 4: Add Validation Rules (Optional)
+### Schritt 4: Validierungsregeln hinzufügen (Optional)
 
 ```bash
 cat > domains/my-domain/validation-rules.json << 'EOF'
@@ -333,7 +333,7 @@ cat > domains/my-domain/validation-rules.json << 'EOF'
 EOF
 ```
 
-### Step 5: Validate
+### Schritt 5: Validieren
 
 ```bash
 node scripts/domain-pack-loader.js validate ./domains/my-domain
@@ -343,76 +343,76 @@ node scripts/domain-pack-loader.js validate ./domains/my-domain
 
 ## Best Practices
 
-### DO
+### MACHEN
 
-- Keep domain packs focused on a single project type
-- Document all customizations clearly
-- Test domain packs with core CC_GodMode updates
-- Use `overrides: false` unless absolutely necessary
-- Include version compatibility information
+- Domain Packs auf einen einzelnen Projekttyp fokussiert halten
+- Alle Anpassungen klar dokumentieren
+- Domain Packs mit Kern-CC_GodMode-Updates testen
+- `overrides: false` verwenden, außer absolut notwendig
+- Versions-Kompatibilitätsinformationen einschließen
 
-### DON'T
+### NICHT MACHEN
 
-- Create domain packs that break core workflows
-- Override core agents without good reason
-- Forget to update domain pack version when changing
-- Create circular dependencies between domain packs
-- Store secrets in domain pack files
+- Domain Packs erstellen, die Kern-Workflows brechen
+- Kern-Agenten ohne guten Grund überschreiben
+- Vergessen, Domain-Pack-Version beim Ändern zu aktualisieren
+- Zirkuläre Abhängigkeiten zwischen Domain Packs erstellen
+- Secrets in Domain-Pack-Dateien speichern
 
 ---
 
-## Built-in Domain Packs
+## Eingebaute Domain Packs
 
-CC_GodMode ships with reference domain packs:
+CC_GodMode wird mit Referenz-Domain-Packs ausgeliefert:
 
-| Name | Description | Agents Modified |
+| Name | Beschreibung | Modifizierte Agenten |
 |------|-------------|-----------------|
-| `react-native` | Mobile app development | builder, tester |
-| `backend` | Backend/API development | architect, validator |
-| `docs` | Documentation projects | scribe |
+| `react-native` | Mobile-App-Entwicklung | builder, tester |
+| `backend` | Backend-/API-Entwicklung | architect, validator |
+| `docs` | Dokumentationsprojekte | scribe |
 
-These are located in the global domains directory and serve as templates for custom domain packs.
+Diese befinden sich im globalen Domains-Verzeichnis und dienen als Templates für benutzerdefinierte Domain Packs.
 
 ---
 
 ## Troubleshooting
 
-### Domain Pack Not Detected
+### Domain Pack nicht erkannt
 
 ```bash
-# Check discovery
+# Discovery prüfen
 node scripts/domain-pack-loader.js discover
 
-# Verify config file exists and is valid JSON
+# Config-Datei existiert und ist gültiges JSON verifizieren
 cat domains/my-domain/domain-config.json | jq .
 ```
 
-### Agent Not Resolving from Domain
+### Agent löst nicht aus Domain auf
 
 ```bash
-# Check resolution chain
+# Auflösungskette prüfen
 node scripts/domain-pack-loader.js resolve builder my-domain
 ```
 
-### Validation Rules Not Applying
+### Validierungsregeln werden nicht angewendet
 
 ```bash
-# Verify rules file
+# Regel-Datei verifizieren
 cat domains/my-domain/validation-rules.json | jq .
 
-# Test with domain flag
+# Mit Domain-Flag testen
 node scripts/validate-agent-output.js report.md builder --domain=my-domain
 ```
 
 ---
 
-## Version History
+## Versionshistorie
 
-- **v5.8.0** - Initial domain pack specification
+- **v5.8.0** - Initiale Domain-Pack-Spezifikation
 
 ---
 
-**See Also:**
-- `config/domain-config.schema.json` - JSON Schema for validation
-- `scripts/domain-pack-loader.js` - Domain pack loader implementation
-- `scripts/validate-agent-output.js` - Domain-aware validation
+**Siehe auch:**
+- `config/domain-config.schema.json` - JSON-Schema zur Validierung
+- `scripts/domain-pack-loader.js` - Domain-Pack-Loader-Implementierung
+- `scripts/validate-agent-output.js` - Domain-aware-Validierung

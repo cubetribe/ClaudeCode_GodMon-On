@@ -1,76 +1,76 @@
-# CC_GodMode Installation Prompt
+# CC_GodMode Installations-Prompt
 
 > **Version:** 5.8.3
-> **Type:** Self-Installing System
-> **One-Shot:** Copy this entire prompt into Claude Code and it will set up everything automatically.
+> **Typ:** Selbstinstallierendes System
+> **One-Shot:** Kopiere diesen gesamten Prompt in Claude Code und es wird alles automatisch eingerichtet.
 
 ---
 
-## What's New in v5.8.2
+## Was ist neu in v5.8.2
 
-### New Features
+### Neue Features
 
 **Auto-Update System**
-- Automatic version checking against GitHub
-- Update notifications on session start
-- Easy one-command update process
+- Automatische Versionsprüfung gegen GitHub
+- Update-Benachrichtigungen beim Session-Start
+- Einfacher Ein-Befehl-Update-Prozess
 
-**Enhanced Hooks**
-- UserPromptSubmit: Intelligent task type detection and complexity assessment
-- SessionStart: Comprehensive MCP health checks and system diagnostics
-- SubagentStop: Agent output validation and quality scoring
+**Erweiterte Hooks**
+- UserPromptSubmit: Intelligente Aufgabentyp-Erkennung und Komplexitätsbewertung
+- SessionStart: Umfassende MCP Health Checks und System-Diagnostik
+- SubagentStop: Agenten-Output-Validierung und Qualitätsbewertung
 
-**Domain-Specific Configuration**
-- Domain config schema for specialized project setups
-- Domain pack loader for consistent configurations
-- ADR templates for architecture decision documentation
+**Domain-spezifische Konfiguration**
+- Domain-Config-Schema für spezialisierte Projektsetups
+- Domain-Pack-Loader für konsistente Konfigurationen
+- ADR-Templates für Architektur-Entscheidungsdokumentation
 
-**Improved Scripts**
-- Escalation handler for complex task routing
-- Enhanced prompt analysis with workflow suggestions
-- Parallel quality gates for faster validation
+**Verbesserte Scripts**
+- Escalation Handler für komplexes Task-Routing
+- Erweiterte Prompt-Analyse mit Workflow-Vorschlägen
+- Parallel Quality Gates für schnellere Validierung
 
-### System Requirements
+### System-Anforderungen
 
-- Node.js 18+ (required)
-- Claude Code CLI (latest version recommended)
-- Git (for installation)
-- 100MB free disk space
-- Internet connection for MCP server installation
+- Node.js 18+ (erforderlich)
+- Claude Code CLI (neueste Version empfohlen)
+- Git (für Installation)
+- 100MB freier Speicherplatz
+- Internetverbindung für MCP-Server-Installation
 
 ---
 
-## Before You Start: Launch Claude Correctly!
+## Bevor du startest: Claude richtig starten!
 
-**IMPORTANT:** Start Claude Code with this flag so the installation runs automatically:
+**WICHTIG:** Starte Claude Code mit diesem Flag, damit die Installation automatisch läuft:
 
 ```bash
 claude --dangerously-skip-permissions
 ```
 
-**Why?**
-- The installation executes 30+ commands (mkdir, cp, git clone, etc.)
-- Without this flag, you must manually confirm EVERY single command
-- With the flag, everything runs automatically
+**Warum?**
+- Die Installation führt 30+ Befehle aus (mkdir, cp, git clone, etc.)
+- Ohne dieses Flag musst du JEDEN einzelnen Befehl manuell bestätigen
+- Mit dem Flag läuft alles automatisch
 
-**Security Notice:**
-- Only use this mode for the installation
-- Afterwards, you can start Claude normally (without the flag)
-- This flag gives Claude full permissions - only use with trusted prompts!
-
----
-
-## Quick Install (Copy & Paste)
-
-After starting Claude with `--dangerously-skip-permissions`, copy everything below the line and paste it:
+**Sicherheitshinweis:**
+- Nutze diesen Modus nur für die Installation
+- Danach kannst du Claude normal starten (ohne das Flag)
+- Dieses Flag gibt Claude volle Berechtigungen - nur mit vertrauenswürdigen Prompts nutzen!
 
 ---
 
-You are now installing **CC_GodMode** - a self-orchestrating multi-agent system for Claude Code.
+## Schnellinstallation (Copy & Paste)
 
-## FIRST ACTION: Welcome and Explanation
+Nachdem du Claude mit `--dangerously-skip-permissions` gestartet hast, kopiere alles unterhalb der Linie und füge es ein:
 
-Before you execute anything, give the user the following message:
+---
+
+Du installierst jetzt **CC_GodMode** - ein selbstorchestrierendes Multi-Agenten-System für Claude Code.
+
+## ERSTE AKTION: Begrüßung und Erklärung
+
+Bevor du irgendetwas ausführst, gib dem Benutzer folgende Nachricht:
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -79,79 +79,80 @@ Before you execute anything, give the user the following message:
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   Hello! I will now set up your system for CC_GodMode.                   ║
+║   Hallo! Ich werde jetzt dein System für CC_GodMode einrichten.          ║
 ║                                                                           ║
-║   What I will do for you:                                                ║
+║   Was ich für dich tun werde:                                            ║
 ║                                                                           ║
-║   1. 📦 Download the CC_GodMode repository from GitHub                    ║
-║   2. 🤖 Install 7 specialized AI agents                                   ║
-║   3. 🔧 Set up 10 hook scripts (automatic quality checks & analysis)      ║
-║   4. 📋 Install config files and templates                                ║
-║   5. 🧠 Install the Memory MCP Server (for persistent knowledge)          ║
-║   6. ⚙️  Configure 4 automatic hooks                                       ║
-║   7. 🚀 Set up auto-update system                                         ║
-║   8. ✅ Verify everything and clean up                                    ║
+║   1. 📦 CC_GodMode Repository von GitHub herunterladen                    ║
+║   2. 🤖 7 spezialisierte KI-Agenten installieren                          ║
+║   3. 🔧 10 Hook-Scripts einrichten (automatische Quality Checks & Analyse)║
+║   4. 📋 Config-Dateien und Templates installieren                         ║
+║   5. 🧠 Memory MCP Server installieren (für persistentes Wissen)          ║
+║   6. ⚙️  4 automatische Hooks konfigurieren                               ║
+║   7. 🚀 Auto-Update-System einrichten                                     ║
+║   8. ✅ Alles verifizieren und aufräumen                                  ║
 ║                                                                           ║
-║   ⏱️  This will take approximately 3-7 minutes.                            ║
+║   ⏱️  Dies wird ca. 3-7 Minuten dauern.                                   ║
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   ⚠️  IMPORTANT: During installation, I will ask you multiple times for   ║
-║   permission to execute commands and write files.                         ║
+║   ⚠️  WICHTIG: Während der Installation werde ich dich mehrfach um       ║
+║   Berechtigung bitten, Befehle auszuführen und Dateien zu schreiben.     ║
 ║                                                                           ║
-║   Please allow these actions, otherwise I cannot proceed!                 ║
+║   Bitte erlaube diese Aktionen, sonst kann ich nicht fortfahren!         ║
 ║                                                                           ║
-║   You can also select "Yes, don't ask again" to speed up the process.    ║
+║   Du kannst auch "Ja, nicht mehr nachfragen" wählen, um den Prozess zu   ║
+║   beschleunigen.                                                          ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
-I'm now starting the installation...
+Ich starte jetzt die Installation...
 ```
 
-Wait briefly (2 seconds) and then proceed with the installation steps.
+Warte kurz (2 Sekunden) und fahre dann mit den Installationsschritten fort.
 
 ---
 
-## INSTALLATION STEPS
+## INSTALLATIONSSCHRITTE
 
-### Step 0: Detect Operating System
+### Schritt 0: Betriebssystem erkennen
 
-First detect the operating system and set variables accordingly:
+Erkenne zuerst das Betriebssystem und setze Variablen entsprechend:
 
 ```bash
-# Detect OS
+# OS erkennen
 node -e "console.log(process.platform)"
 ```
 
-**Evaluate result:**
+**Ergebnis auswerten:**
 - `darwin` → macOS
 - `win32` → Windows
 - `linux` → Linux
 
-Remember the OS for the following steps!
+Merke dir das OS für die folgenden Schritte!
 
 ---
 
-### Step 1: Prerequisites Check
+### Schritt 1: Voraussetzungen prüfen
 
-Run these checks and report any failures:
+Führe diese Prüfungen aus und melde alle Fehler:
 
 ```bash
-# Check Node.js version (need 18+)
+# Node.js Version prüfen (benötigt 18+)
 node --version
 
-# Check Claude CLI
+# Claude CLI prüfen
 claude --version
 
-# Check git
+# Git prüfen
 git --version
 ```
 
-**If any check fails:** Stop and provide installation instructions for the missing component.
+**Falls eine Prüfung fehlschlägt:** Stoppe und liefere Installationsanweisungen für die fehlende Komponente.
 
 ---
 
-### Step 2: Create Directory Structure
+### Schritt 2: Verzeichnisstruktur erstellen
 
 **macOS / Linux:**
 ```bash
@@ -167,7 +168,7 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\scripts"
 
 ---
 
-### Step 3: Clone Repository
+### Schritt 3: Repository klonen
 
 **macOS / Linux:**
 ```bash
@@ -183,11 +184,11 @@ if (Test-Path "CC_GodMode_install") { Remove-Item -Recurse -Force "CC_GodMode_in
 git clone https://github.com/cubetribe/ClaudeCode_GodMode-On.git CC_GodMode_install
 ```
 
-**If clone fails:** The repo might be private or renamed. Report the error.
+**Falls Klonen fehlschlägt:** Das Repo könnte privat sein oder umbenannt. Melde den Fehler.
 
 ---
 
-### Step 4: Install Agents (Global)
+### Schritt 4: Agenten installieren (Global)
 
 **macOS / Linux:**
 ```bash
@@ -201,7 +202,7 @@ Copy-Item "$env:TEMP\CC_GodMode_install\agents\*.md" "$env:USERPROFILE\.claude\a
 Get-ChildItem "$env:USERPROFILE\.claude\agents\"
 ```
 
-**Expected agents (7 files):**
+**Erwartete Agenten (7 Dateien):**
 - `architect.md`
 - `api-guardian.md`
 - `builder.md`
@@ -212,7 +213,7 @@ Get-ChildItem "$env:USERPROFILE\.claude\agents\"
 
 ---
 
-### Step 5: Install Scripts (Global)
+### Schritt 5: Scripts installieren (Global)
 
 **macOS / Linux:**
 ```bash
@@ -227,9 +228,9 @@ Copy-Item "$env:TEMP\CC_GodMode_install\scripts\*.js" "$env:USERPROFILE\.claude\
 Get-ChildItem "$env:USERPROFILE\.claude\scripts\"
 ```
 
-**Note:** On Windows, `chmod` is not needed.
+**Hinweis:** Unter Windows ist `chmod` nicht notwendig.
 
-**Expected scripts:**
+**Erwartete Scripts:**
 - `check-api-impact.js`
 - `parallel-quality-gates.js`
 - `mcp-health-check.js`
@@ -243,7 +244,7 @@ Get-ChildItem "$env:USERPROFILE\.claude\scripts\"
 
 ---
 
-### Step 6: Install Config Files
+### Schritt 6: Config-Dateien installieren
 
 **macOS / Linux:**
 ```bash
@@ -261,9 +262,9 @@ Get-ChildItem "$env:USERPROFILE\.claude\config\"
 
 ---
 
-### Step 7: Install Orchestrator Template and Prompts
+### Schritt 7: Orchestrator-Template und Prompts installieren
 
-Copy the orchestrator template and prompt files for projects:
+Kopiere das Orchestrator-Template und die Prompt-Dateien für Projekte:
 
 **macOS / Linux:**
 ```bash
@@ -285,22 +286,22 @@ Copy-Item "$env:TEMP\CC_GodMode_install\UPDATE-CHECK.md" "$env:USERPROFILE\.clau
 Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\*.md" "$env:USERPROFILE\.claude\CC-GodMode-Prompts\" -Force
 ```
 
-**Important:** These templates will be copied to each project later!
+**Wichtig:** Diese Templates werden später in jedes Projekt kopiert!
 
-**Expected templates:**
-- `CLAUDE-ORCHESTRATOR.md` - Main orchestrator configuration
-- `adr-template.md` - Architecture Decision Records template
-- `UPDATE-CHECK.md` - Auto-update notification template
+**Erwartete Templates:**
+- `CLAUDE-ORCHESTRATOR.md` - Haupt-Orchestrator-Konfiguration
+- `adr-template.md` - Architecture Decision Records Template
+- `UPDATE-CHECK.md` - Auto-Update-Benachrichtigungs-Template
 
-**Expected prompts (in CC-GodMode-Prompts/):**
-- `CCGM_Prompt_Install.md` - Installation prompt
-- `CCGM_Prompt_ProjectSetup.md` - Project setup guide
-- `CCGM_Prompt_Restart.md` - Restart/restore prompt
-- `CCGM_Prompt_ManualInstall.md` - Manual installation guide
+**Erwartete Prompts (in CC-GodMode-Prompts/):**
+- `CCGM_Prompt_Install.md` - Installations-Prompt
+- `CCGM_Prompt_ProjectSetup.md` - Projekt-Setup-Guide
+- `CCGM_Prompt_Restart.md` - Restart/Restore-Prompt
+- `CCGM_Prompt_ManualInstall.md` - Manuelle Installationsanleitung
 
 ---
 
-### Step 8: Install Auto-Update System
+### Schritt 8: Auto-Update-System installieren
 
 **macOS / Linux:**
 ```bash
@@ -313,30 +314,30 @@ chmod +x ~/.claude/scripts/auto-update.js
 Copy-Item "$env:TEMP\CC_GodMode_install\scripts\auto-update.js" "$env:USERPROFILE\.claude\scripts\" -Force
 ```
 
-**Note:** The auto-update system checks for new versions on GitHub and notifies you.
+**Hinweis:** Das Auto-Update-System prüft auf neue Versionen auf GitHub und benachrichtigt dich.
 
 ---
 
-### Step 9: Install Memory MCP Server
+### Schritt 9: Memory MCP Server installieren
 
-This command is the same on all platforms:
+Dieser Befehl ist auf allen Plattformen gleich:
 
 ```bash
 claude mcp add memory -- npx -y @modelcontextprotocol/server-memory
 ```
 
-**Verify installation:**
+**Installation verifizieren:**
 ```bash
 claude mcp list
 ```
 
-**Expected output should include:** `memory`
+**Erwartete Ausgabe sollte enthalten:** `memory`
 
 ---
 
-### Step 10: Configure Hooks
+### Schritt 10: Hooks konfigurieren
 
-**macOS / Linux** - Create/update `~/.claude/settings.json`:
+**macOS / Linux** - Erstelle/aktualisiere `~/.claude/settings.json`:
 
 ```json
 {
@@ -374,7 +375,7 @@ claude mcp list
 }
 ```
 
-**Windows** - Create/update `%USERPROFILE%\.claude\settings.json`:
+**Windows** - Erstelle/aktualisiere `%USERPROFILE%\.claude\settings.json`:
 
 ```json
 {
@@ -412,24 +413,24 @@ claude mcp list
 }
 ```
 
-**Note:** If the file already exists, merge the hooks section carefully.
+**Hinweis:** Falls die Datei bereits existiert, füge die Hooks-Sektion vorsichtig zusammen.
 
-**Hook Explanations:**
-- **PostToolUse (Write|Edit)**: Checks for API impact after file changes
-- **UserPromptSubmit**: Analyzes user prompts for task type, complexity, and workflow suggestions
-- **SessionStart**: MCP health checks and system diagnostics
-- **SubagentStop**: Validates agent output quality and completeness
+**Hook-Erklärungen:**
+- **PostToolUse (Write|Edit)**: Prüft auf API-Impact nach Dateiänderungen
+- **UserPromptSubmit**: Analysiert Benutzer-Prompts auf Aufgabentyp, Komplexität und Workflow-Vorschläge
+- **SessionStart**: MCP Health Checks und System-Diagnostik
+- **SubagentStop**: Validiert Agenten-Output-Qualität und Vollständigkeit
 
 ---
 
-### Step 11: Verify Installation
+### Schritt 11: Installation verifizieren
 
 **macOS / Linux:**
 ```bash
 echo "=== Version ==="
 cat /tmp/CC_GodMode_install/VERSION
 
-echo "=== Agents ==="
+echo "=== Agenten ==="
 ls ~/.claude/agents/
 
 echo "=== Scripts ==="
@@ -441,7 +442,7 @@ ls ~/.claude/config/
 echo "=== Templates ==="
 ls ~/.claude/templates/
 
-echo "=== MCP Servers ==="
+echo "=== MCP Server ==="
 claude mcp list
 
 echo "=== Hooks ==="
@@ -453,7 +454,7 @@ cat ~/.claude/settings.json | grep -A 5 "hooks"
 Write-Host "=== Version ==="
 Get-Content "$env:TEMP\CC_GodMode_install\VERSION"
 
-Write-Host "=== Agents ==="
+Write-Host "=== Agenten ==="
 Get-ChildItem "$env:USERPROFILE\.claude\agents\"
 
 Write-Host "=== Scripts ==="
@@ -465,7 +466,7 @@ Get-ChildItem "$env:USERPROFILE\.claude\config\"
 Write-Host "=== Templates ==="
 Get-ChildItem "$env:USERPROFILE\.claude\templates\"
 
-Write-Host "=== MCP Servers ==="
+Write-Host "=== MCP Server ==="
 claude mcp list
 
 Write-Host "=== Hooks ==="
@@ -474,7 +475,7 @@ Get-Content "$env:USERPROFILE\.claude\settings.json" | Select-String -Pattern "h
 
 ---
 
-### Step 12: Cleanup
+### Schritt 12: Aufräumen
 
 **macOS / Linux:**
 ```bash
@@ -488,69 +489,69 @@ Remove-Item -Recurse -Force "$env:TEMP\CC_GodMode_install"
 
 ---
 
-### Step 13: Test Orchestrator Mode
+### Schritt 13: Orchestrator-Modus testen
 
-After installation, test by typing:
+Nach der Installation teste mit:
 
 ```
-You are the Orchestrator. List your available agents.
+Du bist der Orchestrator. Liste deine verfügbaren Agenten auf.
 ```
 
-The system should recognize all 7 agents.
+Das System sollte alle 7 Agenten erkennen.
 
 ---
 
-## INSTALLATION REPORT
+## INSTALLATIONSBERICHT
 
-After completing all steps, provide this summary to the user:
+Nach Abschluss aller Schritte gib dem Benutzer diese Zusammenfassung:
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
-║   ✅ CC_GodMode Installation Successful!                                  ║
+║   ✅ CC_GodMode Installation erfolgreich!                                 ║
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   📊 INSTALLATION REPORT                                                  ║
+║   📊 INSTALLATIONSBERICHT                                                 ║
 ║                                                                           ║
 ║   Version:      5.8.3                                                     ║
-║   Agents:       [X]/7 installed                                           ║
-║   Scripts:      [X]/10 installed                                          ║
-║   Config:       [X]/1 installed                                           ║
-║   Templates:    [X]/4 installed                                           ║
-║   MCP Server:   memory [✅ OK / ❌ ERROR]                                  ║
-║   Hooks:        [✅ 4 Configured / ⏭️ Skipped]                             ║
+║   Agenten:      [X]/7 installiert                                         ║
+║   Scripts:      [X]/10 installiert                                        ║
+║   Config:       [X]/1 installiert                                         ║
+║   Templates:    [X]/4 installiert                                         ║
+║   MCP Server:   memory [✅ OK / ❌ FEHLER]                                 ║
+║   Hooks:        [✅ 4 Konfiguriert / ⏭️ Übersprungen]                     ║
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   🎯 HOW TO ACTIVATE A PROJECT                                            ║
+║   🎯 WIE EIN PROJEKT AKTIVIERT WIRD                                       ║
 ║                                                                           ║
-║   For EVERY project where you want to use CC_GodMode:                    ║
+║   Für JEDES Projekt, in dem du CC_GodMode nutzen möchtest:               ║
 ║                                                                           ║
 ║   macOS/Linux:                                                            ║
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
-║   │  cd your-project                                                    │ ║
+║   │  cd dein-projekt                                                    │ ║
 ║   │  cp ~/.claude/templates/CLAUDE-ORCHESTRATOR.md ./CLAUDE.md          │ ║
 ║   └─────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                           ║
 ║   Windows (PowerShell):                                                   ║
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
-║   │  cd your-project                                                    │ ║
+║   │  cd dein-projekt                                                    │ ║
 ║   │  Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.md" ║
 ║   └─────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                           ║
-║   The CLAUDE.md will be automatically loaded by Claude Code!             ║
+║   Die CLAUDE.md wird automatisch von Claude Code geladen!                ║
 ║                                                                           ║
-║   Then start Claude in this project:                                     ║
+║   Dann starte Claude in diesem Projekt:                                  ║
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
 ║   │  claude                                                             │ ║
-║   │  > "New Feature: User Authentication with JWT"                      │ ║
+║   │  > "New Feature: Benutzer-Authentifizierung mit JWT"                │ ║
 ║   └─────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                           ║
-║   📂 Report Structure (Version-Based)                                    ║
+║   📂 Report-Struktur (Versionsbasiert)                                   ║
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
 ║   │  reports/                                                           │ ║
-║   │  └── vX.X.X/                   ← Version-based folders             │ ║
+║   │  └── vX.X.X/                   ← Versionsbasierte Ordner           │ ║
 ║   │      ├── 00-architect-report.md                                    │ ║
 ║   │      ├── 01-api-guardian-report.md                                 │ ║
 ║   │      ├── 02-builder-report.md                                      │ ║
@@ -561,44 +562,44 @@ After completing all steps, provide this summary to the user:
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║   📚 DOCUMENTATION                                                        ║
+║   📚 DOKUMENTATION                                                        ║
 ║                                                                           ║
-║   You can find the complete documentation on GitHub:                     ║
+║   Die vollständige Dokumentation findest du auf GitHub:                  ║
 ║   https://github.com/cubetribe/ClaudeCode_GodMode-On                      ║
 ║                                                                           ║
-║   For questions: https://github.com/cubetribe/ClaudeCode_GodMode-On/issues ║
+║   Für Fragen: https://github.com/cubetribe/ClaudeCode_GodMode-On/issues  ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
-Good luck with CC_GodMode! 🚀
+Viel Erfolg mit CC_GodMode! 🚀
 ```
 
 ---
 
-## Troubleshooting
+## Fehlerbehebung
 
-### MCP Server Installation Failed
+### MCP Server Installation fehlgeschlagen
 
-If `claude mcp add` fails:
+Falls `claude mcp add` fehlschlägt:
 
 ```bash
-# Manual installation (all platforms)
+# Manuelle Installation (alle Plattformen)
 npm install -g @modelcontextprotocol/server-memory
 
-# Then add to Claude manually by editing the mcp.json file
+# Dann manuell zu Claude hinzufügen durch Bearbeiten der mcp.json Datei
 # macOS/Linux: ~/.claude/mcp.json
 # Windows: %USERPROFILE%\.claude\mcp.json
 ```
 
-### Permission Denied (macOS/Linux only)
+### Berechtigung verweigert (nur macOS/Linux)
 
-If scripts can't be executed:
+Falls Scripts nicht ausgeführt werden können:
 
 ```bash
 chmod +x ~/.claude/scripts/*.js
 ```
 
-### Agents Not Found
+### Agenten nicht gefunden
 
 **macOS / Linux:**
 ```bash
@@ -611,14 +612,14 @@ ls -la ~/.claude/agents/*.md
 Get-ChildItem "$env:USERPROFILE\.claude\agents\"
 ```
 
-### Repository Not Found
+### Repository nicht gefunden
 
-The repository might have moved. Check:
+Das Repository könnte umgezogen sein. Prüfe:
 - https://github.com/cubetribe/ClaudeCode_GodMode-On
 
 ### Windows: PowerShell Execution Policy
 
-If PowerShell scripts are blocked:
+Falls PowerShell-Scripts blockiert werden:
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -626,20 +627,20 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ---
 
-## What Gets Installed
+## Was wird installiert
 
-| Component | macOS/Linux | Windows | Count |
-|-----------|-------------|---------|-------|
-| Agent Files | `~/.claude/agents/` | `%USERPROFILE%\.claude\agents\` | 7 |
-| Hook Scripts | `~/.claude/scripts/` | `%USERPROFILE%\.claude\scripts\` | 10 |
-| Config Files | `~/.claude/config/` | `%USERPROFILE%\.claude\config\` | 1 |
+| Komponente | macOS/Linux | Windows | Anzahl |
+|-----------|-------------|---------|--------|
+| Agenten-Dateien | `~/.claude/agents/` | `%USERPROFILE%\.claude\agents\` | 7 |
+| Hook-Scripts | `~/.claude/scripts/` | `%USERPROFILE%\.claude\scripts\` | 10 |
+| Config-Dateien | `~/.claude/config/` | `%USERPROFILE%\.claude\config\` | 1 |
 | Templates | `~/.claude/templates/` | `%USERPROFILE%\.claude\templates\` | 4 |
-| Memory MCP | Claude MCP registry | Claude MCP registry | 1 |
+| Memory MCP | Claude MCP Registry | Claude MCP Registry | 1 |
 | Settings | `~/.claude/settings.json` | `%USERPROFILE%\.claude\settings.json` | 1 |
 
 **Details:**
 
-**Agents (7):**
+**Agenten (7):**
 - architect.md
 - api-guardian.md
 - builder.md
@@ -670,20 +671,20 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 **Hooks (4):**
 - PostToolUse (Write|Edit) - API Impact Check
-- UserPromptSubmit - Prompt Analysis
-- SessionStart - MCP Health & Diagnostics
-- SubagentStop - Agent Output Validation
+- UserPromptSubmit - Prompt-Analyse
+- SessionStart - MCP Health & Diagnostik
+- SubagentStop - Agenten-Output-Validierung
 
 ---
 
-## Uninstall
+## Deinstallation
 
 **macOS / Linux:**
 ```bash
-# Remove agents
+# Agenten entfernen
 rm ~/.claude/agents/{architect,api-guardian,builder,validator,tester,scribe,github-manager}.md
 
-# Remove scripts
+# Scripts entfernen
 rm ~/.claude/scripts/check-api-impact.js
 rm ~/.claude/scripts/parallel-quality-gates.js
 rm ~/.claude/scripts/mcp-health-check.js
@@ -695,26 +696,26 @@ rm ~/.claude/scripts/auto-update.js
 rm ~/.claude/scripts/session-start.js
 rm ~/.claude/scripts/test-phase2-integration.js
 
-# Remove config
+# Config entfernen
 rm ~/.claude/config/domain-config.schema.json
 
-# Remove templates
+# Templates entfernen
 rm ~/.claude/templates/CLAUDE-ORCHESTRATOR.md
 rm ~/.claude/templates/adr-template.md
 rm ~/.claude/templates/UPDATE-CHECK.md
 
-# Remove prompts
+# Prompts entfernen
 rm -rf ~/.claude/CC-GodMode-Prompts
 
-# Remove MCP server
+# MCP Server entfernen
 claude mcp remove memory
 
-# Note: Manually edit ~/.claude/settings.json to remove hooks
+# Hinweis: Bearbeite ~/.claude/settings.json manuell, um Hooks zu entfernen
 ```
 
 **Windows (PowerShell):**
 ```powershell
-# Remove agents
+# Agenten entfernen
 Remove-Item "$env:USERPROFILE\.claude\agents\architect.md"
 Remove-Item "$env:USERPROFILE\.claude\agents\api-guardian.md"
 Remove-Item "$env:USERPROFILE\.claude\agents\builder.md"
@@ -723,7 +724,7 @@ Remove-Item "$env:USERPROFILE\.claude\agents\tester.md"
 Remove-Item "$env:USERPROFILE\.claude\agents\scribe.md"
 Remove-Item "$env:USERPROFILE\.claude\agents\github-manager.md"
 
-# Remove scripts
+# Scripts entfernen
 Remove-Item "$env:USERPROFILE\.claude\scripts\check-api-impact.js"
 Remove-Item "$env:USERPROFILE\.claude\scripts\parallel-quality-gates.js"
 Remove-Item "$env:USERPROFILE\.claude\scripts\mcp-health-check.js"
@@ -735,28 +736,28 @@ Remove-Item "$env:USERPROFILE\.claude\scripts\auto-update.js"
 Remove-Item "$env:USERPROFILE\.claude\scripts\session-start.js"
 Remove-Item "$env:USERPROFILE\.claude\scripts\test-phase2-integration.js"
 
-# Remove config
+# Config entfernen
 Remove-Item "$env:USERPROFILE\.claude\config\domain-config.schema.json"
 
-# Remove templates
+# Templates entfernen
 Remove-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\adr-template.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\UPDATE-CHECK.md"
 
-# Remove prompts
+# Prompts entfernen
 Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\CC-GodMode-Prompts"
 
-# Remove MCP server
+# MCP Server entfernen
 claude mcp remove memory
 
-# Note: Manually edit %USERPROFILE%\.claude\settings.json to remove hooks
+# Hinweis: Bearbeite %USERPROFILE%\.claude\settings.json manuell, um Hooks zu entfernen
 ```
 
 ---
 
-## License
+## Lizenz
 
 Copyright (c) 2025 Dennis Westermann
 www.dennis-westermann.de
 
-Private use permitted. Commercial use requires permission.
+Privatnutzung erlaubt. Kommerzielle Nutzung erfordert Genehmigung.

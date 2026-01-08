@@ -1,22 +1,22 @@
 # Agent Model Selection - Cost Optimization Guide
 
-> **Choosing the Right Claude Model for Each Agent**
+> **Das richtige Claude Modell für jeden Agent wählen**
 
 ---
 
-## Overview
+## Übersicht
 
-CC_GodMode uses **three different Claude models** across its 7 agents to optimize for cost vs. performance. This document explains:
-- Which model each agent uses and why
-- Cost implications per workflow
-- When to consider overriding defaults
-- Performance trade-offs
+CC_GodMode verwendet **drei verschiedene Claude Modelle** über seine 7 Agenten hinweg, um Kosten und Performance zu optimieren. Dieses Dokument erklärt:
+- Welches Modell jeder Agent verwendet und warum
+- Kosten-Implikationen pro Workflow
+- Wann Standardeinstellungen überschrieben werden sollten
+- Performance-Trade-offs
 
 ---
 
-## Model Strategy
+## Modell-Strategie
 
-### The Three Models
+### Die drei Modelle
 
 | Model | Use Case | Cost | Performance |
 |-------|----------|------|-------------|
@@ -52,11 +52,11 @@ Low Cost    │  ●      Haiku
 
 **Model:** `claude-opus-4-5-20251101`
 
-**Rationale:**
-- Makes architectural decisions with long-term codebase impact
-- Requires deep reasoning about trade-offs
-- Needs to evaluate multiple solutions
-- Mistakes here are expensive to fix later
+**Begründung:**
+- Trifft Architektur-Entscheidungen mit langfristiger Codebase-Auswirkung
+- Erfordert tiefes Reasoning über Trade-offs
+- Muss mehrere Lösungen evaluieren
+- Fehler hier sind später teuer zu beheben
 
 **Cost Impact:** High (~$2-3 per invocation)
 
@@ -89,11 +89,11 @@ ROI: 20x
 
 **Model:** `claude-sonnet-4-5-20250929`
 
-**Rationale:**
-- Needs code analysis capability (finding consumers)
-- Requires understanding of breaking changes
-- Must write clear impact reports
-- Balanced cost/performance for frequent API work
+**Begründung:**
+- Benötigt Code-Analyse-Fähigkeit (finding consumers)
+- Erfordert Verständnis für breaking changes
+- Muss klare Impact Reports schreiben
+- Ausgewogenes Cost/Performance-Verhältnis für häufige API-Arbeit
 
 **Cost Impact:** Medium (~$0.80 per invocation)
 
@@ -113,11 +113,11 @@ ROI: 20x
 
 **Model:** `claude-sonnet-4-5-20250929`
 
-**Rationale:**
-- Most frequently used agent (all implementations)
-- Needs strong coding capability
-- Must execute tests and verify quality
-- Cost-optimized for high-volume use
+**Begründung:**
+- Meistverwendeter Agent (all implementations)
+- Benötigt starke Coding-Fähigkeit
+- Muss Tests ausführen und Qualität verifizieren
+- Cost-optimiert für hohe Nutzungsfrequenz
 
 **Cost Impact:** Medium (~$1.00 per invocation)
 
@@ -142,11 +142,11 @@ Savings: 60-70% with minimal quality difference
 
 **Model:** `claude-sonnet-4-5-20250929`
 
-**Rationale:**
-- Needs analytical capability for code review
-- Must execute multiple quality checks
-- Requires thorough consumer verification
-- Part of mandatory quality gate
+**Begründung:**
+- Benötigt analytische Fähigkeit für Code-Review
+- Muss mehrere Qualitätsprüfungen ausführen
+- Erfordert gründliche Consumer-Verifikation
+- Teil des verpflichtenden Quality Gates
 
 **Cost Impact:** Medium (~$0.70 per invocation)
 
@@ -167,11 +167,11 @@ Savings: 60-70% with minimal quality difference
 
 **Model:** `claude-sonnet-4-5-20250929`
 
-**Rationale:**
-- Coordinates multiple MCP servers (Playwright, Lighthouse, A11y)
-- Needs analytical capability for test evaluation
-- Must write comprehensive test reports
-- Part of mandatory quality gate
+**Begründung:**
+- Koordiniert mehrere MCP Server (Playwright, Lighthouse, A11y)
+- Benötigt analytische Fähigkeit für Test-Evaluation
+- Muss umfassende Test-Reports schreiben
+- Teil des verpflichtenden Quality Gates
 
 **Cost Impact:** Medium (~$1.20 per invocation)
 
@@ -192,11 +192,11 @@ Savings: 60-70% with minimal quality difference
 
 **Model:** `claude-sonnet-4-5-20250929`
 
-**Rationale:**
-- Technical writing requires clarity and accuracy
-- Must analyze reports from all other agents
-- Needs documentation best practices knowledge
-- VERSION/CHANGELOG management is critical
+**Begründung:**
+- Technical Writing erfordert Klarheit und Genauigkeit
+- Muss Reports von allen anderen Agenten analysieren
+- Benötigt Documentation Best Practices Wissen
+- VERSION/CHANGELOG Management ist kritisch
 
 **Cost Impact:** Medium (~$0.60 per invocation)
 
@@ -218,11 +218,11 @@ Savings: 60-70% with minimal quality difference
 
 **Model:** `claude-haiku-20250219`
 
-**Rationale:**
-- Simple GitHub API operations
-- Straightforward workflow execution
-- High frequency of invocations
-- Cost optimization priority
+**Begründung:**
+- Einfache GitHub API Operationen
+- Straightforward Workflow-Ausführung
+- Hohe Frequenz der Invocations
+- Cost Optimization Priorität
 
 **Cost Impact:** Low (~$0.10 per invocation)
 
@@ -546,7 +546,7 @@ ROI: Infinite
 
 ### 1. Trust the Defaults
 
-The model assignments are optimized. Override only when you have specific reasons.
+Die Modell-Zuweisungen sind optimiert. Überschreibe nur bei spezifischen Gründen.
 
 ### 2. Monitor Your Costs
 
@@ -619,7 +619,7 @@ Extra cost: $5.00
 
 ---
 
-**For more information:**
-- See [AGENT_ARCHITECTURE.md](./AGENT_ARCHITECTURE.md) for agent system design
-- See [agents/](../agents/) for individual agent documentation
-- See [CLAUDE.md](../CLAUDE.md) for orchestrator configuration
+**Für weitere Informationen:**
+- Siehe [AGENT_ARCHITECTURE.md](./AGENT_ARCHITECTURE.md) für Agent System Design
+- Siehe [agents/](../agents/) für individuelle Agent-Dokumentation
+- Siehe [CLAUDE.md](../CLAUDE.md) für Orchestrator-Konfiguration

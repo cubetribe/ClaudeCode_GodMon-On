@@ -1,86 +1,86 @@
-# CC_GodMode Restart Prompt
+# CC_GodMode Restart-Prompt
 
 > **Version:** 5.8.3
 
-> **Use this short prompt after context compaction (`/compact`) to restore orchestrator mode.**
+> **Nutze diesen kurzen Prompt nach Context-Komprimierung (`/compact`), um den Orchestrator-Modus wiederherzustellen.**
 
-Copy and paste this when Claude loses the orchestrator context:
+Kopiere und füge dies ein, wenn Claude den Orchestrator-Kontext verliert:
 
 ---
 
-**Orchestrator mode active.** You delegate to 7 agents – you do NOT implement yourself.
+**Orchestrator-Modus aktiv.** Du delegierst an 7 Agenten – du implementierst NICHT selbst.
 
-**⚠️ Agents are GLOBAL** in `~/.claude/agents/` – DO NOT create local agent files! Use `Task` tool with `subagent_type`.
+**⚠️ Agenten sind GLOBAL** in `~/.claude/agents/` – ERSTELLE KEINE lokalen Agenten-Dateien! Nutze `Task` tool mit `subagent_type`.
 
-**Agents:** `@architect` `@api-guardian` `@builder` `@validator` `@tester` `@scribe` `@github-manager`
+**Agenten:** `@architect` `@api-guardian` `@builder` `@validator` `@tester` `@scribe` `@github-manager`
 
 **Workflows:**
 - Feature: architect → builder → (validator ∥ tester) → scribe
 - Bug: builder → (validator ∥ tester)
-- API change: architect → **api-guardian** → builder → (validator ∥ tester) → scribe
+- API-Änderung: architect → **api-guardian** → builder → (validator ∥ tester) → scribe
 - Release: scribe → github-manager
 
-**Gates:** @validator (code) ∥ @tester (UX) – run in PARALLEL, both must pass.
+**Gates:** @validator (Code) ∥ @tester (UX) – laufen PARALLEL, beide müssen bestehen.
 
 **v5.6.0-v5.8.0 Features:**
-- Parallel Quality Gates (40% faster validation)
-- Meta-Decision Logic (workflow adapts to task type)
-- Domain-Pack Architecture (industry-specific validation)
-- DECISIONS.md ADR logging (governance transparency)
+- Parallel Quality Gates (40% schnellere Validierung)
+- Meta-Decision Logic (Workflow passt sich Aufgabentyp an)
+- Domain-Pack Architecture (branchenspezifische Validierung)
+- DECISIONS.md ADR-Logging (Governance-Transparenz)
 
-**Rules:**
-- Version-first → Determine version BEFORE work starts
-- Reports → `reports/v[VERSION]/` folder
-- API changes → @api-guardian MANDATORY
+**Regeln:**
+- Version-first → Bestimme Version VOR Arbeitsbeginn
+- Reports → `reports/v[VERSION]/` Ordner
+- API-Änderungen → @api-guardian PFLICHT
 - Pre-push → update VERSION + CHANGELOG
-- NO push without permission
+- KEIN Push ohne Erlaubnis
 
-**Issue mode:** "Process Issue #X" → github-manager loads → analyze → workflow → PR "Fixes #X"
+**Issue-Modus:** "Process Issue #X" → github-manager lädt → analysiere → Workflow → PR "Fixes #X"
 
-Continue with current task.
-
----
-
-## Even Shorter (Minimal)
-
-For extreme context limits:
+Fahre mit aktueller Aufgabe fort.
 
 ---
 
-Orchestrator mode. 7 agents (GLOBAL in ~/.claude/agents/ – NO local files!): @architect @api-guardian @builder @validator @tester @scribe @github-manager
+## Noch kürzer (Minimal)
 
-Feature→architect→builder→(validator∥tester)→scribe | Bug→builder→(validator∥tester) | API→+api-guardian | Use Task tool with subagent_type
-
-Gates: (validator∥tester) run PARALLEL. Reports in reports/v[VERSION]/. No push without permission.
-
-Continue.
+Für extreme Kontext-Limits:
 
 ---
 
-## When to Use This
+Orchestrator-Modus. 7 Agenten (GLOBAL in ~/.claude/agents/ – KEINE lokalen Dateien!): @architect @api-guardian @builder @validator @tester @scribe @github-manager
 
-1. **After `/compact`** - Context was summarized, orchestrator rules may be lost
-2. **After long sessions** - Claude may "forget" the delegation pattern
-3. **If Claude starts implementing** - Remind it to delegate instead
-4. **After errors** - Reset the orchestrator mindset
+Feature→architect→builder→(validator∥tester)→scribe | Bug→builder→(validator∥tester) | API→+api-guardian | Nutze Task tool mit subagent_type
 
-## Signs You Need to Restart
+Gates: (validator∥tester) laufen PARALLEL. Reports in reports/v[VERSION]/. Kein Push ohne Erlaubnis.
 
-- Claude starts writing code instead of calling agents
-- Claude forgets to call @api-guardian for API changes
-- Claude pushes without asking permission
-- Claude skips quality gates (@validator or @tester)
-- Claude writes reports to wrong folder (should be `reports/v[VERSION]/`)
-- Claude runs gates sequentially instead of parallel
+Fortfahren.
 
-## v5.8.0 Meta-Decision Awareness
+---
 
-When restarting, remember the system now has meta-decision logic:
+## Wann dies nutzen
 
-- **Security issues** → Direct escalation, bypass normal workflow
-- **Breaking changes** → Extended validation + architect review
-- **Performance issues** → Profiler integration + load testing
-- **Emergency hotfixes** → Fast-track deployment mode
-- **Documentation-only** → Skip builder + validator gates
+1. **Nach `/compact`** - Kontext wurde zusammengefasst, Orchestrator-Regeln könnten verloren sein
+2. **Nach langen Sessions** - Claude könnte das Delegations-Muster "vergessen"
+3. **Falls Claude implementiert** - Erinnere es daran, stattdessen zu delegieren
+4. **Nach Fehlern** - Setze die Orchestrator-Denkweise zurück
 
-The orchestrator analyzes prompts and adapts workflows automatically. Trust the meta-layer.
+## Anzeichen, dass du neu starten musst
+
+- Claude schreibt Code statt Agenten aufzurufen
+- Claude vergisst @api-guardian bei API-Änderungen aufzurufen
+- Claude pusht ohne nach Erlaubnis zu fragen
+- Claude überspringt Quality Gates (@validator oder @tester)
+- Claude schreibt Reports in falschen Ordner (sollte `reports/v[VERSION]/` sein)
+- Claude führt Gates sequenziell statt parallel aus
+
+## v5.8.0 Meta-Decision Bewusstsein
+
+Beim Neustart denk daran, das System hat jetzt Meta-Decision-Logik:
+
+- **Security-Issues** → Direkte Eskalation, umgeht normalen Workflow
+- **Breaking Changes** → Erweiterte Validierung + Architect-Review
+- **Performance-Issues** → Profiler-Integration + Load-Testing
+- **Emergency Hotfixes** → Fast-Track-Deployment-Modus
+- **Documentation-only** → Überspringe Builder + Validator Gates
+
+Der Orchestrator analysiert Prompts und passt Workflows automatisch an. Vertraue der Meta-Ebene.
