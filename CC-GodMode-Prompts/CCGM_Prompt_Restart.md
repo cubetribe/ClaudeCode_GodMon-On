@@ -1,5 +1,7 @@
 # CC_GodMode Restart Prompt
 
+> **Version:** 5.8.3
+
 > **Use this short prompt after context compaction (`/compact`) to restore orchestrator mode.**
 
 Copy and paste this when Claude loses the orchestrator context:

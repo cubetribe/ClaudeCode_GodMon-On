@@ -1,5 +1,7 @@
 # CC_GodMode Orchestrator - Inject into CLAUDE.md
 
+> **Version:** 5.8.3
+
 > **Copy this section into your project's CLAUDE.md to enable CC_GodMode orchestration.**
 
 Add this after your project-specific instructions in CLAUDE.md:

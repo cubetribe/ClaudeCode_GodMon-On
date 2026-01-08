@@ -125,7 +125,7 @@ The difference?
 │   └── check-api-impact.js
 ├── templates/                      ← Project templates
 │   ├── CLAUDE-ORCHESTRATOR.md
-│   └── CCGM_Prompt_ProjectSetup_v5.8.2.md
+│   └── CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md
 └── settings.json                   ← Hooks configuration
 ```
 
@@ -260,7 +260,7 @@ Nothing gets forgotten. The hook remembers for you.
 claude --dangerously-skip-permissions
 ```
 
-**Step 2:** Copy the entire content from [`CCGM_Prompt_Install_v5.8.2.md`](./CCGM_Prompt_Install_v5.8.2.md) and paste it.
+**Step 2:** Copy the entire content from [`CC-GodMode-Prompts/CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) and paste it.
 
 **Step 3:** Watch. Claude will:
 - Clone the repository
@@ -273,7 +273,7 @@ claude --dangerously-skip-permissions
 
 ### Manual Install
 
-See [`CCGM_Prompt_ManualInstall_v5.8.2.md`](./CCGM_Prompt_ManualInstall_v5.8.2.md) for step-by-step instructions.
+See [`CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) for step-by-step instructions.
 
 ---
 
@@ -283,21 +283,66 @@ CC_GodMode includes ready-to-use prompts for different scenarios:
 
 | Prompt File | Purpose | When to Use |
 |-------------|---------|-------------|
-| [`CCGM_Prompt_Install_v5.8.2.md`](./CCGM_Prompt_Install_v5.8.2.md) | One-shot installation | First-time setup with `--dangerously-skip-permissions` |
-| [`CCGM_Prompt_ManualInstall_v5.8.2.md`](./CCGM_Prompt_ManualInstall_v5.8.2.md) | Step-by-step installation | When you prefer manual control |
-| [`CCGM_Prompt_ProjectSetup_v5.8.2.md`](./CCGM_Prompt_ProjectSetup_v5.8.2.md) | Inject orchestrator into project | Adding CC_GodMode to existing project's CLAUDE.md |
-| [`CCGM_Prompt_Restart_v5.8.2.md`](./CCGM_Prompt_Restart_v5.8.2.md) | Context recovery | After `/compact` when Claude "forgets" orchestrator mode |
+| [`CCGM_Prompt_Install.md`](./CC-GodMode-Prompts/CCGM_Prompt_Install.md) | One-shot installation | First-time setup with `--dangerously-skip-permissions` |
+| [`CCGM_Prompt_ManualInstall.md`](./CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md) | Step-by-step installation | When you prefer manual control |
+| [`CCGM_Prompt_ProjectSetup.md`](./CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md) | Inject orchestrator into project | Adding CC_GodMode to existing project's CLAUDE.md |
+| [`CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md) | **CRITICAL** Context recovery | After `/compact`, long sessions, or **every fresh session** |
+
+### When to Use Which Prompt
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         PROMPT DECISION TREE                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  Is CC_GodMode installed globally (~/.claude/)?                             │
+│     │                                                                       │
+│     ├── NO → Use CCGM_Prompt_Install.md (one-time setup)                   │
+│     │                                                                       │
+│     └── YES → Does your project have CLAUDE.md?                            │
+│                  │                                                          │
+│                  ├── NO → Copy CCGM_Prompt_ProjectSetup.md into CLAUDE.md  │
+│                  │                                                          │
+│                  └── YES → Is this a fresh/new session?                    │
+│                              │                                              │
+│                              └── YES → Use CCGM_Prompt_Restart.md          │
+│                                        (CRITICAL - Do this EVERY TIME!)    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### CRITICAL: The Restart Prompt
+
+**Why is `CCGM_Prompt_Restart.md` so important?**
+
+Claude Code does NOT automatically remember orchestrator mode between sessions. Even if:
+- CC_GodMode is installed globally
+- Your project has CLAUDE.md configured
+- Everything worked perfectly yesterday
+
+**You MUST use the Restart Prompt when:**
+1. Starting a **new/fresh Claude Code session**
+2. After using **`/compact`** (context summarization)
+3. After **long sessions** where Claude seems to "forget"
+4. When Claude **starts implementing instead of delegating**
+
+**Signs you need the Restart Prompt:**
+- Claude writes code instead of calling agents
+- Claude forgets to call @api-guardian for API changes
+- Claude skips quality gates (@validator or @tester)
+- Claude pushes without asking permission
 
 ### Quick Reference
 
-**First Installation:**
-- Use `CCGM_Prompt_Install_v5.8.2.md` (automated) or `CCGM_Prompt_ManualInstall_v5.8.2.md` (manual)
+| Scenario | Action |
+|----------|--------|
+| **First time ever** | `CCGM_Prompt_Install.md` |
+| **New project (CC_GodMode already installed)** | Copy `CCGM_Prompt_ProjectSetup.md` into CLAUDE.md |
+| **Every new session** | Paste `CCGM_Prompt_Restart.md` |
+| **After /compact** | Paste `CCGM_Prompt_Restart.md` |
+| **Claude seems confused** | Paste `CCGM_Prompt_Restart.md` |
 
-**Adding to New Project:**
-- Copy content from `CCGM_Prompt_ProjectSetup_v5.8.2.md` into your project's CLAUDE.md
-
-**After /compact or Long Sessions:**
-- Paste `CCGM_Prompt_Restart_v5.8.2.md` to restore orchestrator mode
+**TL;DR:** Install once, restart every session.
 
 ---
 
@@ -384,7 +429,7 @@ These documents transform implicit knowledge into explicit contracts, making the
 
 Claude Code's `/compact` can cause memory loss. When the orchestrator starts implementing instead of delegating:
 
-1. Open [`CCGM_Prompt_Restart_v5.8.2.md`](./CCGM_Prompt_Restart_v5.8.2.md)
+1. Open [`CC-GodMode-Prompts/CCGM_Prompt_Restart.md`](./CC-GodMode-Prompts/CCGM_Prompt_Restart.md)
 2. Copy the restart prompt
 3. Paste into chat
 4. Orchestrator mode restored

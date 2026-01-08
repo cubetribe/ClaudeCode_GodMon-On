@@ -7,6 +7,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.8.3] - 2026-01-08
+
+**"The Prompt Organization Release" - Clear structure for user-facing prompts**
+
+> *In which the AI learns to organize its own instructions. After multiple releases where prompt files lived chaotically in the root directory with version numbers baked into filenames, v5.8.3 says "Let's create a proper home for these." Four critical user-facing prompts now live in CC-GodMode-Prompts/ with versions in headers instead of filenames. The auto-update system knows where to find them, the README explains when to use each, and users finally have a clear decision tree for "Install once, restart every session." Small organizational change, big clarity impact.*
+
+### Changed
+
+- **Prompt Files Reorganized** - New dedicated directory structure
+  - Created `CC-GodMode-Prompts/` directory for all user-facing prompts
+  - Moved 4 prompt files from root to new directory:
+    - `CCGM_Prompt_Install_v5.8.2.md` → `CC-GodMode-Prompts/CCGM_Prompt_Install.md`
+    - `CCGM_Prompt_ManualInstall_v5.8.2.md` → `CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md`
+    - `CCGM_Prompt_ProjectSetup_v5.8.2.md` → `CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md`
+    - `CCGM_Prompt_Restart_v5.8.2.md` → `CC-GodMode-Prompts/CCGM_Prompt_Restart.md`
+  - Removed version numbers from filenames (version now tracked in file headers)
+  - Cleaner root directory, better organization
+  - Easier to find and maintain user-facing documentation
+
+- **Auto-Update System Enhanced** - Tracks prompt directory
+  - Added `CC-GodMode-Prompts/` to UPDATE_PATHS in `scripts/auto-update.js`
+  - Auto-update now handles prompt file changes automatically
+  - Ensures users always have latest prompt versions
+
+### Fixed
+
+- **Version Headers Synchronized** - All prompts show correct version
+  - Updated all 4 prompt files to show v5.8.3 in headers
+  - Consistent version display across all user-facing documentation
+  - No more confusion about which prompt version matches system version
+
+### Added
+
+- **README.md: Decision Tree** - Clear guidance for prompt usage
+  - New section: "Which Prompt Should I Use?"
+  - Decision tree: First time → Install, Existing project → ProjectSetup, Lost context → Restart
+  - "Install once, restart every session" mantra documented
+  - Signs you need the Restart Prompt clearly listed
+
+- **README.md: CRITICAL Section** - Emphasizes Restart Prompt importance
+  - New warning block explaining when Claude "forgets" orchestrator mode
+  - Signs of context loss documented (treating prompts as questions, not seeing agent files)
+  - Copy-paste instructions for quick recovery
+  - Prevents user frustration from context window limits
+
+- **Install Prompt: Setup Instructions** - New post-install guidance
+  - Added copy commands for `CC-GodMode-Prompts/` directory
+  - Ensures users copy prompts to accessible location
+  - Clear instructions for first-time setup
+  - Prevents "where are the prompt files?" confusion
+
+### Documentation
+
+- **UPDATE-CHECK.md** - New prompt directory documentation
+  - Explains auto-update handling of `CC-GodMode-Prompts/`
+  - Documents version tracking in file headers
+  - Clarifies difference between system updates and prompt updates
+
+- **File Organization Rationale** - Architecture decision documented
+  - Root directory: System files (CLAUDE.md, VERSION, CHANGELOG.md)
+  - `CC-GodMode-Prompts/`: User-facing prompts (Install, ProjectSetup, Restart)
+  - `scripts/`: Automation and hooks
+  - `agents/`: Agent definitions (source of truth)
+  - `docs/`: System documentation (policies, templates)
+  - Clear separation of concerns
+
+### Philosophy
+
+*The Prompt Organization Release - Because even AI instructions need a proper filing system. Like finally buying proper bookshelves instead of stacking books on the floor, v5.8.3 gives user-facing prompts a dedicated home. The "Install once, restart every session" mantra is now documented everywhere it needs to be. Version numbers live in headers where they belong, not filenames. The decision tree answers "Which prompt do I use?" before users even ask. Small organizational improvements, massive clarity gains. The AI is learning that good documentation starts with good organization. Next up: Maybe teach it to Marie Kondo the codebase? (Just kidding. Or are we?) The loop keeps organizing itself - one prompt directory at a time.* 📚
+
+---
+
 ## [5.8.2] - 2026-01-08
 
 **"The Naming Convention Release" - Proper Versioned Prompt Files**

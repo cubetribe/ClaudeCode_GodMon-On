@@ -59,10 +59,14 @@ const PROTECTED_FILES = [
 const UPDATE_PATHS = [
   'agents/',
   'scripts/',
+  'CC-GodMode-Prompts/',
+  'config/',
+  'templates/',
   'CLAUDE.md',
   'VERSION',
   'CHANGELOG.md',
-  'README.md'
+  'README.md',
+  'UPDATE-CHECK.md'
 ];
 
 // ANSI Colors

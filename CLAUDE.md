@@ -197,32 +197,42 @@ Appropriate workflow is executed
 
 ## Prompt File Naming Convention (MANDATORY)
 
-**All user-facing prompt files MUST include the version number in the filename.**
+**All user-facing prompt files are stored in `CC-GodMode-Prompts/` and include version in the header (not filename).**
 
-**Format:** `CCGM_Prompt_[Name]_v[VERSION].md`
+**Location:** `CC-GodMode-Prompts/`
+
+**Format:** `CCGM_Prompt_[Name].md` (no version in filename)
+
+**Version Header in File:** Every prompt file must have a version header at the top:
+```markdown
+> **Version:** 5.8.3
+```
 
 **Examples:**
-- `CCGM_Prompt_Restart_v5.8.2.md`
-- `CCGM_Prompt_Install_v5.8.2.md`
-- `CCGM_Prompt_ProjectSetup_v5.8.2.md`
-- `CCGM_Prompt_ManualInstall_v5.8.2.md`
+- `CC-GodMode-Prompts/CCGM_Prompt_Restart.md` → Version 5.8.3 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_Install.md` → Version 5.8.3 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md` → Version 5.8.3 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md` → Version 5.8.3 in header
 
-**Why?** Users must know which version they have installed. This prevents confusion and ensures compatibility.
+**Why?**
+- Cleaner filenames (no version clutter)
+- Version still visible in file header
+- Easier to maintain cross-references
+- Auto-update system can update prompts automatically
 
 **When updating prompts:**
-1. Rename files to new version: `CCGM_Prompt_*_vOLD.md` → `CCGM_Prompt_*_vNEW.md`
-2. Update all internal cross-references in the files themselves
-3. Update README.md references to use new filenames
-4. Update CHANGELOG.md to document the change
-5. Templates in `~/.claude/templates/` should use versioned names
+1. Update version header in the file: `> **Version:** 5.8.3`
+2. Update content if needed
+3. Auto-update system will sync files to `~/.claude/CC-GodMode-Prompts/`
+4. Update CHANGELOG.md to document changes
 
-**Current Version:** v5.8.2
+**Current Version:** v5.8.3
 
 **Active Prompt Files:**
-- `CCGM_Prompt_Restart_v5.8.2.md` - Context recovery after `/compact`
-- `CCGM_Prompt_Install_v5.8.2.md` - One-shot automated installation
-- `CCGM_Prompt_ProjectSetup_v5.8.2.md` - Inject orchestrator into project CLAUDE.md
-- `CCGM_Prompt_ManualInstall_v5.8.2.md` - Manual step-by-step installation
+- `CC-GodMode-Prompts/CCGM_Prompt_Restart.md` - Context recovery after `/compact`
+- `CC-GodMode-Prompts/CCGM_Prompt_Install.md` - One-shot automated installation
+- `CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md` - Inject orchestrator into project CLAUDE.md
+- `CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md` - Manual step-by-step installation
 
 ---
 

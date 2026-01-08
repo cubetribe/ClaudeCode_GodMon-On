@@ -80,10 +80,24 @@ I need to rollback my CC_GodMode installation:
 The auto-update system updates these paths:
 - `agents/` - Agent definition files
 - `scripts/` - Automation scripts
+- `CC-GodMode-Prompts/` - Prompt files (Install, ProjectSetup, Restart, ManualInstall)
+- `config/` - Configuration files
+- `templates/` - Template files
 - `CLAUDE.md` - Main orchestrator instructions
 - `VERSION` - Version number
 - `CHANGELOG.md` - Change history
 - `README.md` - Documentation
+- `UPDATE-CHECK.md` - Update check documentation
+
+**Note:** If you copied prompts to your project root for easier access, you may want to re-copy them after an update:
+
+```bash
+# macOS/Linux
+cp ~/.claude/CC-GodMode-Prompts/*.md ./
+
+# Windows PowerShell
+Copy-Item "$env:USERPROFILE\.claude\CC-GodMode-Prompts\*.md" .\ -Force
+```
 
 ## What NEVER Gets Updated
 

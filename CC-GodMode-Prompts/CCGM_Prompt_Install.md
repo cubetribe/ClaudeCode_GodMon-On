@@ -1,6 +1,6 @@
 # CC_GodMode Installation Prompt
 
-> **Version:** 5.8.2
+> **Version:** 5.8.3
 > **Type:** Self-Installing System
 > **One-Shot:** Copy this entire prompt into Claude Code and it will set up everything automatically.
 
@@ -261,35 +261,42 @@ Get-ChildItem "$env:USERPROFILE\.claude\config\"
 
 ---
 
-### Step 7: Install Orchestrator Template
+### Step 7: Install Orchestrator Template and Prompts
 
-Copy the orchestrator template for projects:
+Copy the orchestrator template and prompt files for projects:
 
 **macOS / Linux:**
 ```bash
 mkdir -p ~/.claude/templates
-cp /tmp/CC_GodMode_install/CCGM_Prompt_ProjectSetup_v5.8.2.md ~/.claude/templates/
+mkdir -p ~/.claude/CC-GodMode-Prompts
 cp /tmp/CC_GodMode_install/CLAUDE.md ~/.claude/templates/CLAUDE-ORCHESTRATOR.md
 cp /tmp/CC_GodMode_install/templates/adr-template.md ~/.claude/templates/
 cp /tmp/CC_GodMode_install/UPDATE-CHECK.md ~/.claude/templates/
+cp /tmp/CC_GodMode_install/CC-GodMode-Prompts/*.md ~/.claude/CC-GodMode-Prompts/
 ```
 
 **Windows (PowerShell):**
 ```powershell
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\templates"
-Copy-Item "$env:TEMP\CC_GodMode_install\CCGM_Prompt_ProjectSetup_v5.8.2.md" "$env:USERPROFILE\.claude\templates\" -Force
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\CC-GodMode-Prompts"
 Copy-Item "$env:TEMP\CC_GodMode_install\CLAUDE.md" "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" -Force
 Copy-Item "$env:TEMP\CC_GodMode_install\templates\adr-template.md" "$env:USERPROFILE\.claude\templates\" -Force
 Copy-Item "$env:TEMP\CC_GodMode_install\UPDATE-CHECK.md" "$env:USERPROFILE\.claude\templates\" -Force
+Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\*.md" "$env:USERPROFILE\.claude\CC-GodMode-Prompts\" -Force
 ```
 
 **Important:** These templates will be copied to each project later!
 
 **Expected templates:**
-- `CCGM_Prompt_ProjectSetup_v5.8.2.md` - Project setup guide
 - `CLAUDE-ORCHESTRATOR.md` - Main orchestrator configuration
 - `adr-template.md` - Architecture Decision Records template
 - `UPDATE-CHECK.md` - Auto-update notification template
+
+**Expected prompts (in CC-GodMode-Prompts/):**
+- `CCGM_Prompt_Install.md` - Installation prompt
+- `CCGM_Prompt_ProjectSetup.md` - Project setup guide
+- `CCGM_Prompt_Restart.md` - Restart/restore prompt
+- `CCGM_Prompt_ManualInstall.md` - Manual installation guide
 
 ---
 
@@ -506,7 +513,7 @@ After completing all steps, provide this summary to the user:
 ║                                                                           ║
 ║   📊 INSTALLATION REPORT                                                  ║
 ║                                                                           ║
-║   Version:      5.8.2                                                     ║
+║   Version:      5.8.3                                                     ║
 ║   Agents:       [X]/7 installed                                           ║
 ║   Scripts:      [X]/10 installed                                          ║
 ║   Config:       [X]/1 installed                                           ║
@@ -656,8 +663,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Config (1):**
 - domain-config.schema.json
 
-**Templates (4):**
-- CCGM_Prompt_ProjectSetup_v5.8.2.md
+**Templates (3):**
 - CLAUDE-ORCHESTRATOR.md
 - adr-template.md
 - UPDATE-CHECK.md
@@ -693,10 +699,12 @@ rm ~/.claude/scripts/test-phase2-integration.js
 rm ~/.claude/config/domain-config.schema.json
 
 # Remove templates
-rm ~/.claude/templates/CCGM_Prompt_ProjectSetup_v5.8.2.md
 rm ~/.claude/templates/CLAUDE-ORCHESTRATOR.md
 rm ~/.claude/templates/adr-template.md
 rm ~/.claude/templates/UPDATE-CHECK.md
+
+# Remove prompts
+rm -rf ~/.claude/CC-GodMode-Prompts
 
 # Remove MCP server
 claude mcp remove memory
@@ -731,10 +739,12 @@ Remove-Item "$env:USERPROFILE\.claude\scripts\test-phase2-integration.js"
 Remove-Item "$env:USERPROFILE\.claude\config\domain-config.schema.json"
 
 # Remove templates
-Remove-Item "$env:USERPROFILE\.claude\templates\CCGM_Prompt_ProjectSetup_v5.8.2.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\adr-template.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\UPDATE-CHECK.md"
+
+# Remove prompts
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\CC-GodMode-Prompts"
 
 # Remove MCP server
 claude mcp remove memory
