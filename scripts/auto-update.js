@@ -65,8 +65,7 @@ const UPDATE_PATHS = [
   'CLAUDE.md',
   'VERSION',
   'CHANGELOG.md',
-  'README.md',
-  'CC-GodMode-Prompts/CCGM_Prompt_UPDATE-CHECK.md'
+  'README.md'
 ];
 
 // ANSI Colors
@@ -142,7 +141,11 @@ function calculateFileHash(content) {
  */
 function ensureDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
+    try {
+      fs.mkdirSync(dirPath, { recursive: true });
+    } catch (error) {
+      throw new Error(`Could not create directory ${dirPath}: ${error.message}`);
+    }
   }
 }
 
@@ -484,6 +487,7 @@ async function updateLocalInstallation(changes, dryRun = false) {
       }
 
       const localPath = path.join(CLAUDE_DIR, file.path);
+      ensureDir(path.dirname(localPath));
       fs.writeFileSync(localPath, content);
 
       log(`  [UPDATE] ${file.path}`, colors.yellow);

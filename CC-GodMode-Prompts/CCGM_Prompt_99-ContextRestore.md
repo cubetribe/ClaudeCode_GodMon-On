@@ -1,6 +1,9 @@
 # CC_GodMode Restart Prompt
 
-> **Version:** 5.9.0
+> **Version:** 5.9.1
+> **Type:** CONTEXT RESTORE
+> **Prerequisite:** SystemInstall and ProjectActivation completed
+> **Frequency:** As-needed (after /compact or context loss)
 
 > **Use this short prompt after context compaction (`/compact`) to restore orchestrator mode.**
 
@@ -19,6 +22,55 @@ Copy and paste this when Claude loses the orchestrator context:
 - You ARE the workflow conductor, not a developer
 
 **If you find yourself writing code: STOP. That's @builder's job.**
+
+---
+
+## POST-RESTART SYSTEM CHECK
+
+After restoring orchestrator identity, perform a quick version check:
+
+### Step 1: Check for Updates (Non-Blocking)
+
+**Try WebFetch first (fast, 1-2 seconds):**
+
+Use WebFetch to fetch: `https://raw.githubusercontent.com/cubetribe/ClaudeCode_GodMode-On/main/VERSION`
+
+Extract the version number and compare with local VERSION file.
+
+**If WebFetch unavailable, use Bash fallback:**
+```bash
+node ~/.claude/scripts/auto-update.js --check
+```
+
+**If both fail (offline):** Continue anyway with message "Could not check for updates"
+
+### Step 2: Report Result
+
+**If update available:**
+```
+System Check:
+  CC_GodMode: v[LOCAL] (local)
+  UPDATE AVAILABLE: v[REMOTE]
+
+  Run 98-Maintenance prompt for details.
+```
+
+**If up to date:**
+```
+System Check:
+  CC_GodMode: v[LOCAL] (up to date)
+```
+
+**If check failed:**
+```
+System Check:
+  CC_GodMode: v[LOCAL] (could not verify - offline?)
+```
+
+### Step 3: Continue
+
+This check is INFORMATIONAL ONLY. Never block the workflow.
+Always continue with the user's task after showing the result.
 
 ---
 

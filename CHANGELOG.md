@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.9.1] - 2026-01-09
+
+**"The Clarity Release" - Clear naming, proactive updates, zero confusion**
+
+> *User feedback revealed confusion: "What's the difference between Install and ProjectSetup?" This release fixes that with numbered prompts (01-SystemInstall, 02-ProjectActivation) and adds an automatic update-checker to the Restart prompt. Now users know exactly which prompt to use and when updates are available.*
+
+### Fixed
+- **CRITICAL:** Installation script now creates CC-GodMode-Prompts folder in project directories
+- **CRITICAL:** auto-update.js now creates parent directories before writing files (prevents crash on missing folders)
+- Removed redundant UPDATE_PATHS entry in auto-update.js
+- User confusion about prompt purposes (Install vs ProjectSetup)
+
+### Changed
+- **RENAMED:** All 5 prompt files with numbered sequence for clarity:
+  - `CCGM_Prompt_Install.md` → `CCGM_Prompt_01-SystemInstall-Auto.md`
+  - `CCGM_Prompt_ManualInstall.md` → `CCGM_Prompt_01-SystemInstall-Manual.md`
+  - `CCGM_Prompt_ProjectSetup.md` → `CCGM_Prompt_02-ProjectActivation.md`
+  - `CCGM_Prompt_UPDATE-CHECK.md` → `CCGM_Prompt_98-Maintenance.md`
+  - `CCGM_Prompt_Restart.md` → `CCGM_Prompt_99-ContextRestore.md`
+- Updated version headers in all prompt files to 5.9.1
+- Enhanced error handling in ensureDir() function with descriptive messages
+- All prompts now include Type/Prerequisite/Frequency metadata headers
+
+### Added
+- **Update-Checker in Restart Prompt:** Automatic version check after /compact (WebFetch → Bash fallback → graceful offline handling)
+- **QUICK_START.md:** New single-page guide with visual flow diagram for all user scenarios
+- Project activation now includes `reports/` folder creation
+- Windows PowerShell equivalents for all project activation commands
+- Clear prerequisite chain documentation in all prompts
+
+---
+
 ## [5.9.0] - 2026-01-08
 
 **"The Enforcement Release" - Making rules unmissable with blocking hooks**

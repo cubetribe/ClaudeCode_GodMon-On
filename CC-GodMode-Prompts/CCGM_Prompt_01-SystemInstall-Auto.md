@@ -1,7 +1,9 @@
 # CC_GodMode Installation Prompt
 
-> **Version:** 5.8.3
-> **Type:** Self-Installing System
+> **Version:** 5.9.1
+> **Type:** SYSTEM INSTALL
+> **Prerequisite:** None (first-time installation)
+> **Frequency:** Once per machine
 > **One-Shot:** Copy this entire prompt into Claude Code and it will set up everything automatically.
 
 ---
@@ -271,7 +273,7 @@ mkdir -p ~/.claude/templates
 mkdir -p ~/.claude/CC-GodMode-Prompts
 cp /tmp/CC_GodMode_install/CLAUDE.md ~/.claude/templates/CLAUDE-ORCHESTRATOR.md
 cp /tmp/CC_GodMode_install/templates/adr-template.md ~/.claude/templates/
-cp /tmp/CC_GodMode_install/CC-GodMode-Prompts/CCGM_Prompt_UPDATE-CHECK.md ~/.claude/templates/
+cp /tmp/CC_GodMode_install/CC-GodMode-Prompts/CCGM_Prompt_98-Maintenance.md ~/.claude/templates/
 cp /tmp/CC_GodMode_install/CC-GodMode-Prompts/*.md ~/.claude/CC-GodMode-Prompts/
 ```
 
@@ -281,7 +283,7 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\templates"
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\CC-GodMode-Prompts"
 Copy-Item "$env:TEMP\CC_GodMode_install\CLAUDE.md" "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" -Force
 Copy-Item "$env:TEMP\CC_GodMode_install\templates\adr-template.md" "$env:USERPROFILE\.claude\templates\" -Force
-Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\CCGM_Prompt_UPDATE-CHECK.md" "$env:USERPROFILE\.claude\templates\" -Force
+Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\CCGM_Prompt_98-Maintenance.md" "$env:USERPROFILE\.claude\templates\" -Force
 Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\*.md" "$env:USERPROFILE\.claude\CC-GodMode-Prompts\" -Force
 ```
 
@@ -290,13 +292,15 @@ Copy-Item "$env:TEMP\CC_GodMode_install\CC-GodMode-Prompts\*.md" "$env:USERPROFI
 **Expected templates:**
 - `CLAUDE-ORCHESTRATOR.md` - Main orchestrator configuration
 - `adr-template.md` - Architecture Decision Records template
-- `CCGM_Prompt_UPDATE-CHECK.md` - Auto-update notification template
+- `CCGM_Prompt_98-Maintenance.md` - Auto-update notification template
 
 **Expected prompts (in CC-GodMode-Prompts/):**
-- `CCGM_Prompt_Install.md` - Installation prompt
-- `CCGM_Prompt_ProjectSetup.md` - Project setup guide
-- `CCGM_Prompt_Restart.md` - Restart/restore prompt
-- `CCGM_Prompt_ManualInstall.md` - Manual installation guide
+- `CCGM_Prompt_01-SystemInstall-Auto.md` - Automated installation prompt
+- `CCGM_Prompt_01-SystemInstall-Manual.md` - Manual installation guide
+- `CCGM_Prompt_02-ProjectActivation.md` - Project activation guide
+- `CCGM_Prompt_98-Maintenance.md` - Maintenance and update check
+- `CCGM_Prompt_99-ContextRestore.md` - Context restore after /compact
+- `QUICK_START.md` - Quick start guide
 
 ---
 
@@ -513,7 +517,7 @@ After completing all steps, provide this summary to the user:
 ║                                                                           ║
 ║   📊 INSTALLATION REPORT                                                  ║
 ║                                                                           ║
-║   Version:      5.8.3                                                     ║
+║   Version:      5.9.1                                                     ║
 ║   Agents:       [X]/7 installed                                           ║
 ║   Scripts:      [X]/10 installed                                          ║
 ║   Config:       [X]/1 installed                                           ║
@@ -531,12 +535,18 @@ After completing all steps, provide this summary to the user:
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
 ║   │  cd your-project                                                    │ ║
 ║   │  cp ~/.claude/templates/CLAUDE-ORCHESTRATOR.md ./CLAUDE.md          │ ║
+║   │  mkdir -p ./CC-GodMode-Prompts                                      │ ║
+║   │  cp ~/.claude/CC-GodMode-Prompts/*.md ./CC-GodMode-Prompts/         │ ║
+║   │  mkdir -p ./reports                                                 │ ║
 ║   └─────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                           ║
 ║   Windows (PowerShell):                                                   ║
 ║   ┌─────────────────────────────────────────────────────────────────────┐ ║
 ║   │  cd your-project                                                    │ ║
-║   │  Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.md" ║
+║   │  Copy-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md" ".\CLAUDE.md" -Force ║
+║   │  New-Item -ItemType Directory -Force -Path ".\CC-GodMode-Prompts"  │ ║
+║   │  Copy-Item "$env:USERPROFILE\.claude\CC-GodMode-Prompts\*.md" ".\CC-GodMode-Prompts\" -Force ║
+║   │  New-Item -ItemType Directory -Force -Path ".\reports"             │ ║
 ║   └─────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                           ║
 ║   The CLAUDE.md will be automatically loaded by Claude Code!             ║
@@ -666,7 +676,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Templates (3):**
 - CLAUDE-ORCHESTRATOR.md
 - adr-template.md
-- CCGM_Prompt_UPDATE-CHECK.md
+- CCGM_Prompt_98-Maintenance.md
 
 **Hooks (4):**
 - PostToolUse (Write|Edit) - API Impact Check
@@ -701,7 +711,7 @@ rm ~/.claude/config/domain-config.schema.json
 # Remove templates
 rm ~/.claude/templates/CLAUDE-ORCHESTRATOR.md
 rm ~/.claude/templates/adr-template.md
-rm ~/.claude/templates/CCGM_Prompt_UPDATE-CHECK.md
+rm ~/.claude/templates/CCGM_Prompt_98-Maintenance.md
 
 # Remove prompts
 rm -rf ~/.claude/CC-GodMode-Prompts
@@ -741,7 +751,7 @@ Remove-Item "$env:USERPROFILE\.claude\config\domain-config.schema.json"
 # Remove templates
 Remove-Item "$env:USERPROFILE\.claude\templates\CLAUDE-ORCHESTRATOR.md"
 Remove-Item "$env:USERPROFILE\.claude\templates\adr-template.md"
-Remove-Item "$env:USERPROFILE\.claude\templates\CCGM_Prompt_UPDATE-CHECK.md"
+Remove-Item "$env:USERPROFILE\.claude\templates\CCGM_Prompt_98-Maintenance.md"
 
 # Remove prompts
 Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\CC-GodMode-Prompts"
