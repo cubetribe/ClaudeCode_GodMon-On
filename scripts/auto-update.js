@@ -39,7 +39,7 @@ const GITHUB_BRANCH = 'main';
 // Paths
 const HOME_DIR = os.homedir();
 const CLAUDE_DIR = path.join(HOME_DIR, '.claude');
-const BACKUP_DIR = path.join(HOME_DIR, '.claude.bak');
+const BACKUP_DIR = path.join(CLAUDE_DIR, 'backups');
 const VERSION_FILE = path.join(CLAUDE_DIR, 'VERSION');
 const LOCK_FILE = path.join(CLAUDE_DIR, '.update-lock');
 

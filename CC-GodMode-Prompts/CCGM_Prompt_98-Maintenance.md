@@ -1,7 +1,6 @@
-> **Version:** 5.9.1
-> **Type:** MAINTENANCE
-> **Prerequisite:** SystemInstall and ProjectActivation completed
-> **Frequency:** Periodically (when checking for updates)
+> **Version:** 5.9.2 **Type:** MAINTENANCE **Prerequisite:** SystemInstall and
+> ProjectActivation completed **Frequency:** Periodically (when checking for
+> updates)
 
 # CC_GodMode Update Check
 
@@ -28,7 +27,7 @@ Please check if my CC_GodMode installation needs an update:
 
 For a complete update with preview, use this prompt:
 
-```
+````
 I want to update my CC_GodMode installation. Please help me:
 
 ## Step 1: Check Current State
@@ -49,10 +48,14 @@ Ask me: "Do you want to proceed with the update? (yes/no)"
 ## Step 4: Apply Update (only if I say yes)
 Run: node ~/.claude/scripts/auto-update.js --update
 
-## Step 5: Verify
+## Step 5: Verify & Update Project
 - Show the update results
 - Confirm the new version is installed
-- Let me know if any files failed to update
+- **IMPORTANT:** Remind me to update my current project files if needed:
+  ```bash
+  # Update local project prompts
+  cp ~/.claude/CC-GodMode-Prompts/*.md ./CC-GodMode-Prompts/
+  ```
 ```
 
 ---
@@ -66,7 +69,6 @@ I need to rollback my CC_GodMode installation:
 2. Confirm which version was restored
 3. Verify the installation works
 ```
-
 ---
 
 ## CLI Reference
@@ -85,7 +87,7 @@ I need to rollback my CC_GodMode installation:
 The auto-update system updates these paths:
 - `agents/` - Agent definition files
 - `scripts/` - Automation scripts
-- `CC-GodMode-Prompts/` - Prompt files (Install, ProjectSetup, Restart, ManualInstall)
+- `CC-GodMode-Prompts/` - Prompt files (01-SystemInstall, 02-ProjectActivation, 98-Maintenance, 99-ContextRestore)
 - `config/` - Configuration files
 - `templates/` - Template files
 - `CLAUDE.md` - Main orchestrator instructions
@@ -102,11 +104,12 @@ cp ~/.claude/CC-GodMode-Prompts/*.md ./
 
 # Windows PowerShell
 Copy-Item "$env:USERPROFILE\.claude\CC-GodMode-Prompts\*.md" .\ -Force
-```
+````
 
 ## What NEVER Gets Updated
 
 These files are protected and will never be modified:
+
 - `settings.json` - Your personal settings
 - `mcp.json` / `mcp_config.json` - MCP server configuration
 - `.env` / `.env.local` - Environment variables
@@ -122,23 +125,26 @@ These files are protected and will never be modified:
 4. **Protected Files**: Personal config files are never touched
 5. **Lock Protection**: Prevents simultaneous updates
 
-Backups are stored in: `~/.claude.bak/`
+Backups are stored in: `~/.claude/backups/`
 
 ---
 
 ## Troubleshooting
 
 ### "Another update is in progress"
+
 ```bash
 rm ~/.claude/.update-lock
 ```
 
 ### "Could not check for updates"
+
 - Check your internet connection
 - Verify GitHub is accessible
 - The repository might be private
 
 ### Update partially failed
+
 ```
 Run: node ~/.claude/scripts/auto-update.js --rollback
 ```
@@ -154,4 +160,5 @@ cd ~/.claude
 git pull origin main
 ```
 
-Note: Manual git pull may overwrite local changes. The auto-update system is safer as it creates backups and protects config files.
+Note: Manual git pull may overwrite local changes. The auto-update system is
+safer as it creates backups and protects config files.
