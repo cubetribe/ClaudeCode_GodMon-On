@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.9.2] - 2026-01-09
+
+**"The Validation Release" - Rigorous testing before every push**
+
+> *After v5.9.1 shipped with version inconsistencies (CLAUDE.md still showing v5.9.0), the user demanded: "Viele Menschen setzen das hier ein, wir dürfen keine Fehler machen." This release introduces mandatory multi-agent validation before any push. The ContextRestore prompt was radically simplified following three design principles: remove system-check (work ≠ update), focus 100% on orchestrator identity, and enforce exact confirmation response.*
+
+### Fixed
+- **CRITICAL:** CLAUDE.md version header now correctly shows v5.9.2 (was stuck at v5.9.0)
+- **CRITICAL:** Global ~/.claude/CLAUDE.md synchronized with repo version
+- **HIGH:** ContextRestore prompt version updated (was showing v5.9.0)
+- **HIGH:** Removed all stale v5.8.3 references from CLAUDE.md (7 occurrences)
+- SessionStart hook now reads VERSION from ~/.claude/ (not project directory)
+
+### Changed
+- **ContextRestore Prompt Redesign:**
+  - Removed Update-Check (Context Restore ≠ Update Check)
+  - 100% focus on Orchestrator identity ("YOU ARE" not "activate mode")
+  - Enforced exact confirmation: "Orchestrator Mode Restored. Ready to delegate."
+  - Added Self-Interruption Triggers table
+  - Added Decision Matrix for Dual Quality Gates
+
+### Process Improvements
+- Introduced Meta-Validation (validator of validators) before push
+- 4-agent parallel validation: Version Audit, Hook Analysis, Repo Comparison, Code Validation
+- All validation reports saved to reports/v5.9.x/
+
+---
+
 ## [5.9.1] - 2026-01-09
 
 **"The Clarity Release" - Clear naming, proactive updates, zero confusion**

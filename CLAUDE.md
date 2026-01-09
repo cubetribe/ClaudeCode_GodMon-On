@@ -205,14 +205,14 @@ Appropriate workflow is executed
 
 **Version Header in File:** Every prompt file must have a version header at the top:
 ```markdown
-> **Version:** 5.8.3
+> **Version:** 5.9.1
 ```
 
 **Examples:**
-- `CC-GodMode-Prompts/CCGM_Prompt_Restart.md` → Version 5.8.3 in header
-- `CC-GodMode-Prompts/CCGM_Prompt_Install.md` → Version 5.8.3 in header
-- `CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md` → Version 5.8.3 in header
-- `CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md` → Version 5.8.3 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_Restart.md` → Version 5.9.1 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_Install.md` → Version 5.9.1 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_ProjectSetup.md` → Version 5.9.1 in header
+- `CC-GodMode-Prompts/CCGM_Prompt_ManualInstall.md` → Version 5.9.1 in header
 
 **Why?**
 - Cleaner filenames (no version clutter)
@@ -221,12 +221,12 @@ Appropriate workflow is executed
 - Auto-update system can update prompts automatically
 
 **When updating prompts:**
-1. Update version header in the file: `> **Version:** 5.8.3`
+1. Update version header in the file: `> **Version:** 5.9.1`
 2. Update content if needed
 3. Auto-update system will sync files to `~/.claude/CC-GodMode-Prompts/`
 4. Update CHANGELOG.md to document changes
 
-**Current Version:** v5.8.3
+**Current Version:** v5.9.1
 
 **Active Prompt Files:**
 - `CC-GodMode-Prompts/CCGM_Prompt_Restart.md` - Context recovery after `/compact`
@@ -542,7 +542,7 @@ Tier 3: Human Escalation (present options to user)
 
 ## Version
 
-**CC_GodMode v5.9.0 - The Enforcement Release**
+**CC_GodMode v5.9.2 - The Validation Release**
 
 ### Core Features (v4.1.0 Foundation)
 - Version-First Workflow (determine version before work starts)

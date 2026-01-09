@@ -17,6 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { execSync } = require('child_process');
 
 // v5.7.0 - Phase 2: Domain Pack Integration
@@ -47,8 +48,12 @@ try {
   // Workflow state system not available - continue without it
 }
 
-// Configuration - use current working directory
-const VERSION_FILE = path.join(process.cwd(), 'VERSION');
+// Configuration
+// VERSION_FILE: Always read from CC_GodMode installation (~/.claude/VERSION)
+// REPORTS_DIR: Use project directory for reports
+const HOME_DIR = os.homedir();
+const CLAUDE_DIR = path.join(HOME_DIR, '.claude');
+const VERSION_FILE = path.join(CLAUDE_DIR, 'VERSION');
 const REPORTS_DIR = path.join(process.cwd(), 'reports');
 
 // ANSI Colors (same as version-bump.js)
