@@ -25,6 +25,7 @@ const MCP_SERVERS = {
 
 // Agent-MCP Dependencies
 const AGENT_MCP_DEPENDENCIES = {
+  'researcher': ['memory'],                           // NEW: v5.10.0 - WebSearch/WebFetch are built-in tools
   'tester': ['playwright', 'lighthouse', 'a11y'],
   'github-manager': ['github'],
   'scribe': ['memory'],
@@ -242,10 +243,13 @@ async function tier3HealthCheck(agentName) {
  */
 function getMCPFeature(agentName, mcpName) {
   const features = {
+    'researcher': {                                    // NEW: v5.10.0
+      'memory': 'Research context, previous findings storage'
+    },
     'tester': {
-      'playwright': 'Visual regression testing, E2E tests',
-      'lighthouse': 'Performance audits',
-      'a11y': 'Accessibility validation'
+      'playwright': 'Visual regression testing, E2E tests, screenshots',
+      'lighthouse': 'Performance audits, Core Web Vitals',
+      'a11y': 'Accessibility validation, WCAG compliance'
     },
     'github-manager': {
       'github': 'Issue management, PR creation, release automation'

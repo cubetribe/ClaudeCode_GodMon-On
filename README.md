@@ -6,9 +6,9 @@
 
 **You're looking at the answer.**
 
-[![Version](https://img.shields.io/badge/Version-5.8.0-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-5.10.0-blue)](./CHANGELOG.md)
 [![State of the Art](https://img.shields.io/badge/2026%20Compliance-93%25-green)](./reports/)
-[![Agents](https://img.shields.io/badge/Agents-7%20Specialists-purple)](./agents/)
+[![Agents](https://img.shields.io/badge/Agents-8%20Specialists-purple)](./agents/)
 [![Self-Improving](https://img.shields.io/badge/Self--Improving-Yes%2C%20Really-red)](./CHANGELOG.md)
 
 </div>
@@ -21,7 +21,7 @@ It started simple: One developer, mass sleep deprivation, and a vision.
 
 **Phase 1:** Manual labor. Researching best practices. Reading docs. Testing prompts. Failing. Iterating. Building agent after agent. Workflow after workflow. Week after week.
 
-**Phase 2:** The system works. 7 specialized AI agents orchestrating themselves. Features get built. Bugs get fixed. Documentation writes itself. *"This is pretty good,"* I thought.
+**Phase 2:** The system works. 8 specialized AI agents orchestrating themselves. Features get built. Bugs get fixed. Documentation writes itself. *"This is pretty good,"* I thought.
 
 **Phase 3:** January 6th, 2026. A thought: *"What if I use the system... to improve the system?"*
 
@@ -72,15 +72,16 @@ The difference?
 
 ## The Agents
 
-7 specialists. Each with their own expertise. Each knowing exactly what they do—and what they don't.
+8 specialists. Each with their own expertise. Each knowing exactly what they do—and what they don't.
 
 | Agent | Role | Specialty |
 |:------|:-----|:----------|
+| `@researcher` | Knowledge Discovery | Web research, documentation lookup, technology evaluation *(NEW v5.10.0)* |
 | `@architect` | System Architect | High-level design, module structure, tech decisions |
 | `@api-guardian` | API Lifecycle Expert | Breaking changes, consumer impact, contract validation |
 | `@builder` | Senior Developer | Implementation, following @architect's specifications |
 | `@validator` | Code Quality Gate | TypeScript, unit tests, security, consumer verification |
-| `@tester` | UX Quality Gate | E2E tests, visual regression, accessibility, performance |
+| `@tester` | UX Quality Gate | E2E tests, visual regression, accessibility, performance *(Enhanced v5.10.0)* |
 | `@scribe` | Technical Writer | Documentation, changelog, version management |
 | `@github-manager` | GitHub Manager | Issues, PRs, releases, CI/CD orchestration |
 
@@ -113,7 +114,8 @@ The difference?
 
 ```
 ~/.claude/                          ← RUNTIME (What Claude loads)
-├── agents/                         ← 7 agents, globally available
+├── agents/                         ← 8 agents, globally available
+│   ├── researcher.md               ← NEW v5.10.0
 │   ├── architect.md
 │   ├── api-guardian.md
 │   ├── builder.md
@@ -134,10 +136,13 @@ your-project/                       ← YOUR PROJECT
 ├── CLAUDE.md                       ← Orchestrator (auto-loaded!)
 ├── VERSION                         ← Single source of truth
 ├── CHANGELOG.md                    ← Version history
-└── reports/                        ← Agent outputs
-    └── v5.1.0/                     ← Grouped by version
-        ├── 00-architect-report.md
-        └── ...
+├── reports/                        ← Agent outputs
+│   └── v5.10.0/                    ← Grouped by version
+│       ├── 00-researcher-report.md ← NEW v5.10.0
+│       ├── 01-architect-report.md
+│       └── ...
+└── .playwright-mcp/                ← Screenshot output (v5.10.0)
+    └── [page]-[viewport].png
 ```
 
 **The trick:** `CLAUDE.md` is automatically loaded by Claude Code. No copy-paste. No activation. Just... works.
@@ -189,7 +194,7 @@ The Orchestrator selects the right workflow automatically:
 
 **New Feature:**
 ```
-@architect → @builder → (@validator ∥ @tester) → @scribe
+(@researcher)* → @architect → @builder → (@validator ∥ @tester) → @scribe
 ```
 
 **Bug Fix:**
@@ -199,13 +204,20 @@ The Orchestrator selects the right workflow automatically:
 
 **API Change (Critical!):**
 ```
-@architect → @api-guardian → @builder → (@validator ∥ @tester) → @scribe
+(@researcher)* → @architect → @api-guardian → @builder → (@validator ∥ @tester) → @scribe
 ```
 
 **Refactoring:**
 ```
 @architect → @builder → (@validator ∥ @tester)
 ```
+
+**Research Task (NEW v5.10.0):**
+```
+@researcher → report with sources
+```
+
+*\* @researcher is optional - use when new tech/library research is needed*
 
 **Note:** Since v5.6.0, quality gates run in PARALLEL (∥ symbol) for 40% faster validation.
 
@@ -264,7 +276,7 @@ claude --dangerously-skip-permissions
 
 **Step 3:** Watch. Claude will:
 - Clone the repository
-- Install 7 agents globally
+- Install 8 agents globally
 - Set up hook scripts
 - Install Memory MCP Server
 - Configure and verify
@@ -374,8 +386,8 @@ Enhanced capabilities through Model Context Protocol:
 
 | Server | Agent | Purpose | Required? |
 |:-------|:------|:--------|:----------|
-| **memory** | All | Persistent knowledge | ✅ Installed |
-| **playwright** | @tester | Browser automation, E2E | Recommended |
+| **memory** | @researcher, @architect, @scribe | Persistent knowledge | ✅ Installed |
+| **playwright** | @tester | Browser automation, E2E, **screenshots** | Recommended |
 | **github** | @github-manager | Issues, PRs, Releases | Recommended |
 | **lighthouse** | @tester | Performance audits | Optional |
 | **a11y** | @tester | Accessibility testing | Optional |
@@ -398,12 +410,14 @@ claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_TOKEN \
 ## The Rules
 
 1. **Version-First** — Determine version BEFORE any work starts
-2. **@architect is the Gate** — No feature starts without design
-3. **@api-guardian is MANDATORY** — For any API change
-4. **Dual Quality Gates** — Both @validator AND @tester must pass
-5. **No Skipping** — Every agent in workflow executes
-6. **Reports in reports/vX.X.X/** — Organized by version
-7. **NEVER push without permission** — Applies to ALL agents
+2. **@researcher for Unknown Tech** — Use when new technologies need evaluation *(NEW v5.10.0)*
+3. **@architect is the Gate** — No feature starts without design
+4. **@api-guardian is MANDATORY** — For any API change
+5. **Dual Quality Gates** — Both @validator AND @tester must pass
+6. **@tester MUST create Screenshots** — Every page tested at 3 viewports *(NEW v5.10.0)*
+7. **No Skipping** — Every agent in workflow executes
+8. **Reports in reports/vX.X.X/** — Organized by version
+9. **NEVER push without permission** — Applies to ALL agents
 
 ---
 
@@ -445,7 +459,7 @@ Claude Code's `/compact` can cause memory loss. When the orchestrator starts imp
 
 ## FAQ
 
-**Q: Why 7 agents?**
+**Q: Why 8 agents?**
 A: Separation of concerns. Each agent has ONE job. No overlap. No confusion.
 
 **Q: What's the difference between @validator and @tester?**
@@ -472,14 +486,16 @@ The loop continues.
 
 ## Version
 
-**CC_GodMode v5.8.0**
+**CC_GodMode v5.10.0 - The Research & Screenshot Release**
 
+- **NEW:** @researcher agent for dedicated web research
+- **NEW:** Mandatory screenshot creation in @tester (3 viewports)
+- **NEW:** Console error capture and Core Web Vitals reporting
 - Meta-decision logic for intelligent workflow adaptation
 - Governance features (DECISIONS.md ADR log, RARE Matrix)
 - Domain-pack architecture for industry-specific validation
-- Three-tier escalation mechanism for error recovery
 - State-of-the-Art 2026 compliance: 93%
-- 7 specialized agents with clear boundaries
+- 8 specialized agents with clear boundaries
 - Dual quality gates (40% faster since v5.6.0)
 - Hook-based API detection
 - Version-first workflow

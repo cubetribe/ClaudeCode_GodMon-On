@@ -40,6 +40,23 @@ const colors = {
  * These are the baseline rules that apply to all domains.
  */
 const VALIDATION_RULES_CORE = {
+  // NEW: @researcher agent (v5.10.0)
+  researcher: {
+    requiredSections: [
+      'Key Findings',
+      'Sources',
+      'Recommendation'
+    ],
+    requiredPatterns: [
+      /##\s+(Key Findings|Findings)/i,
+      /##\s+Sources/i,
+      /\[.*\]\(https?:\/\//i,  // Must have at least one source link
+      /(Recommendation|Handoff)/i
+    ],
+    minLength: 500,
+    name: '@researcher'
+  },
+
   architect: {
     requiredSections: [
       'Architectural Decisions',
@@ -105,20 +122,28 @@ const VALIDATION_RULES_CORE = {
     name: '@validator'
   },
 
+  // ENHANCED: @tester with mandatory screenshot enforcement (v5.10.0)
   tester: {
     requiredSections: [
       'E2E Tests',
       'Visual Regression',
+      'Screenshots Created',
+      'Console Errors',
+      'Performance Metrics',
       'Accessibility',
       'Decision'
     ],
     requiredPatterns: [
       /##\s+E2E/i,
       /Visual/i,
+      /(\.playwright-mcp\/|screenshots?\/)/i,  // Screenshot path MUST be present (.playwright-mcp/ or screenshots/)
+      /\.(png|jpg|jpeg)/i,                     // Screenshot file MUST be named
+      /Console\s*(Error|Message)/i,            // Console errors MUST be reported
+      /(LCP|CLS|INP|FCP)/i,                    // Performance metrics MUST be included
       /A(11y|ccessibility)/i,
       /(APPROVED|BLOCKED)/i
     ],
-    minLength: 400,
+    minLength: 800,  // Increased due to mandatory sections
     name: '@tester'
   },
 
@@ -542,6 +567,7 @@ function loadAgentOutput(reportPath) {
  */
 function detectAgentName(filename) {
   const agentPatterns = {
+    'researcher': /researcher/i,        // NEW: v5.10.0
     'architect': /architect/i,
     'api-guardian': /api-guardian/i,
     'builder': /builder/i,

@@ -1,6 +1,6 @@
 # CC_GodMode Installation Prompt
 
-> **Version:** 5.9.1
+> **Version:** 5.10.0
 > **Type:** SYSTEM INSTALL
 > **Prerequisite:** None (first-time installation)
 > **Frequency:** Once per machine
@@ -500,7 +500,7 @@ After installation, test by typing:
 You are the Orchestrator. List your available agents.
 ```
 
-The system should recognize all 7 agents.
+The system should recognize all 8 agents.
 
 ---
 

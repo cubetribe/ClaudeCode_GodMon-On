@@ -7,6 +7,82 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [5.10.0] - 2026-01-12
+
+**"The Research & Screenshot Release" - Knowledge-driven development with visual evidence**
+
+> *User feedback revealed two critical gaps: (1) @architect was doing research "on the side" without dedicated tooling or systematic approach, and (2) @tester could claim "Visual Regression: Passed" without actually creating screenshots. This release addresses both with a new @researcher agent for dedicated web knowledge discovery and mandatory screenshot enforcement in @tester. Now every architectural decision can be backed by current internet research, and every test run produces visual evidence.*
+
+### Added
+
+- **@researcher Agent (NEW)**
+  - Dedicated Knowledge Discovery Specialist
+  - Tools: WebSearch, WebFetch, Read, Glob, memory
+  - Model: haiku (fast & cost-effective for research tasks)
+  - Use cases: Technology evaluation, best practices lookup, security advisories, documentation discovery
+  - Optional pre-@architect phase in workflows
+  - Report format includes mandatory sources with URLs
+  - Output saved to: `reports/v[VERSION]/00-researcher-report.md`
+
+- **Research Workflow (NEW)**
+  - Command: "Research: [topic]"
+  - Standalone workflow for knowledge gathering
+  - Can be integrated into feature/API workflows as optional first step
+
+- **Screenshot Directory Standard**
+  - New `screenshots/` folder for @tester output
+  - Naming convention: `[page]-[viewport].png`
+  - Viewport standards: mobile (375px), tablet (768px), desktop (1920px)
+
+### Changed
+
+- **@tester Agent (MAJOR Enhancement)**
+  - **MANDATORY:** Screenshot creation at 3 viewports for every page tested
+  - **MANDATORY:** Console error capture and reporting
+  - **MANDATORY:** Core Web Vitals (LCP, CLS, INP, FCP) in reports
+  - Enhanced output format with screenshot table, console errors section, performance metrics
+  - Blocking vs non-blocking issue classification
+  - Minimum output length increased: 400 → 800 chars
+
+- **Validation Script (validate-agent-output.js)**
+  - Added @researcher validation rules (findings, sources, recommendation)
+  - Enhanced @tester patterns:
+    - `screenshots?/` - Screenshot path must be present
+    - `\.(png|jpg|jpeg)` - Screenshot files must be named
+    - `Console\s*(Error|Message)` - Console errors must be reported
+    - `(LCP|CLS|INP|FCP)` - Performance metrics must be included
+  - Added @researcher to agent detection patterns
+
+- **MCP Health Check (mcp-health-check.js)**
+  - Added @researcher agent dependencies (memory MCP)
+  - Updated feature descriptions for @tester (screenshots, Core Web Vitals)
+
+- **Workflows Updated**
+  - Feature workflow: `(@researcher)* → @architect → @builder → gates → @scribe`
+  - API workflow: `(@researcher)* → @architect → @api-guardian → @builder → gates → @scribe`
+  - New Research workflow: `@researcher → report`
+  - @researcher is OPTIONAL (marked with asterisk)
+
+- **Rules Extended**
+  - Rule 2: "@researcher for Unknown Tech" (new)
+  - Rule 6: "@tester MUST create Screenshots" (new)
+  - Total rules: 8 → 10
+
+- **Report Structure**
+  - Added `00-researcher-report.md` slot
+  - Renumbered subsequent reports (architect → 01, etc.)
+  - Added `screenshots/` directory documentation
+
+### Technical Details
+
+- Agent count: 7 → 8
+- @researcher model: haiku (lowest cost, fastest)
+- @tester validation patterns: 4 → 8
+- @tester minimum length: 400 → 800 chars
+- New workflow command: "Research: [X]"
+
+---
+
 ## [5.9.2] - 2026-01-09
 
 **"The Validation Release" - Rigorous testing before every push**
